@@ -11,7 +11,6 @@ public class PlayerMover : MonoBehaviour
     private void Awake()
     {
         _cameraRotationCompensation = Camera.main.transform.rotation.eulerAngles.y;
-        Debug.Log(_cameraRotationCompensation);
         _joystick.StickDeviated += Rotate;
     }
 
