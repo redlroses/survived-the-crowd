@@ -5023,6 +5023,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4595654756050798}
+  - component: {fileID: 1917173485}
+  - component: {fileID: 1917173486}
+  - component: {fileID: 1917173487}
+  - component: {fileID: 1917173488}
   m_Layer: 0
   m_Name: FattyCannonG02
   m_TagString: Untagged
@@ -5046,6 +5050,71 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1917173485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875090778556656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 646da1e038cd5c345a3843fc239a5fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isScanning: 1
+  _scanRadius: 30
+  _scanFrequency: 0.5
+  _filter:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!114 &1917173486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875090778556656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53cb4340369448049bf37206ec25729a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isAiming: 1
+  _target: {fileID: 0}
+--- !u!114 &1917173487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875090778556656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9462827605b2a1a43a466e1feecf5522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isShooting: 1
+  _shootPoint: {fileID: 4703932692914808}
+  _cooldown: 0.5
+--- !u!114 &1917173488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875090778556656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a189e28498fc0d1498d2cfff5bcdce01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _size: 10
+  _expansionAmount: 4
+  _customContainer: {fileID: 0}
+  _isStaticContainer: 1
+  _copies:
+  - {fileID: -1802553442417231625, guid: 12ea0a574b594264685afffd52fff036, type: 3}
 --- !u!1 &1931211189434318
 GameObject:
   m_ObjectHideFlags: 0

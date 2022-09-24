@@ -3,17 +3,23 @@ using UnityEngine;
 
 public class Creature : MonoBehaviour, IDamageable
 {
-    [SerializeField, Min(1)] private int _maxHealth;
+    [SerializeField] [Min(1)] private int _maxHealth;
 
     public event Action<int> Damaged;
-    
+
+    protected virtual void OnEnable()
+    {
+        Health = _maxHealth;
+        IsAlive = true;
+    }
+
     public void Damage(int value)
     {
         if (IsAlive == false)
         {
             throw new InvalidOperationException();
         }
-        
+
         if (value < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(value));
@@ -26,7 +32,7 @@ public class Creature : MonoBehaviour, IDamageable
             Health = 0;
             IsAlive = false;
         }
-        
+
         Damaged?.Invoke(Health);
     }
 

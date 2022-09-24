@@ -1,20 +1,18 @@
-using System;
-using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
-public class EnemyMover : MonoBehaviour
+public sealed class EnemyMover : MonoBehaviour
 {
     private readonly Vector3 _rotatingDirection = new Vector3(0.5f, 0.5f, 0.5f);
-    
+
     [SerializeField] private Transform _target;
     [SerializeField] private float _moveForce = 50f;
     [SerializeField] private float _jumpForce = 30f;
     [SerializeField] private float _rotationForce = 10f;
     [SerializeField] private Vector2 _moveForceMagnitudeRange = new Vector2(10f, 20f);
     [SerializeField] private float _jumpDirectionScatter = 1f;
-    
+
     private Rigidbody _rigidBody;
 
     private void Awake()
@@ -34,6 +32,11 @@ public class EnemyMover : MonoBehaviour
         {
             Jump();
         }
+    }
+
+    public void Init(Transform target)
+    {
+        _target = target;
     }
 
     private void Rotate()

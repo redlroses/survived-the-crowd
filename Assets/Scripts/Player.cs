@@ -1,4 +1,3 @@
-public class Player : Creature
+public sealed class Player : Creature
 {
-
 }

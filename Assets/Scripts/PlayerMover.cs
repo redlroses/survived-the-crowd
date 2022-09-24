@@ -1,16 +1,20 @@
 using UnityEngine;
 
-public class PlayerMover : MonoBehaviour
+public sealed class PlayerMover : MonoBehaviour
 {
     [SerializeField] private Joystick _joystick;
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _rotationSpeed = 5f;
 
     private float _cameraRotationCompensation;
-    
+
     private void Awake()
     {
-        _cameraRotationCompensation = Camera.main.transform.rotation.eulerAngles.y;
+        if (Camera.main != null)
+        {
+            _cameraRotationCompensation = Camera.main.transform.rotation.eulerAngles.y;
+        }
+
         _joystick.StickDeviated += Rotate;
     }
 
