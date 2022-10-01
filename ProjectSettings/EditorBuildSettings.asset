@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Epic Toon FX/Demo/Scenes/etfx_2ddemo.unity
+    guid: 0ef9b490e5d6bad4ea1935d07d1c2ea9
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 520b4375e66dcab46b6770dad2c05ac4,
       type: 2}

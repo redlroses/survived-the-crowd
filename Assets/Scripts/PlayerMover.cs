@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public sealed class PlayerMover : MonoBehaviour
 {
+    private const string MainCameraIsNull = "Main Camera is null";
+
     [SerializeField] private Joystick _joystick;
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _rotationSpeed = 5f;
@@ -10,12 +13,22 @@ public sealed class PlayerMover : MonoBehaviour
 
     private void Awake()
     {
-        if (Camera.main != null)
+        if (Camera.main == null)
         {
-            _cameraRotationCompensation = Camera.main.transform.rotation.eulerAngles.y;
+            throw new NullReferenceException(MainCameraIsNull);
         }
 
+        _cameraRotationCompensation = Camera.main.transform.rotation.eulerAngles.y;
+    }
+
+    private void OnEnable()
+    {
         _joystick.StickDeviated += Rotate;
+    }
+
+    private void OnDisable()
+    {
+        _joystick.StickDeviated -= Rotate;
     }
 
     private void Update()

@@ -17,7 +17,7 @@ public class Creature : MonoBehaviour, IDamageable
     {
         if (IsAlive == false)
         {
-            throw new InvalidOperationException();
+            return;
         }
 
         if (value < 0)

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1933343643740286101}
   - component: {fileID: 1880122109}
   - component: {fileID: 1880122115}
+  - component: {fileID: 4435126008689165053}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -106,14 +107,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1357475846360439835}
   serializedVersion: 2
-  m_Mass: 150
+  m_Mass: 1
   m_Drag: 0.5
   m_AngularDrag: 0.1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &1880122109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,3 +146,19 @@ MonoBehaviour:
   _rotationForce: 50
   _moveForceMagnitudeRange: {x: 10, y: 20}
   _jumpDirectionScatter: 1
+--- !u!114 &4435126008689165053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357475846360439835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc8d542c03313741aecfb7353baf58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _baseMaterial: {fileID: 2100000, guid: 0e23a57fdb187804bad94509b9171e18, type: 2}
+  _damagedMaterial: {fileID: 2100000, guid: 7009b726b100f8b408936e27e6393867, type: 2}
+  _baseEnemy: {fileID: 1880122109}
+  _renderer: {fileID: 1292392968418386784}

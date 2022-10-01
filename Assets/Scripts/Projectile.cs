@@ -21,7 +21,7 @@ public sealed class Projectile : MonoBehaviour, IPoolable<Projectile>
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.TryGetComponent(out BaseEnemy damageable))
+        if (other.gameObject.TryGetComponent(out IDamageable damageable))
         {
             damageable.Damage(_damageValue);
         }
