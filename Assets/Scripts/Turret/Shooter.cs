@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Pool;
 using UnityEngine;
 
@@ -10,13 +11,15 @@ namespace Turret
     public sealed class Shooter : MonoBehaviour
     {
         [SerializeField] private bool _isShooting;
-        [SerializeField] private Transform _shootPoint;
+        [SerializeField] private Transform[] _shootPoints;
         [SerializeField] [Min(0.001f)] private float _cooldown;
 
         private TargetSeeker _targetSeeker;
         private ProjectilePool _pool;
         private WaitForSeconds _waitForShot;
         private Coroutine _shoot;
+
+        public event Action<int> ShotOff;
 
         public float Cooldown
         {
@@ -78,9 +81,12 @@ namespace Turret
         {
             while (_isShooting)
             {
-                _pool.Enable(_shootPoint.position, transform.rotation);
-                Debug.Log("Shoot");
-                yield return _waitForShot;
+                for (int i = 0; i < _shootPoints.Length; i++)
+                {
+                    _pool.Enable(_shootPoints[i].position, _shootPoints[i].rotation);
+                    ShotOff?.Invoke(i);
+                    yield return _waitForShot;
+                }
             }
         }
 

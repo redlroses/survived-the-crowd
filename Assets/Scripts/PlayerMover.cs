@@ -5,14 +5,19 @@ public sealed class PlayerMover : MonoBehaviour
 {
     private const string MainCameraIsNull = "Main Camera is null";
 
+    [SerializeField] private Rotator _rotator;
     [SerializeField] private Joystick _joystick;
     [SerializeField] private float _moveSpeed = 5f;
-    [SerializeField] private float _rotationSpeed = 5f;
 
     private float _cameraRotationCompensation;
 
     private void Awake()
     {
+        if (_rotator == null)
+        {
+            _rotator = GetComponent<Rotator>();
+        }
+
         if (Camera.main == null)
         {
             throw new NullReferenceException(MainCameraIsNull);
@@ -43,8 +48,7 @@ public sealed class PlayerMover : MonoBehaviour
 
     private void Rotate(float horizontal, float vertical)
     {
-        float angles = Mathf.Atan2(horizontal, vertical) * Mathf.Rad2Deg + _cameraRotationCompensation;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, angles, 0),
-            Time.deltaTime * _rotationSpeed);
+        float angleY = Mathf.Atan2(horizontal, vertical) * Mathf.Rad2Deg + _cameraRotationCompensation;
+        _rotator.Rotate(Quaternion.Euler(0, angleY, 0));
     }
 }

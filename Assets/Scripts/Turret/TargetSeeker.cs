@@ -7,7 +7,7 @@ namespace Turret
 {
     public sealed class TargetSeeker : MonoBehaviour
     {
-        private readonly int _cacheSize = 30;
+        private readonly int _cacheSize = 50;
 
         [SerializeField] private bool _isScanning;
         [SerializeField] [Min(0)] private float _scanRadius;
@@ -44,29 +44,37 @@ namespace Turret
             _cachedTargets = new Collider[_cacheSize];
         }
 
-        private void Start()
-        {
-            if (_isScanning)
-            {
-                StartScan();
-            }
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, _scanRadius);
-        }
-
-#if UNITY_EDITOR
-        [ContextMenu("CallStartScan")]
-        public void CallStartShoot()
+        private void OnEnable()
         {
             StartScan();
         }
 
-        [ContextMenu("CallStopScan")]
-        public void CallStopShoot()
+        private void OnDisable()
+        {
+            StopScan();
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (_isScanning == false)
+            {
+                return;
+            }
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, _scanRadius);
+            Gizmos.color = Color.white;
+        }
+
+#if UNITY_EDITOR
+        [ContextMenu("StartScan")]
+        public void CallStartScan()
+        {
+            StartScan();
+        }
+
+        [ContextMenu("StopScan")]
+        public void CallStopScan()
         {
             StopScan();
         }
@@ -93,7 +101,6 @@ namespace Turret
                     _cachedTargets = new Collider[_cachedTargets.Length + _cacheSize];
                 }
 
-                Debug.Log("Scan - Closest " + _closestTarget.name);
                 yield return _waitForScan;
             }
         }
@@ -140,11 +147,11 @@ namespace Turret
             var minDistance = float.MaxValue;
             Transform closest = null;
 
-            var filtredtargets = _cachedTargets
+            var filteredTargets = _cachedTargets
                 .Where(target => target != null)
                 .Select(target => target.transform);
 
-            foreach (var target in filtredtargets)
+            foreach (var target in filteredTargets)
             {
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
