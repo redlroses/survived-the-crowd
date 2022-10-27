@@ -1,54 +1,51 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
+
+[RequireComponent(typeof(Rigidbody))]
 public sealed class PlayerMover : MonoBehaviour
 {
-    private const string MainCameraIsNull = "Main Camera is null";
+    private readonly float _velocityEpsilon = 5f;
 
-    [SerializeField] private Rotator _rotator;
-    [SerializeField] private Joystick _joystick;
-    [SerializeField] private float _moveSpeed = 5f;
+    [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private float _acceleration = 1;
+    [SerializeField] private float _maxMoveSpeed = 5f;
 
-    private float _cameraRotationCompensation;
+    private float _moveSpeed;
+    private Vector2 _direction;
 
     private void Awake()
     {
-        if (_rotator == null)
+        if (_rigidbody == null)
         {
-            _rotator = GetComponent<Rotator>();
+            _rigidbody = GetComponent<Rigidbody>();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        Accelerate();
+        Move();
+    }
+
+    private void Move()
+    {
+        var velocity = Vector3.forward * _moveSpeed;
+        velocity.y = _rigidbody.velocity.y;
+        Vector3 worldVelocity = transform.TransformVector(velocity);
+        _rigidbody.velocity = worldVelocity;
+    }
+
+    private void Accelerate()
+    {
+        _moveSpeed = _rigidbody.velocity.magnitude;
+
+        if (_moveSpeed > _maxMoveSpeed)
+        {
+            return;
         }
 
-        if (Camera.main == null)
-        {
-            throw new NullReferenceException(MainCameraIsNull);
-        }
-
-        _cameraRotationCompensation = Camera.main.transform.rotation.eulerAngles.y;
-    }
-
-    private void OnEnable()
-    {
-        _joystick.StickDeviated += Rotate;
-    }
-
-    private void OnDisable()
-    {
-        _joystick.StickDeviated -= Rotate;
-    }
-
-    private void Update()
-    {
-        MoveForward();
-    }
-
-    private void MoveForward()
-    {
-        transform.Translate(Time.deltaTime * _moveSpeed * Vector3.forward);
-    }
-
-    private void Rotate(float horizontal, float vertical)
-    {
-        float angleY = Mathf.Atan2(horizontal, vertical) * Mathf.Rad2Deg + _cameraRotationCompensation;
-        _rotator.Rotate(Quaternion.Euler(0, angleY, 0));
+        _moveSpeed += _acceleration;
     }
 }
