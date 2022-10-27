@@ -9,6 +9,7 @@ namespace Level.Infrastructure
         private const int StartIndex = -1;
         private const string SomeCheckpointIndicesAreEquals = "Some checkpoint indices are equals";
 
+        [SerializeField] private StartZone _startZone;
         [SerializeField] private Checkpoint[] _checkpoints;
 
         private int _activeCheckpointIndex;
@@ -16,17 +17,21 @@ namespace Level.Infrastructure
         public event Action CheckpointReached;
         public event Action ChainComplete;
 
-        public int Size => _checkpoints.Length + 1;
-        private bool IsChainComplete => _activeCheckpointIndex > _checkpoints.Length;
+        public int Size => _checkpoints.Length;
+        public Vector3[] CheckpointsPosition => _checkpoints.Select(position => position.transform.position).ToArray();
+        private bool IsChainComplete => _activeCheckpointIndex >= _checkpoints.Length;
 
         private void Awake()
         {
             Sort();
             Validate();
+            DisableAll();
         }
 
         private void OnEnable()
         {
+            _startZone.Left += Begin;
+
             foreach (var checkpoint in _checkpoints)
             {
                 checkpoint.Reached += OnCheckpointReached;
@@ -41,7 +46,7 @@ namespace Level.Infrastructure
             }
         }
 
-        public void Begin()
+        private void Begin()
         {
             _activeCheckpointIndex = StartIndex;
             ActivateNext();
@@ -56,7 +61,15 @@ namespace Level.Infrastructure
 
         private void DisableCurrent()
         {
-            _checkpoints[_activeCheckpointIndex].enabled = false;
+            _checkpoints[_activeCheckpointIndex].gameObject.SetActive(false);
+        }
+
+        private void DisableAll()
+        {
+            foreach (var checkpoint in _checkpoints)
+            {
+                checkpoint.gameObject.SetActive(false);
+            }
         }
 
         private void ActivateNext()
@@ -69,14 +82,14 @@ namespace Level.Infrastructure
                 return;
             }
 
-            _checkpoints[_activeCheckpointIndex].enabled = true;
+            _checkpoints[_activeCheckpointIndex].gameObject.SetActive(true);
         }
 
         private void Validate()
         {
-            for (int i = 0; i < _checkpoints.Length; i++)
+            for (int i = 1; i < _checkpoints.Length; i++)
             {
-                if (_checkpoints[i].Index == _checkpoints[i + 1].Index)
+                if (_checkpoints[i - 1].Index == _checkpoints[i].Index)
                 {
                     throw new Exception(SomeCheckpointIndicesAreEquals);
                 }

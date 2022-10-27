@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Level.Infrastructure;
 using UnityEngine;
 
@@ -7,8 +5,6 @@ namespace Level
 {
     public sealed class LevelProgress : MonoBehaviour
     {
-        [SerializeField] private StartZone _startZone;
-        [SerializeField] private StartZone _finishZone;
         [SerializeField] private ProgressBar _progress;
         [SerializeField] private CheckpointsChain _chain;
 

@@ -18,7 +18,7 @@ namespace Level
                 throw new ArgumentOutOfRangeException(nameof(stages));
             }
 
-            if (_maxProgress < 1)
+            if (maxProgress < 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(stages), MaximumProgressException);
             }
@@ -28,7 +28,7 @@ namespace Level
         }
 
         public bool IsComplete => _stage >= _stages;
-        public float Amount => _maxProgress / (float) _stage;
+        public float Amount => (float) _stage / _stages * _maxProgress;
 
         public void Reset()
         {

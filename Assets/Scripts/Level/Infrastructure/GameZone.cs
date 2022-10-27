@@ -10,7 +10,7 @@ namespace Level.Infrastructure
 
         private void OnTriggerEnter(Collider other)
         {
-            if (CheckIsNotPlayer(other))
+            if (CheckIsPlayer(other) == false)
             {
                 return;
             }
@@ -21,7 +21,7 @@ namespace Level.Infrastructure
 
         private void OnTriggerExit(Collider other)
         {
-            if (CheckIsNotPlayer(other))
+            if (CheckIsPlayer(other) == false)
             {
                 return;
             }
@@ -33,7 +33,7 @@ namespace Level.Infrastructure
         protected abstract void OnPlayerEnter();
         protected abstract void OnPlayerExit();
 
-        private bool CheckIsNotPlayer(Collider other)
+        private bool CheckIsPlayer(Collider other)
         {
             return other.TryGetComponent(out Player _);
         }
