@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3461953525892332402}
   - component: {fileID: 3486635592649816330}
   - component: {fileID: 3479170208126244372}
-  - component: {fileID: 208924873248913325}
+  - component: {fileID: 1380996736650158590}
   m_Layer: 0
   m_Name: SM_Prop_Roadblock_01
   m_TagString: Untagged
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3467314395526356016}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 83.89765, y: 0, z: 9.2554245}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -84,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &208924873248913325
-MeshCollider:
+--- !u!65 &1380996736650158590
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -94,7 +94,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 3159d5e3867174a47b8619ac708e56f8, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 2.7502818, y: 1.3047965, z: 0.34882262}
+  m_Center: {x: 0, y: 0.6523982, z: 0}

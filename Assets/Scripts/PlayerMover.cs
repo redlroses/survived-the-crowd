@@ -1,19 +1,15 @@
-using System;
-using System.Collections;
+using Fuel;
 using UnityEngine;
-
 
 [RequireComponent(typeof(Rigidbody))]
 public sealed class PlayerMover : MonoBehaviour
 {
-    private readonly float _velocityEpsilon = 5f;
-
     [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private float _acceleration = 1;
-    [SerializeField] private float _maxMoveSpeed = 5f;
+    [SerializeField] private Engine _engine;
 
     private float _moveSpeed;
-    private Vector2 _direction;
+
+    public float CurrentSpeed => _rigidbody.velocity.magnitude;
 
     private void Awake()
     {
@@ -25,27 +21,30 @@ public sealed class PlayerMover : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Accelerate();
+        _moveSpeed = _engine.CalculateNewSpeed(CurrentSpeed);
         Move();
+    }
+
+    public void StartMove()
+    {
+        _engine.BeginAcceleration();
+    }
+
+    public void StopMove()
+    {
+        _engine.BeginDeceleration();
     }
 
     private void Move()
     {
-        var velocity = Vector3.forward * _moveSpeed;
-        velocity.y = _rigidbody.velocity.y;
-        Vector3 worldVelocity = transform.TransformVector(velocity);
-        _rigidbody.velocity = worldVelocity;
-    }
-
-    private void Accelerate()
-    {
-        _moveSpeed = _rigidbody.velocity.magnitude;
-
-        if (_moveSpeed > _maxMoveSpeed)
+        if (_moveSpeed <= 0)
         {
             return;
         }
 
-        _moveSpeed += _acceleration;
+        var velocity = Vector3.forward * _moveSpeed;
+        velocity.y = _rigidbody.velocity.y;
+        Vector3 worldVelocity = transform.TransformVector(velocity);
+        _rigidbody.velocity = worldVelocity;
     }
 }

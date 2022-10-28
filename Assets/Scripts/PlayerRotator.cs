@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody))]
 public sealed class PlayerRotator : MonoBehaviour
 {
+    [SerializeField] private PlayerMover _mover;
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private float _rotationSpeed;
 
@@ -30,6 +29,7 @@ public sealed class PlayerRotator : MonoBehaviour
 
     private void Rotate()
     {
-        _rigidbody.rotation = Quaternion.Lerp(_rigidbody.rotation, _rotation, Time.fixedDeltaTime * _rotationSpeed);
+        float rotationSpeed = Mathf.Clamp01(_mover.CurrentSpeed) * Time.fixedDeltaTime * _rotationSpeed;
+        _rigidbody.rotation = Quaternion.Lerp(_rigidbody.rotation, _rotation, rotationSpeed);
     }
 }

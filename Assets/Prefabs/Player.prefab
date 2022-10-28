@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7302154060347567296}
   - component: {fileID: 8504586682836206448}
   - component: {fileID: 7302154060347567302}
+  - component: {fileID: 1900870082}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -79,8 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 7302154060347567302}
-  _acceleration: 0.2
-  _maxMoveSpeed: 5
+  _engine: {fileID: 845158163}
 --- !u!114 &8504586682836206448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,8 +93,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85819e60ad0116c4dab88d3a7ca019a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mover: {fileID: 7302154060347567296}
   _rigidbody: {fileID: 7302154060347567302}
-  _rotationSpeed: 15
+  _rotationSpeed: 8
 --- !u!54 &7302154060347567302
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -109,8 +110,22 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 3
+  m_Constraints: 80
+  m_CollisionDetection: 1
+--- !u!136 &1900870082
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7302154060347567298}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.06
+  m_Height: 5.53
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!1001 &4542285117803709967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -174,6 +189,43 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4542285117803709967}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4543448679319868717 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1375213248828194, guid: ac9102f1356132243931a01c705f2f8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4542285117803709967}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &845158163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4543448679319868717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44467c90444c48b46a254ee219cf857d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gasTank: {fileID: 845158164}
+  _consumption: 0.001
+  _acceleration: 0.6
+  _deceleration: 0.05
+  _maxMoveSpeed: 20
+--- !u!114 &845158164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4543448679319868717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6375d576234502545a94f86f2f76b3b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fuelLevel: 100
+  _maxFuel: 100
 --- !u!1001 &4706303204589079288
 PrefabInstance:
   m_ObjectHideFlags: 0

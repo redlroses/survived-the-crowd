@@ -11,6 +11,7 @@ namespace Import.Joystick.Scripts
 
         private readonly float _diameter2Radius = 0.5f;
         private readonly Vector2 _center = new Vector2(0.5f, 0.5f);
+        private readonly Camera _camera = null;
 
         [SerializeField] private RectTransform _background;
         [SerializeField] private float _handleRange = 1;
@@ -20,10 +21,11 @@ namespace Import.Joystick.Scripts
 
         private RectTransform _baseRect;
         private Canvas _canvas;
-        private readonly Camera _camera = null;
         private Vector2 _input = Vector2.zero;
 
         public event Action<float, float> StickDeviated;
+        public event Action StickDown;
+        public event Action StickUp;
 
         public float Horizontal => _input.x;
         public float Vertical => _input.y;
@@ -52,6 +54,8 @@ namespace Import.Joystick.Scripts
             _background.anchoredPosition = ScreenPointToAnchoredPosition(eventData.position);
             _background.gameObject.SetActive(true);
             OnDrag(eventData);
+            StickDown?.Invoke();
+            Debug.Log("Stick down");
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -70,6 +74,8 @@ namespace Import.Joystick.Scripts
             _background.gameObject.SetActive(false);
             _input = Vector2.zero;
             _handle.anchoredPosition = Vector2.zero;
+            StickUp?.Invoke();
+            Debug.Log("Stick up");
         }
 
         private void HandleInput(float magnitude, Vector2 normalised)
