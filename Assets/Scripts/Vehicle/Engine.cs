@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Fuel
+namespace Vehicle
 {
     public sealed class Engine : MonoBehaviour
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 public sealed class BaseEnemy : Creature, IPoolable<BaseEnemy>
 {
     public event Action<BaseEnemy> Disabled;
-    
+
     protected override void OnEnable()
     {
         base.OnEnable();

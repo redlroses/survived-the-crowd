@@ -1,21 +1,15 @@
 using UnityEngine;
+using Vehicle;
 
-[RequireComponent(typeof(Rigidbody))]
 public sealed class PlayerRotator : MonoBehaviour
 {
-    [SerializeField] private PlayerMover _mover;
     [SerializeField] private Rigidbody _rigidbody;
+
+    [SerializeField] private Car _vehicle;
+    [SerializeField] private PlayerMover _mover;
     [SerializeField] private float _rotationSpeed;
 
     private Quaternion _rotation;
-
-    private void Awake()
-    {
-        if (_rigidbody == null)
-        {
-            _rigidbody = GetComponent<Rigidbody>();
-        }
-    }
 
     private void FixedUpdate()
     {

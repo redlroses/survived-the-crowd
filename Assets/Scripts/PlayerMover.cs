@@ -1,38 +1,30 @@
-using Fuel;
 using UnityEngine;
+using Vehicle;
 
-[RequireComponent(typeof(Rigidbody))]
 public sealed class PlayerMover : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private Engine _engine;
+    
+    [SerializeField] private Car _vehicle;
 
     private float _moveSpeed;
 
     public float CurrentSpeed => _rigidbody.velocity.magnitude;
 
-    private void Awake()
-    {
-        if (_rigidbody == null)
-        {
-            _rigidbody = GetComponent<Rigidbody>();
-        }
-    }
-
     private void FixedUpdate()
     {
-        _moveSpeed = _engine.CalculateNewSpeed(CurrentSpeed);
+        _moveSpeed = _vehicle.Engine.CalculateNewSpeed(CurrentSpeed);
         Move();
     }
 
     public void StartMove()
     {
-        _engine.BeginAcceleration();
+        _vehicle.Engine.BeginAcceleration();
     }
 
     public void StopMove()
     {
-        _engine.BeginDeceleration();
+        _vehicle.Engine.BeginDeceleration();
     }
 
     private void Move()

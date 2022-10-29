@@ -17,27 +17,21 @@ public sealed class PlayerInput : MonoBehaviour
 
     private void Awake()
     {
-        if (_mover == null)
-        {
-            _mover = GetComponent<PlayerMover>();
-        }
+        _mover ??= GetComponent<PlayerMover>();
+        _rotator ??= GetComponent<PlayerRotator>();
 
-        if (_rotator == null)
-        {
-            _rotator = GetComponent<PlayerRotator>();
-        }
-
-        if (_joystick == null)
-        {
-            throw new NullReferenceException(JoystickIsNull);
-        }
-
-        if (Camera.main == null)
-        {
-            throw new NullReferenceException(MainCameraIsNull);
-        }
+        CheckNull(_joystick, JoystickIsNull);
+        CheckNull(Camera.main, MainCameraIsNull);
 
         _cameraRotationCompensation = Camera.main.transform.rotation.eulerAngles.y;
+    }
+
+    private void CheckNull<T>(T component, string message)
+    {
+        if (component == null)
+        {
+            throw new NullReferenceException(message);
+        }
     }
 
     private void OnEnable()
