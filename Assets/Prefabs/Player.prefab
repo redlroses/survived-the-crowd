@@ -54,6 +54,7 @@ MonoBehaviour:
   _mover: {fileID: 7302154060347567296}
   _rotator: {fileID: 8504586682836206448}
   _joystick: {fileID: 0}
+  _directionSwitchingThreshold: 0.5
 --- !u!114 &7302154060347567296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,6 +85,9 @@ MonoBehaviour:
   _vehicle: {fileID: 777105454678167390}
   _mover: {fileID: 7302154060347567296}
   _rotationSpeed: 8
+  _leftWheel: {fileID: 0}
+  _rightWheel: {fileID: 0}
+  _backAxle: {fileID: 0}
 --- !u!114 &7074658695104095447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +186,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4403537079614322, guid: ac9102f1356132243931a01c705f2f8a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4403537079614322, guid: ac9102f1356132243931a01c705f2f8a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4403537079614322, guid: ac9102f1356132243931a01c705f2f8a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4403537079614322, guid: ac9102f1356132243931a01c705f2f8a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac9102f1356132243931a01c705f2f8a, type: 3}
 --- !u!4 &4541678994775871519 stripped
@@ -251,6 +271,10 @@ PrefabInstance:
     - target: {fileID: 1813724053785022, guid: f15c25e9e35a6cc4281a94e63f8b2184, type: 3}
       propertyPath: m_Name
       value: SM_Veh_Attach_Wheel_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1813724053785022, guid: f15c25e9e35a6cc4281a94e63f8b2184, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4690882023235372, guid: f15c25e9e35a6cc4281a94e63f8b2184, type: 3}
       propertyPath: m_RootOrder

@@ -1,10 +1,10 @@
+using Tools;
 using UnityEngine;
 using Vehicle;
 
 public sealed class PlayerRotator : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rigidbody;
-
     [SerializeField] private Car _vehicle;
     [SerializeField] private PlayerMover _mover;
     [SerializeField] private float _rotationSpeed;
@@ -13,7 +13,7 @@ public sealed class PlayerRotator : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Rotate();
+        RotateLegacy();
     }
 
     public void SetRotation(Quaternion rotation)
@@ -21,7 +21,7 @@ public sealed class PlayerRotator : MonoBehaviour
         _rotation = rotation;
     }
 
-    private void Rotate()
+    private void RotateLegacy()
     {
         float rotationSpeed = Mathf.Clamp01(_mover.CurrentSpeed) * Time.fixedDeltaTime * _rotationSpeed;
         _rigidbody.rotation = Quaternion.Lerp(_rigidbody.rotation, _rotation, rotationSpeed);
