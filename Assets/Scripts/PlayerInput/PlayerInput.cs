@@ -1,7 +1,7 @@
 using System;
 using Import.Joystick.Scripts;
-using Tools;
 using UnityEngine;
+using Tools.Extensions;
 
 namespace PlayerInput
 {
@@ -56,16 +56,14 @@ namespace PlayerInput
 
         private void Rotate(float horizontal, float vertical)
         {
-            float angleY = Mathf.Atan2(horizontal, vertical) * Mathf.Rad2Deg + _cameraRotationCompensation;
-            Quaternion rotation = Quaternion.Euler(0, angleY, 0);
-            _rotator.SetRotation(rotation);
-            Debug.Log(Vector2.Dot(_mover.Direction, new Vector2(horizontal, vertical).RotateVector2(-_cameraRotationCompensation)));
+            Vector2 direction = new Vector2(horizontal, vertical).RotateVector2(_cameraRotationCompensation);
+            _rotator.SetRotation(direction);
         }
 
         private void SetDirection(float horizontal, float vertical)
         {
             Vector2 inputDirection = new Vector2(horizontal, vertical).RotateVector2(-_cameraRotationCompensation);
-            _mover.SetMoveDirection(GetMoveDirection(_mover.Direction, inputDirection));
+            _mover.SetTransmissionDirection(GetTransmissionDirection(_mover.Direction, inputDirection));
         }
 
         private void StartMove()
@@ -78,9 +76,9 @@ namespace PlayerInput
             _mover.StopMove();
         }
 
-        private Vector3 GetMoveDirection(Vector2 vehicle, Vector2 input)
+        private int GetTransmissionDirection(Vector2 vehicle, Vector2 input)
         {
-            return Vector2.Dot(vehicle, input) > _directionSwitchingThreshold ? Vector3.forward : Vector3.back;
+            return Vector2.Dot(vehicle, input) > _directionSwitchingThreshold ? 1 : -1;
         }
     }
 }

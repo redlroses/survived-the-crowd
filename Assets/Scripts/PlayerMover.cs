@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Vehicle;
 
@@ -7,8 +8,8 @@ public sealed class PlayerMover : MonoBehaviour
     [SerializeField] private Car _vehicle;
 
     private float _moveSpeed;
-    private Vector3 _moveDirection = Vector3.forward;
-    
+    private int _transmissionDirection = 1;
+
     public float CurrentSpeed => _rigidbody.velocity.magnitude;
     public Vector2 Direction => new Vector2(transform.forward.x, transform.forward.z);
 
@@ -27,9 +28,9 @@ public sealed class PlayerMover : MonoBehaviour
         _vehicle.Engine.BeginDeceleration();
     }
 
-    public void SetMoveDirection(Vector3 direction)
+    public void SetTransmissionDirection(int direction)
     {
-        _moveDirection = direction;
+        _transmissionDirection = direction;
     }
 
     private void Move()
@@ -41,9 +42,9 @@ public sealed class PlayerMover : MonoBehaviour
             return;
         }
 
-        var velocity = _moveDirection * _moveSpeed;
+        Vector3 moveDirection = _vehicle.Rudder.MoveDirection;
+        var velocity = moveDirection * (_moveSpeed * _transmissionDirection);
         velocity.y = _rigidbody.velocity.y;
-        Vector3 worldVelocity = transform.TransformVector(velocity);
-        _rigidbody.velocity = worldVelocity;
+        _rigidbody.velocity = velocity;
     }
 }

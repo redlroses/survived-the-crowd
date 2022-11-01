@@ -85,9 +85,6 @@ MonoBehaviour:
   _vehicle: {fileID: 777105454678167390}
   _mover: {fileID: 7302154060347567296}
   _rotationSpeed: 8
-  _leftWheel: {fileID: 0}
-  _rightWheel: {fileID: 0}
-  _backAxle: {fileID: 0}
 --- !u!114 &7074658695104095447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,8 +199,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4431230583539322, guid: ac9102f1356132243931a01c705f2f8a, type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516121396276486, guid: ac9102f1356132243931a01c705f2f8a, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac9102f1356132243931a01c705f2f8a, type: 3}
+--- !u!4 &4541488974005647475 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4481709618658940, guid: ac9102f1356132243931a01c705f2f8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4542285117803709967}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4541543850549854325 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4431230583539322, guid: ac9102f1356132243931a01c705f2f8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4542285117803709967}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4541551203877223805 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4403537079614322, guid: ac9102f1356132243931a01c705f2f8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4542285117803709967}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4541678994775871519 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4003065149773328, guid: ac9102f1356132243931a01c705f2f8a,
@@ -247,6 +270,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fuelLevel: 1000
   _maxFuel: 1000
+--- !u!114 &337773390779021522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4543448679319868717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4279f253edb46a44a47a4997a798dab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inputWheelAngle: 49.91
+  _maxAngle: 35
+  _leftWheel: {fileID: 4541488974005647475}
+  _rightWheel: {fileID: 4541551203877223805}
+  _backAxle: {fileID: 4541543850549854325}
 --- !u!114 &777105454678167390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,6 +301,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _engine: {fileID: 845158163}
   _gasTank: {fileID: 845158164}
+--- !u!136 &20247691206294741
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4543448679319868717}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1.06
+  m_Height: 5.53
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!1001 &4706303204589079288
 PrefabInstance:
   m_ObjectHideFlags: 0
