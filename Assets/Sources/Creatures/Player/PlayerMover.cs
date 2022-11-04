@@ -64,12 +64,11 @@ namespace Sources.Creatures.Player
         private void MoveToDirection(Vector2 direction)
         {
             _inputDirection = direction;
-            float dotProduct = Vector2.Dot(direction, ForwardDirection);
             float moveAngle = Mathf.Atan2(ForwardDirection.x, ForwardDirection.y) * Mathf.Rad2Deg;
-            float inputAngle = CalculateInputAngle(direction, dotProduct);
+            float inputAngle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
             float angleDeviation = moveAngle - inputAngle;
-            Debug.Log($"dot: {dotProduct}, move: {moveAngle}, input: {inputAngle}, deviation: {angleDeviation}");
-            _deviationAngle = ClampAngle(angleDeviation) * -Math.Sign(dotProduct);
+            Debug.Log($"move: {moveAngle}, input: {inputAngle}, deviation: {angleDeviation}");
+            _deviationAngle = -ClampAngle(angleDeviation);
             _vehicle.Rudder.DeflectSteeringWheel(_deviationAngle);
         }
 
@@ -94,12 +93,6 @@ namespace Sources.Creatures.Player
             var velocity = moveDirection * _moveSpeed;
             velocity.y = _rigidbody.velocity.y;
             _rigidbody.velocity = velocity;
-        }
-
-        private float CalculateInputAngle(Vector2 direction, float dotProduct)
-        {
-            float dotSign = Mathf.Sign(dotProduct);
-            return Mathf.Atan2(direction.x * dotSign, direction.y * dotSign) * Mathf.Rad2Deg;
         }
 
         private float ClampAngle(float angle)

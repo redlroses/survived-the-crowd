@@ -2,7 +2,6 @@ using Import.Joystick.Scripts;
 using Sources.Creatures.Player;
 using Sources.Tools;
 using Sources.Tools.Extensions;
-using Tools.Extensions;
 using UnityEngine;
 
 namespace Sources.Input
