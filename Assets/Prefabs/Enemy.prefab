@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 9119231621094086728}
   - component: {fileID: 1933343643740286101}
   - component: {fileID: 1880122109}
-  - component: {fileID: 1880122115}
   - component: {fileID: 4435126008689165053}
   m_Layer: 6
   m_Name: Enemy
@@ -124,30 +123,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1357475846360439835}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c75eb52df8e825a429b485858016c740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 6
---- !u!114 &1880122115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1357475846360439835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4cd8e9c32111df4282562291d229ee8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _target: {fileID: 0}
-  _moveForce: 2
-  _jumpForce: 10
-  _rotationForce: 50
-  _moveForceMagnitudeRange: {x: 10, y: 20}
-  _jumpDirectionScatter: 1
+  _animator: {fileID: 0}
+  _agentMover: {fileID: 0}
 --- !u!114 &4435126008689165053
 MonoBehaviour:
   m_ObjectHideFlags: 0

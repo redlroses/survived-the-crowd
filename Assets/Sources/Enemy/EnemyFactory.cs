@@ -1,28 +1,35 @@
 using Pool;
+using Sources.Creatures.Player;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyPool))]
-public sealed class EnemyFactory : MonoBehaviour
+namespace Sources.Enemy
 {
-    [SerializeField] private EnemyPool _pool;
-    [SerializeField] private int _enemiesPerLevel;
-    [SerializeField] private Transform _spawnPoint;
-
-    private void Awake()
+    [RequireComponent(typeof(EnemyPool))]
+    public sealed class EnemyFactory : MonoBehaviour
     {
-        _pool ??= GetComponent<EnemyPool>();
-    }
+        [SerializeField] private Player _player;
+        [SerializeField] private EnemyPool _pool;
+        [SerializeField] private int _enemiesPerLevel;
+        [SerializeField] private Transform _spawnPoint;
 
-    private void Start()
-    {
-        Spawn();
-    }
-
-    private void Spawn()
-    {
-        for (int i = 0; i < _enemiesPerLevel; i++)
+        private void Awake()
         {
-            _pool.Enable(_spawnPoint.position);
+            _pool ??= GetComponent<EnemyPool>();
+        }
+
+        private void Start()
+        {
+            Spawn();
+        }
+
+        private void Spawn()
+        {
+            for (int i = 0; i < _enemiesPerLevel; i++)
+            {
+                var enemy = _pool.Enable(_spawnPoint.position);
+                enemy.Init();
+                enemy.SetTarget(_player.transform);
+            }
         }
     }
 }

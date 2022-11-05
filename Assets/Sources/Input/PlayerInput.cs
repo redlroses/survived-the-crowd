@@ -1,7 +1,7 @@
 using Import.Joystick.Scripts;
-using Sources.Tools;
 using Sources.Tools.Extensions;
 using UnityEngine;
+using static Sources.Tools.ComponentTool;
 
 namespace Sources.Input
 {
@@ -19,6 +19,8 @@ namespace Sources.Input
 
         private void OnValidate()
         {
+            ValidateInterface<ICarControllable>(ref _mover);
+
             if (_mover is ICarControllable)
             {
                 return;
@@ -34,8 +36,8 @@ namespace Sources.Input
 
             _mover ??= (MonoBehaviour) GetComponent<ICarControllable>();
 
-            ComponentTool.CheckNull(_joystick);
-            ComponentTool.CheckNull(_camera);
+            CheckNull(_joystick);
+            CheckNull(_camera);
 
             _cameraRotationCompensation = _camera.transform.rotation.eulerAngles.y;
         }

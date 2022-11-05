@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7302154060347567297}
   - component: {fileID: 4705828250383310520}
   - component: {fileID: 7302154060347567296}
-  - component: {fileID: 8504586682836206448}
   - component: {fileID: 7074658695104095447}
   - component: {fileID: 1900870079}
   - component: {fileID: 1900870080}
@@ -68,25 +67,8 @@ MonoBehaviour:
   _rigidbody: {fileID: 1900870079}
   _vehicle: {fileID: 777105454678167390}
   _rotationSpeed: 8
-  _angleEpsilon: 1
+  _angleEpsilon: 0.001
   _moveSpeed: 0
---- !u!114 &8504586682836206448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7302154060347567298}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85819e60ad0116c4dab88d3a7ca019a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rigidbody: {fileID: 1900870079}
-  _deviationAngle: 0
-  _vehicle: {fileID: 777105454678167390}
-  _mover: {fileID: 7302154060347567296}
-  _rotationSpeed: 10
 --- !u!114 &7074658695104095447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,12 +91,12 @@ Rigidbody:
   m_GameObject: {fileID: 7302154060347567298}
   serializedVersion: 2
   m_Mass: 10000
-  m_Drag: 0.3
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!136 &1900870080
 CapsuleCollider:
@@ -123,7 +105,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7302154060347567298}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: adda08d03b04dfd4491482a4990caf85, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 1.06
@@ -297,7 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gasTank: {fileID: 845158164}
   _consumption: 0.01
-  _acceleration: 0.6
+  _acceleration: 0.4
   _maxMoveSpeed: 15
 --- !u!114 &845158164
 MonoBehaviour:
@@ -339,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4279f253edb46a44a47a4997a798dab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxAngle: 40
+  _maxAngle: 50
   _leftWheel: {fileID: 4541488974005647475}
   _rightWheel: {fileID: 4541551203877223805}
   _backAxle: {fileID: 4541543850549854325}

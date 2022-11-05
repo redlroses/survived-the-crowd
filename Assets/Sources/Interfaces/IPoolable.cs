@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public interface IPoolable<out T> where T : Component
+public interface IPoolable<out T>
 {
     event Action<T> Disabled;
 }

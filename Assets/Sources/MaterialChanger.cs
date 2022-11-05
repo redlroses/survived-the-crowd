@@ -1,3 +1,4 @@
+using Sources.Enemy;
 using UnityEngine;
 
 public sealed class MaterialChanger : MonoBehaviour
@@ -21,7 +22,7 @@ public sealed class MaterialChanger : MonoBehaviour
         }
     }
 
-    private void ApplyDamagedColor(int damage)
+    private void ApplyDamagedColor()
     {
         _renderer.material = _damagedMaterial;
         _baseEnemy.Damaged -= ApplyDamagedColor;
