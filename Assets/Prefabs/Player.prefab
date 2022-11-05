@@ -67,8 +67,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 1900870079}
   _vehicle: {fileID: 777105454678167390}
-  _deviationAngle: 0
   _rotationSpeed: 8
+  _angleEpsilon: 1
+  _moveSpeed: 0
 --- !u!114 &8504586682836206448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,9 +298,7 @@ MonoBehaviour:
   _gasTank: {fileID: 845158164}
   _consumption: 0.01
   _acceleration: 0.6
-  _deceleration: 0.05
   _maxMoveSpeed: 15
-  _minMoveSpeed: 0.0001
 --- !u!114 &845158164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,6 +313,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fuelLevel: 1000
   _maxFuel: 1000
+--- !u!114 &129524645293301548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4543448679319868717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce635e3e2a9ed8c4abc9ff9022e8cf52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _leftWheel: {fileID: 4541488974005647475}
+  _rightWheel: {fileID: 4541551203877223805}
 --- !u!114 &337773390779021522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,20 +359,6 @@ MonoBehaviour:
   _engine: {fileID: 845158163}
   _gasTank: {fileID: 845158164}
   _rudder: {fileID: 337773390779021522}
---- !u!114 &129524645293301548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4543448679319868717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce635e3e2a9ed8c4abc9ff9022e8cf52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _leftWheel: {fileID: 4541488974005647475}
-  _rightWheel: {fileID: 4541551203877223805}
 --- !u!1001 &4706303204589079288
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -726,7 +725,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7302154059826053563, guid: 7191a0df8b6695d449a0f18a361bc311, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7191a0df8b6695d449a0f18a361bc311, type: 3}
 --- !u!198 &5530278953338378209 stripped
 ParticleSystem:
