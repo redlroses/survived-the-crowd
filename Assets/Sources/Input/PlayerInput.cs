@@ -1,5 +1,4 @@
 using Import.Joystick.Scripts;
-using Sources.Creatures.Player;
 using Sources.Tools;
 using Sources.Tools.Extensions;
 using UnityEngine;
@@ -7,7 +6,6 @@ using UnityEngine;
 namespace Sources.Input
 {
     [RequireComponent(typeof(IControllable))]
-    [RequireComponent(typeof(PlayerRotator))]
     public sealed class PlayerInput : MonoBehaviour
     {
         [SerializeField] private MonoBehaviour _mover;
@@ -33,6 +31,8 @@ namespace Sources.Input
         private void Awake()
         {
             _camera = Camera.main;
+
+            _mover ??= (MonoBehaviour) GetComponent<ICarControllable>();
 
             ComponentTool.CheckNull(_joystick);
             ComponentTool.CheckNull(_camera);

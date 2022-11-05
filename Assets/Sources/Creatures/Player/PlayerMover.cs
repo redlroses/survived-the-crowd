@@ -1,4 +1,3 @@
-using System;
 using Sources.Input;
 using Sources.Tools.Extensions;
 using Sources.Vehicle;
@@ -9,20 +8,18 @@ namespace Sources.Creatures.Player
 {
     public sealed class PlayerMover : MonoBehaviour, ICarControllable
     {
-        private readonly float _angleEpsilon = 0.00001f;
-
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private Car _vehicle;
-        [SerializeField] private float _deviationAngle;
         [SerializeField] private float _rotationSpeed = 1;
-
-        private float _moveSpeed;
-        private float _lastMoveSpeed;
+        [SerializeField] private float _angleEpsilon = 0001f;
+        [SerializeField] private float _moveSpeed;
 
         private Vector2 _prevDirection;
         private Vector2 _inputDirection;
 
         public Vector2 ForwardDirection => new Vector2(transform.forward.x, transform.forward.z).normalized;
+        public float CurrentSpeed => _rigidbody.velocity.magnitude;
+
 
         private void FixedUpdate()
         {
@@ -32,21 +29,22 @@ namespace Sources.Creatures.Player
 
         private void OnDrawGizmos()
         {
+            Vector3 position = _rigidbody.position;
             Gizmos.color = Color.green;
-            Gizmos.DrawRay(_rigidbody.position, new Vector3(ForwardDirection.x, _rigidbody.position.y, ForwardDirection.y) * 6f);
+            Gizmos.DrawRay(position, new Vector3(ForwardDirection.x, position.y, ForwardDirection.y) * 6f);
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(_rigidbody.position, new Vector3(_inputDirection.x, _rigidbody.position.y, _inputDirection.y) * 6f);
+            Gizmos.DrawRay(_rigidbody.position, new Vector3(_inputDirection.x, position.y, _inputDirection.y) * 6f);
         }
 
         public void Move(Vector2 newDirection)
         {
             if (Mathf.Approximately(newDirection.magnitude, 0f))
             {
-                MoveToDirection(_prevDirection);
+                RotateToDirection(_prevDirection);
             }
             else
             {
-                MoveToDirection(newDirection);
+                RotateToDirection(newDirection);
                 _prevDirection = _vehicle.Rudder.WheelDirection.ToInputFormat();
             }
         }
@@ -58,18 +56,23 @@ namespace Sources.Creatures.Player
 
         public void Decelerate()
         {
-            _vehicle.Engine.BeginDeceleration();
+            _vehicle.Engine.StopAcceleration();
         }
 
-        private void MoveToDirection(Vector2 direction)
+        private void RotateToDirection(Vector2 direction)
         {
             _inputDirection = direction;
             float moveAngle = Mathf.Atan2(ForwardDirection.x, ForwardDirection.y) * Mathf.Rad2Deg;
             float inputAngle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
             float angleDeviation = moveAngle - inputAngle;
-            Debug.Log($"move: {moveAngle}, input: {inputAngle}, deviation: {angleDeviation}");
-            _deviationAngle = -ClampAngle(angleDeviation);
-            _vehicle.Rudder.DeflectSteeringWheel(_deviationAngle);
+            float deviationAngle = -ClampAngle(angleDeviation);
+
+            if (Mathf.Abs(deviationAngle) <= _angleEpsilon)
+            {
+                return;
+            }
+
+            _vehicle.Rudder.DeflectSteeringWheel(deviationAngle);
         }
 
         private void Rotate()
@@ -81,8 +84,7 @@ namespace Sources.Creatures.Player
 
         private void SetVelocity()
         {
-            _moveSpeed = _vehicle.Engine.CalculateNewSpeed(_lastMoveSpeed);
-            _lastMoveSpeed = _moveSpeed;
+            _moveSpeed = _vehicle.Engine.CalculateNewSpeed(CurrentSpeed);
 
             if (_moveSpeed <= 0)
             {
@@ -90,7 +92,7 @@ namespace Sources.Creatures.Player
             }
 
             Vector3 moveDirection = _vehicle.Rudder.WheelDirection;
-            var velocity = moveDirection * _moveSpeed;
+            Vector3 velocity = moveDirection * _moveSpeed;
             velocity.y = _rigidbody.velocity.y;
             _rigidbody.velocity = velocity;
         }

@@ -9,9 +9,7 @@ namespace Sources.Vehicle
         [SerializeField] private GasTank _gasTank;
         [SerializeField] [Min(0)] float _consumption = 0.01f;
         [SerializeField] [Min(0)] private float _acceleration = 0.4f;
-        [SerializeField] [Min(0)] private float _deceleration = 0.2f;
         [SerializeField] [Min(0)] private float _maxMoveSpeed = 15f;
-        [SerializeField] [Min(0)] private float _minMoveSpeed = 0.0001f;
 
         private Func<float, float> _speedCalculation;
 
@@ -29,16 +27,16 @@ namespace Sources.Vehicle
         {
             if (_gasTank.Empty)
             {
-                BeginDeceleration();
+                StopAcceleration();
                 return;
             }
 
             _speedCalculation = Accelerate;
         }
 
-        public void BeginDeceleration()
+        public void StopAcceleration()
         {
-            _speedCalculation = Decelerate;
+            _speedCalculation = UniformMotion;
         }
 
         private float Accelerate(float currentSpeed)
@@ -50,17 +48,6 @@ namespace Sources.Vehicle
 
             BurnFuel(currentSpeed);
             return currentSpeed + _acceleration;
-        }
-
-        private float Decelerate(float currentSpeed)
-        {
-            if (currentSpeed <= _minMoveSpeed)
-            {
-                _speedCalculation = UniformMotion;
-                return 0;
-            }
-
-            return currentSpeed - _deceleration;
         }
 
         private float UniformMotion(float currentSpeed)
