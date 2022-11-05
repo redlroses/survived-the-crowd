@@ -8,7 +8,6 @@ namespace Sources.Creatures.Player
 {
     public sealed class PlayerMover : MonoBehaviour, ICarControllable
     {
-        //test
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private Car _vehicle;
         [SerializeField] private float _rotationSpeed = 1;
