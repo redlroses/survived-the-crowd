@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1292392968418386784}
   - component: {fileID: 9119231621094086728}
   - component: {fileID: 1933343643740286101}
-  - component: {fileID: 1880122109}
   - component: {fileID: 4435126008689165053}
   m_Layer: 6
   m_Name: Enemy
@@ -21,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7520756438368372006
 Transform:
   m_ObjectHideFlags: 0
@@ -116,21 +115,6 @@ Rigidbody:
   m_Interpolate: 2
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!114 &1880122109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1357475846360439835}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75eb52df8e825a429b485858016c740, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxHealth: 6
-  _animator: {fileID: 0}
-  _agentMover: {fileID: 0}
 --- !u!114 &4435126008689165053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,5 +129,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseMaterial: {fileID: 2100000, guid: 0e23a57fdb187804bad94509b9171e18, type: 2}
   _damagedMaterial: {fileID: 2100000, guid: 7009b726b100f8b408936e27e6393867, type: 2}
-  _baseEnemy: {fileID: 1880122109}
+  _baseEnemy: {fileID: 0}
   _renderer: {fileID: 1292392968418386784}

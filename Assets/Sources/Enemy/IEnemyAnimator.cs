@@ -9,6 +9,7 @@ namespace Sources.Enemy
         public void PlayDeath();
         public void FinishMove();
         public void PlayAttack();
-        public void StartMove(float speed);
+        public void StartMove();
+        public void SetSpeed(float speed);
     }
 }

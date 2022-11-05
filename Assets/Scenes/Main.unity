@@ -38060,6 +38060,26 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 7009799514705099101, guid: 1579c84d90e36cc4fb1e8827de7c2077,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.5735369
+      objectReference: {fileID: 0}
+    - target: {fileID: 7009799514705099101, guid: 1579c84d90e36cc4fb1e8827de7c2077,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.021567341
+      objectReference: {fileID: 0}
+    - target: {fileID: 7009799514705099101, guid: 1579c84d90e36cc4fb1e8827de7c2077,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1.2378025
+      objectReference: {fileID: 0}
+    - target: {fileID: 7009799514705099101, guid: 1579c84d90e36cc4fb1e8827de7c2077,
+        type: 3}
+      propertyPath: m_Center.z
+      value: -0.092413425
+      objectReference: {fileID: 0}
     - target: {fileID: 7009845565680102553, guid: 1579c84d90e36cc4fb1e8827de7c2077,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -44779,6 +44799,11 @@ PrefabInstance:
       objectReference: {fileID: 1900870074}
     - target: {fileID: 8844435867808587474, guid: ea76547315d596042b6747011ae21bcf,
         type: 3}
+      propertyPath: m_Speed
+      value: 4.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844435867808587474, guid: ea76547315d596042b6747011ae21bcf,
+        type: 3}
       propertyPath: m_Radius
       value: 0.6
       objectReference: {fileID: 0}
@@ -44796,6 +44821,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AngularSpeed
       value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844435867808587474, guid: ea76547315d596042b6747011ae21bcf,
+        type: 3}
+      propertyPath: m_StoppingDistance
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea76547315d596042b6747011ae21bcf, type: 3}

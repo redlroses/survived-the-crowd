@@ -7,11 +7,11 @@ namespace Sources.Enemy
     [RequireComponent(typeof(Animator))]
     public class SerpentAnimator : MonoBehaviour, IEnemyAnimator
     {
-        private static readonly int Hit = Animator.StringToHash("TakeDamage");
+        private static readonly int Hit = Animator.StringToHash("Take Damage");
         private static readonly int Die = Animator.StringToHash("Die");
-        private static readonly int MoveForward = Animator.StringToHash("MoveForward");
+        private static readonly int MoveForward = Animator.StringToHash("Move Forward");
         private static readonly int Speed = Animator.StringToHash("Speed");
-        private static readonly int SlitherRight = Animator.StringToHash("SlitherRight");
+        private static readonly int SlitherRight = Animator.StringToHash("Slither Right");
 
         private readonly float _downshiftAfterDeath = 5f;
         private readonly float _downshiftDuration = 2.7f;
@@ -35,12 +35,8 @@ namespace Sources.Enemy
 
         public void FinishMove() => _animator.SetBool(MoveForward, false);
         public void PlayAttack() => _animator.SetTrigger(SlitherRight);
-
-        public void StartMove(float speed)
-        {
-            _animator.SetBool(MoveForward, true);
-            _animator.SetFloat(Speed, speed);
-        }
+        public void StartMove() => _animator.SetBool(MoveForward, true);
+        public void SetSpeed(float speed) => _animator.SetFloat(Speed, speed);
 
         private void PlayPostDeath()
         {
