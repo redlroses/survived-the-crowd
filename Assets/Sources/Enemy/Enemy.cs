@@ -1,22 +1,17 @@
 using System;
+using Sources.Custom;
 using Sources.Pool;
 using UnityEngine;
-using static Sources.Tools.ComponentTool;
 
 namespace Sources.Enemy
 {
     public class Enemy : MonoBehaviour, IPoolable<Enemy>
     {
-        [SerializeField] private MonoBehaviour _animator;
-        [SerializeField] private AgentMover _agentMover;
+        [SerializeField] [RequireInterface(typeof(IEnemyAnimator))] private MonoBehaviour _animator;
+        [SerializeField] private AgentToTargetMover _agentToTargetMover;
 
         public event Action<Enemy> Destroyed;
         private IEnemyAnimator Animator => (IEnemyAnimator) _animator;
-
-        private void OnValidate()
-        {
-            ValidateInterface<IEnemyAnimator>(ref _animator);
-        }
 
         private void OnEnable()
         {
@@ -31,11 +26,6 @@ namespace Sources.Enemy
         private void OnDisable()
         {
             Animator.DeathAnimationEnded -= DisableInPool;
-        }
-
-        public void SetTarget(Transform target)
-        {
-            _agentMover.ApplyTarget(target);
         }
 
         private void OnDestroy()

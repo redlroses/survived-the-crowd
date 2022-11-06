@@ -230,7 +230,7 @@ public class ReadmeEditor : Editor {
             $"{AssetName} version {_readme.FlatKitVersion}",
             $"Unity {_readme.UnityVersion}",
             $"Dev platform: {Application.platform}",
-            $"Target platform: {EditorUserBuildSettings.activeBuildTarget}",
+            $"Attackable platform: {EditorUserBuildSettings.activeBuildTarget}",
             $"URP installed: {_readme.UrpInstalled}, version {_readme.UrpVersionInstalled}",
             $"Render pipeline: {Shader.globalRenderPipeline}",
             $"Color space: {PlayerSettings.colorSpace}"

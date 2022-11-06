@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Sources.Health
+namespace Sources.HealthLogic
 {
     public class Health : MonoBehaviour, IHealth, IDamageable
     {

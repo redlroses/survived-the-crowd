@@ -3,7 +3,7 @@ using Sources.Pool;
 using UnityEngine;
 using Vehicle;
 
-namespace Fuel
+namespace Sources.Fuel
 {
     public sealed class FuelBarrel : MonoBehaviour, IPoolable<FuelBarrel>
     {
@@ -19,6 +19,11 @@ namespace Fuel
             }
 
             gasTank.Refuel(_fuelAmount);
+            gameObject.SetActive(false);
+        }
+
+        private void OnDestroy()
+        {
             Destroyed?.Invoke(this);
         }
     }

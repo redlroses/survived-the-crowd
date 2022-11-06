@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Sources.Editor
+namespace Sources.Custom
 {
     public class RequireInterface : PropertyAttribute
     {

@@ -1,3 +1,4 @@
+using Sources.Fuel;
 using UnityEngine;
 
 namespace Fuel

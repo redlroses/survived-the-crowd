@@ -1,5 +1,5 @@
-using Sources.Editor;
-using Sources.Health;
+using Sources.Custom;
+using Sources.HealthLogic;
 using UnityEngine;
 
 namespace Sources

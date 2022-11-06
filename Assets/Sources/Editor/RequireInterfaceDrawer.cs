@@ -1,4 +1,5 @@
 using System;
+using Sources.Custom;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,10 +30,23 @@ namespace Sources.Editor
             if (property.objectReferenceValue == null)
                 return;
 
-            if (property.objectReferenceValue as GameObject)
+            if (property.objectReferenceValue is GameObject)
                 CheckGameObject(property, targetType);
-            else if (property.objectReferenceValue as ScriptableObject)
+            else if (property.objectReferenceValue is ScriptableObject)
                 CheckScriptableObject(property, targetType);
+            else if (property.objectReferenceValue is MonoBehaviour)
+                CheckMonoBehavior(property, targetType);
+        }
+
+        private void CheckMonoBehavior(SerializedProperty property, Type targetType)
+        {
+            MonoBehaviour field = property.objectReferenceValue as MonoBehaviour;
+
+            if (field.GetComponent(targetType) == null)
+            {
+                property.objectReferenceValue = null;
+                Debug.LogError("MonoBehavior must contain component implemented " + targetType + " interface");
+            }
         }
 
         private void CheckGameObject(SerializedProperty property, Type targetType)

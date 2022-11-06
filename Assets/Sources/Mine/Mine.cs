@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using Sources.Creatures.Player;
-using Sources.Health;
+using Sources.HealthLogic;
+using Sources.Player;
 using UnityEngine;
 
 namespace Mine
@@ -21,7 +22,7 @@ namespace Mine
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.TryGetComponent(out Player player))
+            if (other.gameObject.TryGetComponent(out PlayerMover _))
             {
                 StartCoroutine(ActivateFuse());
             }

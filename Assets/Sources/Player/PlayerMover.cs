@@ -4,7 +4,7 @@ using Sources.Vehicle;
 using Tools;
 using UnityEngine;
 
-namespace Sources.Creatures.Player
+namespace Sources.Player
 {
     public sealed class PlayerMover : MonoBehaviour, ICarControllable
     {

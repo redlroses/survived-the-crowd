@@ -1,6 +1,8 @@
 using DG.Tweening;
 using Hole;
 using Sources.Creatures.Player;
+using Sources.HealthLogic;
+using Sources.Player;
 using UnityEngine;
 
 namespace Turret
@@ -18,7 +20,7 @@ namespace Turret
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out Player _) == false)
+            if (other.TryGetComponent(out PlayerMover _) == false)
             {
                 return;
             }

@@ -1,4 +1,4 @@
-﻿using Sources.Creatures.Player;
+﻿using Sources.Player;
 using UnityEngine;
 
 namespace Hole
@@ -9,7 +9,7 @@ namespace Hole
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out Player player))
+            if (other.TryGetComponent(out PlayerMover _))
             {
                 _doorOpener.Open();
             }

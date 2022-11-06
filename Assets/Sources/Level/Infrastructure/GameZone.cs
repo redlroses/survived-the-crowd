@@ -1,5 +1,6 @@
 ﻿using System;
 using Sources.Creatures.Player;
+using Sources.Player;
 using UnityEngine;
 
 namespace Level.Infrastructure
@@ -36,7 +37,7 @@ namespace Level.Infrastructure
 
         private bool CheckIsPlayer(Collider other)
         {
-            return other.TryGetComponent(out Player _);
+            return other.TryGetComponent(out PlayerMover _);
         }
     }
 }

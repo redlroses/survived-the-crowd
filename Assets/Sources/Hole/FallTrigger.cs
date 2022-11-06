@@ -1,5 +1,6 @@
 using System;
 using Sources.Creatures;
+using Sources.HealthLogic;
 using UnityEngine;
 
 namespace Hole
@@ -20,7 +21,7 @@ namespace Hole
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!other.TryGetComponent(out Creature creature))
+            if (!other.TryGetComponent(out IDamageable _))
             {
                 return;
             }
@@ -30,7 +31,7 @@ namespace Hole
 
         private void OnTriggerExit(Collider other)
         {
-            if (!other.TryGetComponent(out Creature creature))
+            if (!other.TryGetComponent(out IDamageable _))
             {
                 return;
             }

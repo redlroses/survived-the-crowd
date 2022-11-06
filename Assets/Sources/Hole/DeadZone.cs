@@ -1,6 +1,8 @@
 using System;
 using Sources.Creatures;
 using Sources.Creatures.Player;
+using Sources.HealthLogic;
+using Sources.Player;
 using UnityEngine;
 
 namespace Hole
@@ -12,13 +14,13 @@ namespace Hole
             if (other.TryGetComponent(out PlayerMover playerMover))
             {
                 playerMover.enabled = false;
-                playerMover.GetComponent<Creature>().Damage(int.MaxValue);
+                playerMover.GetComponent<IDamageable>().Damage(int.MaxValue);
             }
 
             if (other.TryGetComponent(out EnemyMover enemyMover))
             {
                 enemyMover.enabled = false;
-                enemyMover.GetComponent<Creature>().Damage(int.MaxValue);
+                enemyMover.GetComponent<IDamageable>().Damage(int.MaxValue);
             }
         }
     }

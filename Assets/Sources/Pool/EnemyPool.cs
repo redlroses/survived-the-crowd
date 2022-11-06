@@ -1,14 +1,16 @@
+using Pool;
+using Sources.Custom;
 using Sources.Enemy;
 using UnityEngine;
 
-namespace Pool
+namespace Sources.Pool
 {
-    public sealed class EnemyPool : ObjectPool<Enemy>
+    public sealed class EnemyPool : ObjectPool<Enemy.Enemy>
     {
-        [SerializeField] private Transform _targetFollow;
-        protected override void InitCopy(Enemy copy)
+        [SerializeField] [RequireInterface(typeof(IAttackable))] private MonoBehaviour _targetFollow;
+        protected override void InitCopy(Enemy.Enemy copy)
         {
-            copy.GetComponent<EnemyMover>().Init(_targetFollow);
+            copy.GetComponent<AgentToTargetMover>().ApplyTarget(_targetFollow as IAttackable);
         }
     }
 }

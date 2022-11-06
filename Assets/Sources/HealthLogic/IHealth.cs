@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sources.Health
+namespace Sources.HealthLogic
 {
     public interface IHealth
     {

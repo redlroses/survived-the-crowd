@@ -42,15 +42,10 @@ namespace Pool
         {
         }
 
-        private void Disable(T copy)
+        public T Enable<TFilter>()
         {
-            copy.gameObject.SetActive(false);
-        }
-
-        public T Enable()
-        {
-            var objectCopy = GetInactive();
-            objectCopy.gameObject.SetActive(false);
+            var objectCopy = GetInactive<TFilter>();
+            objectCopy.gameObject.SetActive(true);
             return objectCopy;
         }
 
@@ -139,6 +134,19 @@ namespace Pool
                 .First(copy => copy.gameObject.activeSelf == false);
         }
 
+        private T GetInactive<TFilter>(Func<T, bool> filter = null)
+        {
+            if (GetInactiveCount(filter) <= 0)
+            {
+                Expand(_expansionAmount, filter);
+            }
+
+            return _objectsPool
+                .Where(filter ?? (copy => true))
+                .Where(copy => copy is TFilter)
+                .First(copy => copy.gameObject.activeSelf == false);
+        }
+
         private int GetInactiveCount(Func<T, bool> filter = null)
         {
             int count = _objectsPool
@@ -177,14 +185,13 @@ namespace Pool
         private void Add(T copy)
         {
             _objectsPool.Add(copy);
-            copy.Destroyed += Disable;
+            copy.Destroyed += Remove;
         }
 
         private void Remove(T copy)
         {
-            copy.Destroyed -= Disable;
+            copy.Destroyed -= Remove;
             _objectsPool.Remove(copy);
-            Destroy(copy.gameObject);
         }
 
         private void ValidateCopies()

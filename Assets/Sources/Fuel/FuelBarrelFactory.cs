@@ -4,6 +4,7 @@ using System.Linq;
 using Pool;
 using UnityEngine;
 using Extensions;
+using Sources.Fuel;
 
 namespace Fuel
 {
