@@ -1,16 +1,16 @@
 using System;
-using Sources.Creatures;
+using Sources.Pool;
 using UnityEngine;
 using static Sources.Tools.ComponentTool;
 
 namespace Sources.Enemy
 {
-    public class Enemy : Creature, IPoolable<Enemy>
+    public class Enemy : MonoBehaviour, IPoolable<Enemy>
     {
         [SerializeField] private MonoBehaviour _animator;
         [SerializeField] private AgentMover _agentMover;
 
-        public event Action<Enemy> Disabled;
+        public event Action<Enemy> Destroyed;
         private IEnemyAnimator Animator => (IEnemyAnimator) _animator;
 
         private void OnValidate()
@@ -23,6 +23,11 @@ namespace Sources.Enemy
             Animator.DeathAnimationEnded += DisableInPool;
         }
 
+        private void DisableInPool()
+        {
+            Destroyed?.Invoke(this);
+        }
+
         private void OnDisable()
         {
             Animator.DeathAnimationEnded -= DisableInPool;
@@ -33,14 +38,9 @@ namespace Sources.Enemy
             _agentMover.ApplyTarget(target);
         }
 
-        protected override void OnDied()
+        private void OnDestroy()
         {
-            Animator.PlayDeath();
-        }
-
-        private void DisableInPool()
-        {
-            Disabled?.Invoke(this);
+            Destroyed?.Invoke(this);
         }
     }
 }

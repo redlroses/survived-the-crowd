@@ -27,7 +27,6 @@ namespace Sources.Enemy
             for (int i = 0; i < _enemiesPerLevel; i++)
             {
                 var enemy = _pool.Enable(_spawnPoint.position);
-                enemy.Init();
                 enemy.SetTarget(_player.transform);
             }
         }

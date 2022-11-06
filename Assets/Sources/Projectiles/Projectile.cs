@@ -1,4 +1,6 @@
 ﻿using System;
+using Sources.Health;
+using Sources.Pool;
 using UnityEngine;
 
 namespace Projectiles
@@ -9,7 +11,7 @@ namespace Projectiles
         [SerializeField] private int _damageValue;
         [SerializeField] private float _lifeTime;
 
-        public event Action<Projectile> Disabled;
+        public event Action<Projectile> Destroyed;
 
         private void Start()
         {
@@ -40,7 +42,7 @@ namespace Projectiles
 
         private void Disable()
         {
-            Disabled?.Invoke(this);
+            Destroyed?.Invoke(this);
         }
     }
 }

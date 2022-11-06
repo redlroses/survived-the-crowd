@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9119231621094086728}
   - component: {fileID: 1933343643740286101}
   - component: {fileID: 4435126008689165053}
+  - component: {fileID: -5909690029814614037}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -129,5 +130,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseMaterial: {fileID: 2100000, guid: 0e23a57fdb187804bad94509b9171e18, type: 2}
   _damagedMaterial: {fileID: 2100000, guid: 7009b726b100f8b408936e27e6393867, type: 2}
-  _baseEnemy: {fileID: 0}
+  _damagable: {fileID: -5909690029814614037}
   _renderer: {fileID: 1292392968418386784}
+--- !u!114 &-5909690029814614037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357475846360439835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c75eb52df8e825a429b485858016c740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

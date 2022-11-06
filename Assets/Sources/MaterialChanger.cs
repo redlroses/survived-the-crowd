@@ -1,35 +1,43 @@
-using Sources.Enemy;
+using Sources.Editor;
+using Sources.Health;
 using UnityEngine;
 
-public sealed class MaterialChanger : MonoBehaviour
+namespace Sources
 {
-    [SerializeField] private Material _baseMaterial;
-    [SerializeField] private Material _damagedMaterial;
-    [SerializeField] private BaseEnemy _baseEnemy;
-    [SerializeField] private Renderer _renderer;
-
-    private void OnEnable()
+    public sealed class MaterialChanger : MonoBehaviour
     {
-        ApplyBaseColor();
-        _baseEnemy.Damaged += ApplyDamagedColor;
-    }
+        [SerializeField] private Material _baseMaterial;
+        [SerializeField] private Material _damagedMaterial;
 
-    private void OnDisable()
-    {
-        if (_renderer.material == _baseMaterial)
+        [RequireInterface(typeof(IDamageable))]
+        [SerializeField] private MonoBehaviour _damagable;
+        [SerializeField] private Renderer _renderer;
+
+        private IDamageable BaseEnemy => (IDamageable) _damagable;
+
+        private void OnEnable()
         {
-            _baseEnemy.Damaged -= ApplyDamagedColor;
+            ApplyBaseColor();
+            BaseEnemy.Damaged += ApplyDamagedColor;
         }
-    }
 
-    private void ApplyDamagedColor()
-    {
-        _renderer.material = _damagedMaterial;
-        _baseEnemy.Damaged -= ApplyDamagedColor;
-    }
+        private void OnDisable()
+        {
+            if (_renderer.material == _baseMaterial)
+            {
+                BaseEnemy.Damaged -= ApplyDamagedColor;
+            }
+        }
 
-    private void ApplyBaseColor()
-    {
-        _renderer.material = _baseMaterial;
+        private void ApplyDamagedColor()
+        {
+            _renderer.material = _damagedMaterial;
+            BaseEnemy.Damaged -= ApplyDamagedColor;
+        }
+
+        private void ApplyBaseColor()
+        {
+            _renderer.material = _baseMaterial;
+        }
     }
 }

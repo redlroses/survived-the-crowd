@@ -1,4 +1,5 @@
 using System;
+using Sources.Pool;
 using UnityEngine;
 using Vehicle;
 
@@ -8,7 +9,7 @@ namespace Fuel
     {
         [SerializeField] private float _fuelAmount = 30f;
 
-        public event Action<FuelBarrel> Disabled;
+        public event Action<FuelBarrel> Destroyed;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -18,7 +19,7 @@ namespace Fuel
             }
 
             gasTank.Refuel(_fuelAmount);
-            Disabled?.Invoke(this);
+            Destroyed?.Invoke(this);
         }
     }
 }

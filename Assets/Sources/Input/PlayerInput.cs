@@ -1,4 +1,5 @@
 using Import.Joystick.Scripts;
+using Sources.Editor;
 using Sources.Tools.Extensions;
 using UnityEngine;
 using static Sources.Tools.ComponentTool;
@@ -8,6 +9,7 @@ namespace Sources.Input
     [RequireComponent(typeof(IControllable))]
     public sealed class PlayerInput : MonoBehaviour
     {
+        [RequireInterface(typeof(ICarControllable))]
         [SerializeField] private MonoBehaviour _mover;
         [SerializeField] private Joystick _joystick;
 
@@ -16,19 +18,6 @@ namespace Sources.Input
         private bool _isInput;
 
         private ICarControllable Mover => (ICarControllable) _mover;
-
-        private void OnValidate()
-        {
-            ValidateInterface<ICarControllable>(ref _mover);
-
-            if (_mover is ICarControllable)
-            {
-                return;
-            }
-
-            Debug.LogError($"{_mover.name} needs to implement {nameof(ICarControllable)}");
-            _mover = null;
-        }
 
         private void Awake()
         {

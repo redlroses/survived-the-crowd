@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Sources.Pool;
 using UnityEngine;
 
 namespace Pool
@@ -176,12 +177,12 @@ namespace Pool
         private void Add(T copy)
         {
             _objectsPool.Add(copy);
-            copy.Disabled += Disable;
+            copy.Destroyed += Disable;
         }
 
         private void Remove(T copy)
         {
-            copy.Disabled -= Disable;
+            copy.Destroyed -= Disable;
             _objectsPool.Remove(copy);
             Destroy(copy.gameObject);
         }

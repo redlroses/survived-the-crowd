@@ -13,13 +13,13 @@ namespace Fuel
         public void SetFuelBarrel(FuelBarrel fuelBarrel)
         {
             _fuelBarrel = fuelBarrel;
-            _fuelBarrel.Disabled += FuelBarrelRaised;
+            _fuelBarrel.Destroyed += FuelBarrelRaised;
             _state = SpawnPointState.Busy;
         }
 
         private void FuelBarrelRaised(FuelBarrel fuelBarrel)
         {
-            _fuelBarrel.Disabled -= FuelBarrelRaised;
+            _fuelBarrel.Destroyed -= FuelBarrelRaised;
             _state = SpawnPointState.Empty;
         }
     }
