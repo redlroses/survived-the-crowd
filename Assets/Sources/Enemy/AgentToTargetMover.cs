@@ -8,7 +8,6 @@ namespace Sources.Enemy
     {
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] [RequireInterface(typeof(IAttackable))] private MonoBehaviour _attackable;
-        [SerializeField] private float _attackRange = 2f;
 
         private IAttackable Attackable => (IAttackable) _attackable;
 
@@ -28,7 +27,7 @@ namespace Sources.Enemy
         }
 
         private bool ReachedTarget(Vector3 attackPoint)
-            => Vector3.Distance(attackPoint, transform.position) <= _attackRange;
+            => Vector3.Distance(attackPoint, transform.position) <= _agent.stoppingDistance;
 
         public void ApplyTarget(IAttackable target)
         {
