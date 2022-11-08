@@ -5,6 +5,7 @@ namespace Sources.Enemy
     public interface IEnemyAnimator
     {
         public event Action DeathAnimationEnded;
+        public event Action AttackCarried;
         public void PlayHit();
         public void PlayDeath();
         public void FinishMove();

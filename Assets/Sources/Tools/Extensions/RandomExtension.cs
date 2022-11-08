@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Extensions
+namespace Sources.Tools.Extensions
 {
     public static class RandomExtension
     {

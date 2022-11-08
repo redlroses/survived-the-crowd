@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections;
+using System.Linq;
+using Sources.Custom;
 using Sources.HealthLogic;
 using UnityEngine;
 
@@ -6,17 +9,33 @@ namespace Sources.Enemy
 {
     public class Attacker : MonoBehaviour
     {
-        [Header("Hit")]
+        private readonly Collider[] _hits = new Collider[1];
+
+        [SerializeField] [RequireInterface(typeof(IEnemyAnimator))] private MonoBehaviour _animator;
+
+        [Space][Header("Hit")]
         [SerializeField] private Transform _hitCenter;
         [SerializeField] private float _hitRadius;
         [SerializeField] private LayerMask _layer;
-        [Space] [Header("Attack")]
-        [SerializeField] private int _attackDamage;
 
-        private Collider[] _hits = new Collider[1];
+        [Space][Header("Attack")]
+        [SerializeField] private int _hitDamage;
 
-        public void OnAttack()
+        private IEnemyAnimator Animator => (IEnemyAnimator) _animator;
+
+        private void OnEnable()
         {
+            Animator.AttackCarried += OnAttackCarried;
+        }
+
+        private void OnDisable()
+        {
+            Animator.AttackCarried -= OnAttackCarried;
+        }
+
+        private void OnAttackCarried()
+        {
+            Debug.Log("Attack");
             Attack();
         }
 
@@ -24,7 +43,8 @@ namespace Sources.Enemy
         {
             if (TryHit(out IDamageable damageable))
             {
-                damageable.Damage(_attackDamage);
+                Debug.Log("damagable");
+                damageable.Damage(_hitDamage);
             }
         }
 

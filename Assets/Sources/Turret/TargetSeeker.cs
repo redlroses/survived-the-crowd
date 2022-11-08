@@ -24,20 +24,6 @@ namespace Turret
         public event Action TargetLost;
         public event Action TargetFound;
 
-        private float ScanFrequency
-        {
-            set
-            {
-                if (value <= 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(_scanFrequency));
-                }
-
-                _scanFrequency = value;
-                _waitForScan = new WaitForSeconds(1f / value);
-            }
-        }
-
         private void Awake()
         {
             ScanFrequency = _scanFrequency;
@@ -52,6 +38,20 @@ namespace Turret
         private void OnDisable()
         {
             StopScan();
+        }
+
+        private float ScanFrequency
+        {
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(_scanFrequency));
+                }
+
+                _scanFrequency = value;
+                _waitForScan = new WaitForSeconds(1f / value);
+            }
         }
 
         private void OnDrawGizmos()

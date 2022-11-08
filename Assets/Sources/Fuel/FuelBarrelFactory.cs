@@ -3,8 +3,8 @@ using System.Collections;
 using System.Linq;
 using Pool;
 using UnityEngine;
-using Extensions;
 using Sources.Fuel;
+using Sources.Tools.Extensions;
 
 namespace Fuel
 {
