@@ -377,7 +377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxPoints: 50
   _currentPoints: 50
-  _hurtBox: {fileID: 0}
+  _hurtBox: {fileID: 98971362}
 --- !u!1001 &107048650
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44794,9 +44794,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2810749575635535955, guid: 8a6eedee1524ac54a8889774c93d8268,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2810749575635535955, guid: 8a6eedee1524ac54a8889774c93d8268,
+        type: 3}
       propertyPath: _attackable
       value: 
-      objectReference: {fileID: 1201381089}
+      objectReference: {fileID: 98971363}
     - target: {fileID: 5126573251260583773, guid: 8a6eedee1524ac54a8889774c93d8268,
         type: 3}
       propertyPath: m_Name
@@ -44880,6 +44885,11 @@ PrefabInstance:
       propertyPath: _joystick
       value: 
       objectReference: {fileID: 479908550}
+    - target: {fileID: 7302154060347567296, guid: 53b0ce85fb0b91c47866146451e05b1d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7302154060347567297, guid: 53b0ce85fb0b91c47866146451e05b1d,
         type: 3}
       propertyPath: m_RootOrder
