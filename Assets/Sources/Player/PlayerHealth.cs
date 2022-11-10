@@ -10,5 +10,8 @@ namespace Sources.Player
 
         public Vector3 GetAttackPoint(Vector3 attackerPosition)
             => _hurtBox.ClosestPoint(attackerPosition);
+
+        public Vector3 GetAttackCenter(Vector3 attackerPosition)
+            => _hurtBox.transform.position;
     }
 }

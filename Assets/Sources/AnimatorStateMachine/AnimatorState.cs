@@ -1,4 +1,4 @@
-namespace CodeBase.Logic
+namespace Sources.AnimatorStateMachine
 {
   public enum AnimatorState
   {
@@ -6,6 +6,7 @@ namespace CodeBase.Logic
     Idle,
     Attack,
     Walking,
+    Hit,
     Died,
   }
 }

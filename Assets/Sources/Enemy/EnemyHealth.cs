@@ -7,5 +7,8 @@ namespace Sources.Enemy
     {
         public Vector3 GetAttackPoint(Vector3 attackerPosition)
             => transform.position;
+
+        public Vector3 GetAttackCenter(Vector3 attackerPosition)
+            => transform.position;
     }
 }
