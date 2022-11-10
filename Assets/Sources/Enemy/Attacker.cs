@@ -40,7 +40,6 @@ namespace Sources.Enemy
         {
             if (TryHit(out IDamageable damageable))
             {
-                Debug.Log("damagable");
                 damageable.Damage(_hitDamage);
             }
         }
@@ -49,7 +48,6 @@ namespace Sources.Enemy
         {
             damageable = null;
             int hitsCount = Physics.OverlapSphereNonAlloc(_hitCenter.position, _hitRadius, _hits, _layer);
-            Debug.Log(hitsCount);
             return hitsCount > 0 && _hits[0].gameObject.TryGetComponent(out damageable);
         }
     }

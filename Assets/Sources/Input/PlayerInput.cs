@@ -23,8 +23,6 @@ namespace Sources.Input
         {
             _camera = Camera.main;
 
-            _mover ??= (MonoBehaviour) GetComponent<ICarControllable>();
-
             CheckNull(_joystick);
             CheckNull(_camera);
 

@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace Level.Infrastructure
+namespace Sources.Level.Infrastructure
 {
     public sealed class Checkpoint : GameZone
     {

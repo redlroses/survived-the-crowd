@@ -37,6 +37,7 @@ namespace Sources.Vehicle
         {
             _wheelBase = GetWheelBase();
             _frontAxleLength = GetFrontAxleLength();
+            DeflectSteeringWheel(0.1f);
         }
 
         private void OnDrawGizmos()

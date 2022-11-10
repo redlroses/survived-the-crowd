@@ -8,7 +8,6 @@ namespace Sources.Enemy
     public class AgentAttackRangeTracker : MonoBehaviour
     {
         [SerializeField] [RequireInterface(typeof(IAttackable))] private MonoBehaviour _target;
-        [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private float _range;
         [SerializeField] private float _maxRange;
 
@@ -24,14 +23,12 @@ namespace Sources.Enemy
             if (Vector3.Distance(Target.GetAttackPoint(transform.position), transform.position) < _range && _isWithinReach == false)
             {
                 _isWithinReach = true;
-                Debug.Log("in");
                 EnteredRange?.Invoke();
             }
 
             if (Vector3.Distance(Target.GetAttackPoint(transform.position), transform.position) >= _maxRange && _isWithinReach)
             {
                 OutOfRange?.Invoke();
-                Debug.Log("out");
                 _isWithinReach = false;
             }
         }

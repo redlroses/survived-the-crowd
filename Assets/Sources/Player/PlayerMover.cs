@@ -20,6 +20,10 @@ namespace Sources.Player
         public Vector2 ForwardDirection => new Vector2(transform.forward.x, transform.forward.z).normalized;
         public float CurrentSpeed => _rigidbody.velocity.magnitude;
 
+        private void Start()
+        {
+            Move(ForwardDirection);
+        }
 
         private void FixedUpdate()
         {

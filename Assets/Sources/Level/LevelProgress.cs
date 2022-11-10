@@ -1,7 +1,9 @@
+using Level;
 using Level.Infrastructure;
+using Sources.Level.Infrastructure;
 using UnityEngine;
 
-namespace Level
+namespace Sources.Level
 {
     public sealed class LevelProgress : MonoBehaviour
     {
