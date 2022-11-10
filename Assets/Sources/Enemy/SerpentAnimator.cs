@@ -63,7 +63,6 @@ namespace Sources.Enemy
         public void EnteredState(int stateHash)
         {
             SetStateBy(stateHash);
-            Debug.Log(State);
         }
 
         public void ExitedState(int stateHash)

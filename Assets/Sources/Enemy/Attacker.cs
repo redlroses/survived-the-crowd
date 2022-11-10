@@ -7,7 +7,7 @@ namespace Sources.Enemy
 {
     public class Attacker : MonoBehaviour
     {
-        private readonly Collider[] _hits = new Collider[1];
+        private readonly Collider[] _hits = new Collider[2];
 
         [SerializeField] [RequireInterface(typeof(IEnemyAnimator))] private MonoBehaviour _animator;
 
@@ -33,7 +33,6 @@ namespace Sources.Enemy
 
         private void OnAttackCarried()
         {
-            Debug.Log("Attack");
             Attack();
         }
 
@@ -50,7 +49,8 @@ namespace Sources.Enemy
         {
             damageable = null;
             int hitsCount = Physics.OverlapSphereNonAlloc(_hitCenter.position, _hitRadius, _hits, _layer);
-            return hitsCount > 0 && _hits.FirstOrDefault().TryGetComponent(out damageable);
+            Debug.Log(hitsCount);
+            return hitsCount > 0 && _hits[0].gameObject.TryGetComponent(out damageable);
         }
     }
 }
