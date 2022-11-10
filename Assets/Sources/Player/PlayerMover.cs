@@ -33,7 +33,7 @@ namespace Sources.Player
             Gizmos.color = Color.green;
             Gizmos.DrawRay(position, new Vector3(ForwardDirection.x, position.y, ForwardDirection.y) * 6f);
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(_rigidbody.position, new Vector3(_inputDirection.x, position.y, _inputDirection.y) * 6f);
+            Gizmos.DrawRay(position, new Vector3(_inputDirection.x, position.y, _inputDirection.y) * 6f);
         }
 
         public void Move(Vector2 newDirection)
@@ -77,7 +77,7 @@ namespace Sources.Player
 
         private void Rotate()
         {
-            Quaternion targetRotation = Quaternion.LookRotation(_vehicle.Rudder.WheelDirection);
+            Quaternion targetRotation = Quaternion.LookRotation(_vehicle.Rudder.MoveDirection);
             _rigidbody.rotation =
                 Quaternion.Lerp(_rigidbody.rotation, targetRotation, Time.fixedDeltaTime * _rotationSpeed);
         }
@@ -91,7 +91,7 @@ namespace Sources.Player
                 return;
             }
 
-            Vector3 moveDirection = _vehicle.Rudder.WheelDirection;
+            Vector3 moveDirection = _vehicle.Rudder.MoveDirection;
             Vector3 velocity = moveDirection * _moveSpeed;
             velocity.y = _rigidbody.velocity.y;
             _rigidbody.velocity = velocity;

@@ -27,9 +27,11 @@ namespace Sources.Vehicle
         private Vector3 _turningPoint;
         private Vector3 _vehicleCenter;
         private Vector3 _wheelDirection;
+        private Vector3 _moveDirection;
         private RotationDirection _rotationDirection;
 
-        public Vector3 WheelDirection => _wheelDirection.normalized;
+        public Vector3 MoveDirection => _moveDirection;
+        public Vector3 WheelDirection => _wheelDirection;
 
         private void Start()
         {
@@ -52,7 +54,7 @@ namespace Sources.Vehicle
             color = Color.blue;
             DrawSphere(_vehicleCenter, _debugSphereRadius);
             color = Color.yellow;
-            DrawRay(transform.position, _wheelDirection * _moveDirectionGizmosLength);
+            DrawRay(transform.position, _moveDirection * _moveDirectionGizmosLength);
         }
 
         public void DeflectSteeringWheel(float angle)
@@ -66,14 +68,10 @@ namespace Sources.Vehicle
         }
 
         private float GetWheelBase()
-        {
-            return Abs(_leftWheel.localPosition.z - _backAxle.localPosition.z);
-        }
+            => Abs(_leftWheel.localPosition.z - _backAxle.localPosition.z);
 
         private float GetFrontAxleLength()
-        {
-            return Abs(_leftWheel.localPosition.x) + Abs(_rightWheel.localPosition.x);
-        }
+            => Abs(_leftWheel.localPosition.x) + Abs(_rightWheel.localPosition.x);
 
         private Vector3 GetVehicleCenter()
         {
@@ -90,7 +88,8 @@ namespace Sources.Vehicle
         {
             _backAxleTurningRadius = GetTurningRadius();
             _turningPoint = GetTurningPoint();
-            _wheelDirection = GetWheelDirection();
+            _wheelDirection = GetDirectionInPosition(GetNearWheelToTurnPoint().position);
+            _moveDirection = GetDirectionInPosition(_vehicleCenter);
         }
 
         private float GetTurningRadius()
@@ -112,12 +111,15 @@ namespace Sources.Vehicle
             return transform.TransformPoint(_turningPoint);
         }
 
-        private Vector3 GetWheelDirection()
+        private Vector3 GetDirectionInPosition(Vector3 position)
         {
-            Vector3 centralRadiusVector = _turningPoint - _vehicleCenter;
-            Vector3 normalizedMoveDirection = Vector3.Cross(centralRadiusVector, Vector3.up * (int) _rotationDirection).normalized;
+            Vector3 radiusVector = GetCentralRadiusVector(toPoint: position);
+            Vector3 normalizedMoveDirection = Vector3.Cross(radiusVector, Vector3.up * (int) _rotationDirection).normalized;
             return normalizedMoveDirection;
         }
+
+        private Vector3 GetCentralRadiusVector(Vector3 toPoint)
+            => _turningPoint - toPoint;
 
         private Transform GetNearWheelToTurnPoint()
         {
