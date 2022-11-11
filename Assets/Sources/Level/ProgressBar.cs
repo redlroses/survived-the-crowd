@@ -1,6 +1,6 @@
 using System;
 
-namespace Level
+namespace Sources.Level
 {
     public sealed class ProgressBar
     {

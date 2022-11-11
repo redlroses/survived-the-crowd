@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Sources.Pool;
 using UnityEngine;
 
-namespace Pool
+namespace Sources.Pool
 {
     [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
     public abstract class ObjectPool<T> : MonoBehaviour where T : Component, IPoolable<T>
@@ -40,6 +39,13 @@ namespace Pool
 
         protected virtual void InitCopy(T copy)
         {
+        }
+
+        public T Enable()
+        {
+            var objectCopy = GetInactive();
+            objectCopy.gameObject.SetActive(true);
+            return objectCopy;
         }
 
         public T Enable<TFilter>()
@@ -102,7 +108,7 @@ namespace Pool
 
         private void CreateContainer()
         {
-            _customContainer = new GameObject($"{typeof(T)} container").transform;
+            _customContainer = new GameObject($"{typeof(T).Name} container").transform;
 
             if (_isStaticContainer)
             {

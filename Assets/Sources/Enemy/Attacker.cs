@@ -1,14 +1,12 @@
-﻿using System.Linq;
-using Sources.Custom;
-using Sources.HealthLogic;
+﻿using Sources.Custom;
+using Sources.DamageDeal;
+using Sources.DamageDeal.Data;
 using UnityEngine;
 
 namespace Sources.Enemy
 {
     public class Attacker : MonoBehaviour
     {
-        private readonly Collider[] _hits = new Collider[2];
-
         [SerializeField] [RequireInterface(typeof(IEnemyAnimator))] private MonoBehaviour _animator;
 
         [Space][Header("Hit")]
@@ -38,17 +36,9 @@ namespace Sources.Enemy
 
         private void Attack()
         {
-            if (TryHit(out IDamageable damageable))
-            {
-                damageable.Damage(_hitDamage);
-            }
-        }
-
-        private bool TryHit(out IDamageable damageable)
-        {
-            damageable = null;
-            int hitsCount = Physics.OverlapSphereNonAlloc(_hitCenter.position, _hitRadius, _hits, _layer);
-            return hitsCount > 0 && _hits[0].gameObject.TryGetComponent(out damageable);
+            OverlapSphereData data = new OverlapSphereData(_hitCenter.position, _hitRadius, _layer);
+            DamageDealer.DealDamage(_hitDamage, data);
+            // DamageDealer.DealDamage(_hitDamage, _hitCenter.position, _hitRadius, _layer);
         }
     }
 }

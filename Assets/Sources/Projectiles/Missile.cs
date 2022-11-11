@@ -1,7 +1,7 @@
 using Turret;
 using UnityEngine;
 
-namespace Projectiles
+namespace Sources.Projectiles
 {
     [RequireComponent(typeof(Rotator))]
     [RequireComponent(typeof(TargetSeeker))]
@@ -14,15 +14,8 @@ namespace Projectiles
 
         private void Awake()
         {
-            if (_rotator == null)
-            {
-                _rotator = GetComponent<Rotator>();
-            }
-
-            if (_targetSeeker == null)
-            {
-                _targetSeeker = GetComponent<TargetSeeker>();
-            }
+            _rotator ??= GetComponent<Rotator>();
+            _targetSeeker ??= GetComponent<TargetSeeker>();
         }
 
         private void OnEnable()

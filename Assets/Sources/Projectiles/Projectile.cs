@@ -3,7 +3,7 @@ using Sources.HealthLogic;
 using Sources.Pool;
 using UnityEngine;
 
-namespace Projectiles
+namespace Sources.Projectiles
 {
     public abstract class Projectile : MonoBehaviour, IPoolable<Projectile>
     {
@@ -23,11 +23,16 @@ namespace Projectiles
             Move(_moveSpeed);
         }
 
+        private void OnDestroy()
+        {
+            Destroyed?.Invoke(this);
+        }
+
         protected abstract void Move(float moveSpeed);
 
-        private void OnCollisionEnter(Collision other)
+        private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.TryGetComponent(out IDamageable damageable))
+            if (other.TryGetComponent(out IDamageable damageable))
             {
                 damageable.Damage(_damageValue);
             }
@@ -42,7 +47,7 @@ namespace Projectiles
 
         private void Disable()
         {
-            Destroyed?.Invoke(this);
+            gameObject.SetActive(false);
         }
     }
 }

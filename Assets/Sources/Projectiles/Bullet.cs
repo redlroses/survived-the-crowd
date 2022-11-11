@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Projectiles
+namespace Sources.Projectiles
 {
     public sealed class Bullet : Projectile
     {

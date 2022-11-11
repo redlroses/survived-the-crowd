@@ -1,25 +1,23 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Pool;
+using Sources.Custom;
+using Turret;
 using UnityEngine;
 
-namespace Turret
+namespace Sources.Turret
 {
     [RequireComponent(typeof(TargetSeeker))]
-    [RequireComponent(typeof(ProjectilePool))]
     public sealed class Shooter : MonoBehaviour
     {
+        [SerializeField] [RequireInterface(typeof(IShotMaker))] private MonoBehaviour _shotMaker;
         [SerializeField] private bool _isShooting;
-        [SerializeField] private Transform[] _shootPoints;
         [SerializeField] [Min(0.001f)] private float _cooldown;
 
         private TargetSeeker _targetSeeker;
-        private ProjectilePool _pool;
         private WaitForSeconds _waitForShot;
-        private Coroutine _shoot;
+        private Coroutine _shootingCoroutine;
 
-        public event Action<int> ShotOff;
+        private IShotMaker ShotMaker => (IShotMaker) _shotMaker;
 
         public float Cooldown
         {
@@ -38,7 +36,6 @@ namespace Turret
 
         private void Awake()
         {
-            _pool = GetComponent<ProjectilePool>();
             _targetSeeker = GetComponent<TargetSeeker>();
             Cooldown = _cooldown;
         }
@@ -77,40 +74,36 @@ namespace Turret
         }
 #endif
 
-        private IEnumerator Shoot()
+        private IEnumerator Shooting()
         {
             while (_isShooting)
             {
-                for (int i = 0; i < _shootPoints.Length; i++)
-                {
-                    _pool.Enable(_shootPoints[i].position, _shootPoints[i].rotation);
-                    ShotOff?.Invoke(i);
-                    yield return _waitForShot;
-                }
+                ShotMaker.MakeShot();
+                yield return _waitForShot;
             }
         }
 
         private void StopShoot()
         {
-            if (_shoot == null)
+            if (_shootingCoroutine == null)
             {
                 return;
             }
 
-            StopCoroutine(_shoot);
-            _shoot = null;
+            StopCoroutine(_shootingCoroutine);
+            _shootingCoroutine = null;
             _isShooting = false;
         }
 
         private void StartShoot()
         {
-            if (_shoot != null)
+            if (_shootingCoroutine != null)
             {
                 return;
             }
 
             _isShooting = true;
-            _shoot = StartCoroutine(Shoot());
+            _shootingCoroutine = StartCoroutine(Shooting());
         }
     }
 }

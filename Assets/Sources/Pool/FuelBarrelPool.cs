@@ -1,5 +1,6 @@
 using Fuel;
 using Sources.Fuel;
+using Sources.Pool;
 
 namespace Pool
 {

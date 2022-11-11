@@ -1,4 +1,3 @@
-using Sources.Creatures.Player;
 using Sources.Pool;
 using UnityEngine;
 

@@ -1,7 +1,8 @@
 ﻿using System.Linq;
+using Level.Infrastructure;
 using UnityEngine;
 
-namespace Level.Infrastructure
+namespace Sources.Level.Infrastructure
 {
     public sealed class CheckpointChainView : MonoBehaviour
     {

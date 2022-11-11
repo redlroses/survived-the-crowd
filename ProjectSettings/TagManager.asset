@@ -13,13 +13,13 @@ TagManager:
   - UI
   - Enemy
   - Ground
-  - Projectile
-  - Damagable
-  - 
-  - 
-  - 
-  - 
-  - 
+  - EnemyHurtBox
+  - PlayerHurtBox
+  - Player
+  - CheckZone
+  - Players Projectile
+  - Enemys Projectile
+  - Fuel
   - 
   - 
   - 

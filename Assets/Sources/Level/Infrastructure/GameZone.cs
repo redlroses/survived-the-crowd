@@ -1,9 +1,8 @@
 ﻿using System;
-using Sources.Creatures.Player;
 using Sources.Player;
 using UnityEngine;
 
-namespace Level.Infrastructure
+namespace Sources.Level.Infrastructure
 {
     public abstract class GameZone : MonoBehaviour
     {

@@ -1,3 +1,4 @@
+using Sources.Level.Infrastructure;
 using UnityEngine;
 
 namespace Level.Infrastructure
@@ -6,12 +7,12 @@ namespace Level.Infrastructure
     {
         protected override void OnPlayerEnter()
         {
-            Debug.Log("On Start");
+            Debug.Log("On Start Zone");
         }
 
         protected override void OnPlayerExit()
         {
-            Debug.Log("On Left Start");
+            Debug.Log("On Left Start ZOne");
         }
     }
 }

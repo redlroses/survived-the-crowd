@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4127498776530826}
   - component: {fileID: 33820498834923606}
   - component: {fileID: 23066208943694066}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Bullet02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4389153839620792}
   m_RootOrder: 0
@@ -51,6 +52,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -95,7 +97,7 @@ GameObject:
   - component: {fileID: 3980110617983816891}
   - component: {fileID: 7793053392910633398}
   - component: {fileID: 2251898124383641267}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,6 +114,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4127498776530826}
   - {fileID: 3590512560688861143}
@@ -207,7 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3590512560688861143}
   - component: {fileID: 6984627157686698710}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,6 +227,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.423}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4389153839620792}
   m_RootOrder: 1
@@ -240,6 +244,7 @@ TrailRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
