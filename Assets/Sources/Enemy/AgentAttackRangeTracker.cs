@@ -20,17 +20,23 @@ namespace Sources.Enemy
 
         private void Update()
         {
-            if (Vector3.Distance(Target.GetAttackPoint(transform.position), transform.position) < _range && _isWithinReach == false)
+            if (IsEnteredInAttackRange())
             {
                 _isWithinReach = true;
                 EnteredRange?.Invoke();
             }
 
-            if (Vector3.Distance(Target.GetAttackPoint(transform.position), transform.position) >= _maxRange && _isWithinReach)
+            if (IsOutOfAttackRange())
             {
-                OutOfRange?.Invoke();
                 _isWithinReach = false;
+                OutOfRange?.Invoke();
             }
         }
+
+        private bool IsOutOfAttackRange()
+            => Vector3.Distance(Target.GetAttackPoint(transform.position), transform.position) >= _maxRange && _isWithinReach;
+
+        private bool IsEnteredInAttackRange()
+            => Vector3.Distance(Target.GetAttackPoint(transform.position), transform.position) < _range && _isWithinReach == false;
     }
 }

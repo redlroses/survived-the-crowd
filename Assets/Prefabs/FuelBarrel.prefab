@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2068594374335907071}
   - component: {fileID: 2287703088949981120}
   - component: {fileID: 5655447617327826506}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: FuelBarrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,6 +70,10 @@ PrefabInstance:
     - target: {fileID: 1544143072547004, guid: aa9d0fceec1d4814aa3e38892faa08a0, type: 3}
       propertyPath: m_Name
       value: SM_Prop_GasCan_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544143072547004, guid: aa9d0fceec1d4814aa3e38892faa08a0, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4218978442294352, guid: aa9d0fceec1d4814aa3e38892faa08a0, type: 3}
       propertyPath: m_RootOrder

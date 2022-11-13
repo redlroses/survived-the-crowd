@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using DG.Tweening;
 using Sources.Pool;
 using UnityEngine;
 
@@ -11,19 +12,33 @@ namespace Sources.ShotEffects
         [SerializeField] private LineRenderer _line;
         [SerializeField] private float _lifeTime;
 
+        private float _startWidth;
         private WaitForSeconds _waitForDisable;
 
         public event Action<ShotTrailView> Destroyed;
 
         private void Awake()
         {
+            _startWidth = _line.startWidth;
             _waitForDisable = new WaitForSeconds(_lifeTime);
             _line ??= GetComponent<LineRenderer>();
         }
 
         private void OnEnable()
         {
+            Init();
             StartCoroutine(LifeTime());
+            StartFading();
+        }
+
+        private void Init()
+        {
+            _line.startWidth = _startWidth;
+        }
+
+        private void StartFading()
+        {
+            DOTween.To(width => _line.startWidth = width, _line.startWidth, 0, _lifeTime);
         }
 
         private void OnDestroy()

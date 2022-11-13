@@ -29,8 +29,18 @@ namespace Sources.Enemy
 
         private void OnDisable()
         {
+            StopCoroutine(_attacking);
             _rangeTracker.EnteredRange -= OnStartAttack;
             _rangeTracker.OutOfRange -= OnStopAttack;
+        }
+
+        private IEnumerator Attacking()
+        {
+            while (_isAttacking)
+            {
+                Animator.PlayAttack();
+                yield return _waitForAttack;
+            }
         }
 
         private void OnStartAttack()
@@ -44,15 +54,6 @@ namespace Sources.Enemy
             _isAttacking = false;
             StopCoroutine(_attacking);
             _attacking = null;
-        }
-
-        private IEnumerator Attacking()
-        {
-            while (_isAttacking)
-            {
-                Animator.PlayAttack();
-                yield return _waitForAttack;
-            }
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System;
-using Sources.AnimatorStateMachine;
+﻿using Sources.AnimatorStateMachine;
 using Sources.Custom;
+using Sources.HealthLogic;
 using Sources.Tools.Extensions;
 using UnityEngine;
 using UnityEngine.AI;
@@ -36,11 +36,11 @@ namespace Sources.Enemy
 
         private void Update()
         {
-            FindAttackPoint();
+            Vector3 attackPoint = FindAttackPoint();
 
             if (_isInAttackRange)
             {
-                RotateToAttackable();
+                RotateTo(attackPoint);
             }
             else
             {
@@ -49,7 +49,7 @@ namespace Sources.Enemy
                     return;
                 }
 
-                MoveToAttackable();
+                MoveToPoint(destination: attackPoint);
             }
         }
 
@@ -68,21 +68,22 @@ namespace Sources.Enemy
             _attackable = (MonoBehaviour) target;
         }
 
-        private void MoveToAttackable()
+        private void MoveToPoint(Vector3 destination)
         {
-            _agent.destination = _attackPoint;
+            _agent.destination = destination;
         }
 
-        private void RotateToAttackable()
+        private void RotateTo(Vector3 attackPoint)
         {
-            Quaternion toTargetRotation = Quaternion.LookRotation(_attackPoint - transform.position, Vector3.up);
+            Quaternion toTargetRotation = Quaternion.LookRotation(attackPoint - transform.position, Vector3.up);
             transform.rotation = Quaternion.Lerp(transform.rotation, toTargetRotation, Time.deltaTime * _rotatingSpeed);
         }
 
-        private void FindAttackPoint()
+        private Vector3 FindAttackPoint()
         {
-            _attackPoint = Attackable.GetAttackPoint(attackerPosition: transform.position)
+            Vector3 attackPoint = Attackable.GetAttackPoint(attackerPosition: transform.position)
                 .SetY(transform.position.y);
+            return attackPoint;
         }
     }
 }

@@ -2,6 +2,8 @@ using System;
 using DG.Tweening;
 using JetBrains.Annotations;
 using Sources.AnimatorStateMachine;
+using Sources.Custom;
+using Sources.HealthLogic;
 using Sources.Tools.Extensions;
 using UnityEngine;
 
@@ -21,13 +23,16 @@ namespace Sources.Enemy
         private readonly int _moveStateHash = Animator.StringToHash("Blend Tree");
 
         private readonly int[] _attacks = {ClawAttackLeft, ClawAttackRight};
-        private readonly float _downshiftAfterDeath = 5f;
-        private readonly float _downshiftDuration = 2.7f;
-        private readonly float _downshiftDelaySecond = 3f;
+        private readonly float _downshiftAfterDeath = 1.5f;
+        private readonly float _downshiftDuration = 1.76f;
+        private readonly float _downshiftDelaySecond = 2f;
 
         [SerializeField] private Animator _animator;
+        [SerializeField] [RequireInterface(typeof(IHealth))] private MonoBehaviour _health;
 
         public AnimatorState State { get; private set; }
+
+        private IHealth Health => (IHealth) _health;
 
         public event Action DeathAnimationEnded;
 
@@ -36,6 +41,17 @@ namespace Sources.Enemy
         private void Awake()
         {
             _animator ??= GetComponent<Animator>();
+        }
+
+        private void OnEnable()
+        {
+            RestorePosition();
+            Health.Empty += OnEmptyHealth;
+        }
+
+        private void OnDisable()
+        {
+            Health.Empty -= OnEmptyHealth;
         }
 
         public void PlayHit() => _animator.SetTrigger(Hit);
@@ -54,12 +70,6 @@ namespace Sources.Enemy
 
         public void SetSpeed(float speed) => _animator.SetFloat(Speed, speed);
 
-        private void PlayPostDeath()
-        {
-            transform.DOMoveY(transform.position.y - _downshiftAfterDeath, _downshiftDuration)
-                .SetDelay(_downshiftDelaySecond).OnComplete(() => DeathAnimationEnded?.Invoke());
-        }
-
         public void EnteredState(int stateHash)
         {
             SetStateBy(stateHash);
@@ -67,6 +77,25 @@ namespace Sources.Enemy
 
         public void ExitedState(int stateHash)
         {
+        }
+
+        private void PlayPostDeath()
+        {
+            transform.DOMoveY(transform.position.y - _downshiftAfterDeath, _downshiftDuration)
+                .SetDelay(_downshiftDelaySecond).OnComplete(InvokeAfterDeathAnimation);
+        }
+
+        private void RestorePosition()
+        {
+            transform.localPosition = transform.localPosition.SetY(0);
+        }
+
+        private void OnEmptyHealth()
+            => PlayDeath();
+
+        private void InvokeAfterDeathAnimation()
+        {
+            DeathAnimationEnded?.Invoke();
         }
 
         [UsedImplicitly]

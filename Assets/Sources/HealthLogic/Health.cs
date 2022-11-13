@@ -14,27 +14,44 @@ namespace Sources.HealthLogic
         public int Max => _maxPoints;
         public int Current => _currentPoints;
         public bool IsAlive => _currentPoints > 0;
+        public bool IsDead => !IsAlive;
+
+        private void OnEnable()
+        {
+            _currentPoints = _maxPoints;
+        }
 
         public void Damage(int value)
         {
-            if (IsAlive == false)
+            ValidateDamage(value);
+
+            if (IsDead)
             {
                 return;
             }
 
+            _currentPoints -= value;
+            CheckIsLethalDamage();
+            Damaged?.Invoke();
+        }
+
+        private void CheckIsLethalDamage()
+        {
+            if (_currentPoints > 0)
+            {
+                return;
+            }
+
+            Empty?.Invoke();
+            _currentPoints = 0;
+        }
+
+        private static void ValidateDamage(int value)
+        {
             if (value < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
-
-            _currentPoints -= value;
-
-            if (_currentPoints <= 0)
-            {
-                _currentPoints = 0;
-            }
-
-            Damaged?.Invoke();
         }
     }
 }
