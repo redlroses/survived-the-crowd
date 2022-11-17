@@ -18,6 +18,11 @@ namespace Sources.Enemy
         private IEnemyAnimator Animator => (IEnemyAnimator) _animator;
         private IHealth Health => (IHealth) _health;
 
+        private void Start()
+        {
+            Debug.Log(name + "start");
+        }
+
         private void OnEnable()
         {
             Animator.DeathAnimationEnded += Disable;

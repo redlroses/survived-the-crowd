@@ -19,6 +19,7 @@ namespace Sources.Enemy
 
         private void Awake()
         {
+            _setNewPath = null;
             _path = new NavMeshPath();
             _waitUntilHasPath = new WaitUntil(IsStopped);
             _waitForNewPath = new WaitForSeconds(_moveDelay);
@@ -36,6 +37,7 @@ namespace Sources.Enemy
 
         private void StartIdeMoving()
         {
+            Debug.Log(name + " on enable");
             _agent.speed = _speed;
             _isIdleMove = true;
             _setNewPath ??= StartCoroutine(SetNewPath());
@@ -52,15 +54,22 @@ namespace Sources.Enemy
         {
             while (_isIdleMove)
             {
+                Debug.Log("before wait");
+                
+                yield return _waitForNewPath;
+                yield return _waitUntilHasPath;
+
+                Debug.Log("after wait");
+                
                 Vector3 nextPosition = _idleArea.GetRandomPosition();
 
+                Debug.Log("nextPosition " + nextPosition);
+                
                 if (_agent.CalculatePath(nextPosition, _path))
                 {
+                    Debug.Log("is calcilate path");
                     _agent.SetPath(_path);
                 }
-
-                yield return _waitUntilHasPath;
-                yield return _waitForNewPath;
             }
         }
 

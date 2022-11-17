@@ -16,9 +16,9 @@ namespace Sources.Enemy
 
         public Vector3 GetRandomPosition()
         {
-            float randomXPosition = Random.Range(_bounds.min.x, _bounds.max.x);
-            float randomZPosition = Random.Range(_bounds.min.z, _bounds.max.z);
-            Vector3 randomInnerPosition = new Vector3(randomXPosition, _bounds.center.y, randomZPosition);
+            float randomXPosition = Random.Range(_idleCollider.bounds.min.x, _idleCollider.bounds.max.x);
+            float randomZPosition = Random.Range(_idleCollider.bounds.min.z, _idleCollider.bounds.max.z);
+            Vector3 randomInnerPosition = new Vector3(randomXPosition, _idleCollider.bounds.center.y, randomZPosition);
             return _idleCollider.ClosestPoint(randomInnerPosition);
         }
     }

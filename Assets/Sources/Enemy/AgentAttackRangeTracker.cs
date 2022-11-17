@@ -1,7 +1,6 @@
 ﻿using System;
 using Sources.Custom;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Sources.Enemy
 {
@@ -38,5 +37,10 @@ namespace Sources.Enemy
 
         private bool IsEnteredInAttackRange()
             => Vector3.Distance(Target.GetAttackPoint(transform.position), transform.position) < _range && _isWithinReach == false;
+
+        public void Init(IAttackable attackable)
+        {
+            _target = (MonoBehaviour) attackable;
+        }
     }
 }
