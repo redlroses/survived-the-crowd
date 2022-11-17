@@ -38,7 +38,6 @@ namespace Sources.Enemy
         {
             OverlapSphereData data = new OverlapSphereData(_hitCenter.position, _hitRadius, _layer);
             DamageDealer.DealDamage(_hitDamage, data);
-            // DamageDealer.DealDamage(_hitDamage, _hitCenter.position, _hitRadius, _layer);
         }
     }
 }

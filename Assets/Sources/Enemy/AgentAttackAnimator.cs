@@ -29,7 +29,7 @@ namespace Sources.Enemy
 
         private void OnDisable()
         {
-            StopCoroutine(_attacking);
+            OnStopAttack();
             _rangeTracker.EnteredRange -= OnStartAttack;
             _rangeTracker.OutOfRange -= OnStopAttack;
         }
@@ -52,7 +52,12 @@ namespace Sources.Enemy
         private void OnStopAttack()
         {
             _isAttacking = false;
-            StopCoroutine(_attacking);
+
+            if (_attacking != null)
+            {
+                StopCoroutine(_attacking);
+            }
+
             _attacking = null;
         }
     }

@@ -1,6 +1,5 @@
 ﻿using Sources.AnimatorStateMachine;
 using Sources.Custom;
-using Sources.HealthLogic;
 using Sources.Tools.Extensions;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,6 +14,7 @@ namespace Sources.Enemy
         [SerializeField] private AgentAttackRangeTracker _rangeTracker;
         [SerializeField] [RequireInterface(typeof(IAttackable))] private MonoBehaviour _attackable;
         [SerializeField] [RequireInterface(typeof(IAnimationStateReader))] private MonoBehaviour _stateReader;
+        [SerializeField] private float _speed;
 
         private Vector3 _attackPoint;
         private bool _isInAttackRange;
@@ -24,6 +24,7 @@ namespace Sources.Enemy
 
         private void OnEnable()
         {
+            _agent.speed = _speed;
             _rangeTracker.EnteredRange += OnEnteredRange;
             _rangeTracker.OutOfRange += OnOutOfRange;
         }
@@ -70,7 +71,7 @@ namespace Sources.Enemy
 
         private void MoveToPoint(Vector3 destination)
         {
-            _agent.destination = destination;
+            _agent.SetDestination(destination);
         }
 
         private void RotateTo(Vector3 attackPoint)
