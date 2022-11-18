@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Tools.Extensions
+namespace Sources.Tools.Extensions
 {
     public static class MathfExtensions
     {

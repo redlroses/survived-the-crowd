@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public sealed class CameraFollower : MonoBehaviour
+namespace Sources
 {
-    [SerializeField] private Transform _target;
-
-    private void LateUpdate()
+    public sealed class CameraFollower : MonoBehaviour
     {
-        transform.position = _target.position;
+        [SerializeField] private Transform _target;
+
+        private void LateUpdate()
+        {
+            transform.position = _target.position;
+        }
     }
 }

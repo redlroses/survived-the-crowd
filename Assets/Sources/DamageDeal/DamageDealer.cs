@@ -8,7 +8,9 @@ namespace Sources.DamageDeal
 {
     public static class DamageDealer
     {
-        private static readonly Collider[] _hitColliders = new Collider[1];
+        private static readonly Collider[] HitColliders = new Collider[1];
+
+        //TODO: отрефакторить - убрать статик
 
         public static event Action<RaycastHit> RayHited;
 
@@ -31,8 +33,8 @@ namespace Sources.DamageDeal
         private static bool TryHit(OverlapSphereData data, out IDamageable damageable)
         {
             damageable = null;
-            int hitsCount = Physics.OverlapSphereNonAlloc(data.SphereCenter, data.SphereRadius, _hitColliders, data.Mask);
-            return hitsCount > 0 && _hitColliders.FirstOrDefault().TryGetComponent(out damageable);
+            int hitsCount = Physics.OverlapSphereNonAlloc(data.SphereCenter, data.SphereRadius, HitColliders, data.Mask);
+            return hitsCount > 0 && HitColliders.FirstOrDefault().TryGetComponent(out damageable);
         }
 
         private static bool TryHit(RayCastData data, out IDamageable damageable)

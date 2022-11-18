@@ -1,5 +1,4 @@
-﻿using Sources.Enemy;
-using Sources.HealthLogic;
+﻿using Sources.HealthLogic;
 using UnityEngine;
 
 namespace Sources.Player

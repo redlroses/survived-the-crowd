@@ -1,4 +1,4 @@
-namespace Fuel
+namespace Sources.Fuel
 {
     public enum SpawnPointState
     {

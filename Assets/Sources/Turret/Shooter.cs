@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using Sources.Custom;
-using Turret;
 using UnityEngine;
 
 namespace Sources.Turret

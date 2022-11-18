@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Sources.Custom
+namespace Sources
 {
     public class RequireInterface : PropertyAttribute
     {

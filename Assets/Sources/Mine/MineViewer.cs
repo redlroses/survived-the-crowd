@@ -1,10 +1,10 @@
 using UnityEngine;
 
-namespace Mine
+namespace Sources.Mine
 {
     public sealed class MineViewer : MonoBehaviour
     {
-        [SerializeField] private Mine _mine;
+        [SerializeField] private global::Sources.Mine.Mine _mine;
         [SerializeField] private GameObject _explosionEffect;
         [SerializeField] private GameObject _meshes;
         [SerializeField] private Collider _collider;

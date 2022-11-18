@@ -1,7 +1,7 @@
 using Sources.Input;
+using Sources.Tools;
 using Sources.Tools.Extensions;
 using Sources.Vehicle;
-using Tools;
 using UnityEngine;
 
 namespace Sources.Player

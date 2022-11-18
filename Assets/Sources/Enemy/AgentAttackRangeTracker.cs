@@ -1,5 +1,4 @@
 ﻿using System;
-using Sources.Custom;
 using UnityEngine;
 
 namespace Sources.Enemy
@@ -33,10 +32,16 @@ namespace Sources.Enemy
         }
 
         private bool IsOutOfAttackRange()
-            => Vector3.Distance(Target.GetAttackPoint(transform.position), transform.position) >= _maxRange && _isWithinReach;
+        {
+            Vector3 selfPosition = transform.position;
+            return Vector3.Distance(Target.GetAttackPoint(selfPosition), selfPosition) >= _maxRange && _isWithinReach;
+        }
 
         private bool IsEnteredInAttackRange()
-            => Vector3.Distance(Target.GetAttackPoint(transform.position), transform.position) < _range && _isWithinReach == false;
+        {
+            Vector3 selfPosition = transform.position;
+            return Vector3.Distance(Target.GetAttackPoint(selfPosition), selfPosition) < _range && _isWithinReach == false;
+        }
 
         public void Init(IAttackable attackable)
         {

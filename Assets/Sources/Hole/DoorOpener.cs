@@ -1,7 +1,7 @@
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
-namespace Hole
+namespace Sources.Hole
 {
     public sealed class DoorOpener : MonoBehaviour
     {

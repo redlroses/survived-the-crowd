@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-namespace Turret
+namespace Sources.Turret
 {
     public sealed class TargetSeeker : MonoBehaviour
     {

@@ -1,5 +1,4 @@
-﻿using Tools;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Sources.Tools.Extensions
 {
@@ -12,28 +11,18 @@ namespace Sources.Tools.Extensions
         }
 
         public static Vector3 SetX(this Vector3 baseVector, float to)
-        {
-            return new Vector3(baseVector.x, to, baseVector.z);
-        }
+            => new Vector3(baseVector.x, to, baseVector.z);
 
         public static Vector3 SetY(this Vector3 baseVector, float to)
-        {
-            return new Vector3(baseVector.x, to, baseVector.z);
-        }
+            => new Vector3(baseVector.x, to, baseVector.z);
 
         public static Vector3 SetZ(this Vector3 baseVector, float to)
-        {
-            return new Vector3(baseVector.x, baseVector.y, to);
-        }
+            => new Vector3(baseVector.x, baseVector.y, to);
 
         public static Vector2 ToInputFormat(this Vector3 baseVector)
-        {
-            return new Vector2(baseVector.x, baseVector.z).normalized;
-        }
+            => new Vector2(baseVector.x, baseVector.z).normalized;
 
         public static Vector2 ToWorld(this Vector2 baseVector)
-        {
-            return baseVector.RotateVector2(-Constants.HalfPiDegrees);
-        }
+            => baseVector.RotateVector2(-Constants.HalfPiDegrees);
     }
 }

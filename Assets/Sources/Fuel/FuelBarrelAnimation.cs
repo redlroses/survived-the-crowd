@@ -3,7 +3,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
-namespace Animations
+namespace Sources.Fuel
 {
     public sealed class FuelBarrelAnimation : MonoBehaviour
     {

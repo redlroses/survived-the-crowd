@@ -1,8 +1,6 @@
-using Fuel;
 using Sources.Fuel;
-using Sources.Pool;
 
-namespace Pool
+namespace Sources.Pool
 {
     public sealed class FuelBarrelPool : ObjectPool<FuelBarrel>
     {

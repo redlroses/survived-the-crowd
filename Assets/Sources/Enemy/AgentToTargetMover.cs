@@ -1,5 +1,4 @@
 ﻿using Sources.AnimatorStateMachine;
-using Sources.Custom;
 using Sources.Tools.Extensions;
 using UnityEngine;
 using UnityEngine.AI;
@@ -76,14 +75,22 @@ namespace Sources.Enemy
 
         private void RotateTo(Vector3 attackPoint)
         {
-            Quaternion toTargetRotation = Quaternion.LookRotation(attackPoint - transform.position, Vector3.up);
+            Vector3 lookDirection = attackPoint - transform.position;
+
+            if (lookDirection == Vector3.zero)
+            {
+                return;
+            }
+
+            Quaternion toTargetRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
             transform.rotation = Quaternion.Lerp(transform.rotation, toTargetRotation, Time.deltaTime * _rotatingSpeed);
         }
 
         private Vector3 FindAttackPoint()
         {
-            Vector3 attackPoint = Attackable.GetAttackPoint(attackerPosition: transform.position)
-                .SetY(transform.position.y);
+            var selfPosition = transform.position;
+            Vector3 attackPoint = Attackable.GetAttackPoint(attackerPosition: selfPosition)
+                .SetY(selfPosition.y);
             return attackPoint;
         }
     }

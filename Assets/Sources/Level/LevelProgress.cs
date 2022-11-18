@@ -1,5 +1,3 @@
-using Level;
-using Level.Infrastructure;
 using Sources.Level.Infrastructure;
 using UnityEngine;
 

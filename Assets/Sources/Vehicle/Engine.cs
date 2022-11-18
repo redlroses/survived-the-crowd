@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Vehicle;
 
 namespace Sources.Vehicle
 {
@@ -19,9 +18,7 @@ namespace Sources.Vehicle
         }
 
         public float CalculateNewSpeed(float currentSpeed)
-        {
-            return _speedCalculation(currentSpeed);
-        }
+            => _speedCalculation(currentSpeed);
 
         public void BeginAcceleration()
         {
@@ -51,9 +48,7 @@ namespace Sources.Vehicle
         }
 
         private float UniformMotion(float currentSpeed)
-        {
-            return currentSpeed;
-        }
+            => currentSpeed;
 
         private void BurnFuel(float currentSpeed)
         {

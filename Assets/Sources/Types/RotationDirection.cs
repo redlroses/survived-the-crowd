@@ -1,4 +1,4 @@
-namespace Types
+namespace Sources.Types
 {
     public enum RotationDirection : sbyte
     {

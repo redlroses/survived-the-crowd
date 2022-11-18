@@ -1,4 +1,4 @@
-namespace Tools
+namespace Sources.Tools
 {
     public static class Constants
     {

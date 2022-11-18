@@ -46,7 +46,7 @@ namespace Sources.HealthLogic
             _currentPoints = 0;
         }
 
-        private static void ValidateDamage(int value)
+        private void ValidateDamage(int value)
         {
             if (value < 0)
             {

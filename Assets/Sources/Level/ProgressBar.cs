@@ -9,7 +9,7 @@ namespace Sources.Level
         private readonly int _maxProgress;
         private readonly int _stages;
 
-        private int _stage = 0;
+        private int _stage;
 
         public ProgressBar(int stages, int maxProgress = 1)
         {

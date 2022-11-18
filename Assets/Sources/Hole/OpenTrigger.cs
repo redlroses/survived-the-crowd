@@ -1,7 +1,7 @@
 ﻿using Sources.Player;
 using UnityEngine;
 
-namespace Hole
+namespace Sources.Hole
 {
     public sealed class OpenTrigger : MonoBehaviour
     {

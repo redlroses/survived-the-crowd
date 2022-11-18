@@ -1,12 +1,10 @@
-using System;
 using System.Collections;
 using System.Linq;
-using Pool;
-using UnityEngine;
-using Sources.Fuel;
+using Sources.Pool;
 using Sources.Tools.Extensions;
+using UnityEngine;
 
-namespace Fuel
+namespace Sources.Fuel
 {
     [RequireComponent(typeof(FuelBarrelPool))]
     public sealed class FuelBarrelFactory : MonoBehaviour

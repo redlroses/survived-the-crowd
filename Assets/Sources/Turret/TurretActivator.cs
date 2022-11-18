@@ -1,11 +1,9 @@
 using DG.Tweening;
-using Hole;
-using Sources.Creatures.Player;
-using Sources.HealthLogic;
+using Sources.Hole;
 using Sources.Player;
 using UnityEngine;
 
-namespace Turret
+namespace Sources.Turret
 {
     public sealed class TurretActivator : MonoBehaviour
     {
@@ -16,7 +14,7 @@ namespace Turret
         [SerializeField] private float _riseTime;
         [SerializeField] private float _riseDelay;
 
-        private bool _isActivated = false;
+        private bool _isActivated;
 
         private void OnTriggerEnter(Collider other)
         {

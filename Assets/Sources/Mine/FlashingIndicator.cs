@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Mine
+namespace Sources.Mine
 {
     public sealed class FlashingIndicator : MonoBehaviour
     {
-        [SerializeField] private Mine _mine;
+        [SerializeField] private global::Sources.Mine.Mine _mine;
         [SerializeField] private float _baseFlickRate;
         [SerializeField] private float _minFlickRate;
         [SerializeField] private float _linearityOfTime = 0.2f;

@@ -2,7 +2,6 @@ using System;
 using DG.Tweening;
 using JetBrains.Annotations;
 using Sources.AnimatorStateMachine;
-using Sources.Custom;
 using Sources.HealthLogic;
 using Sources.Tools.Extensions;
 using UnityEngine;

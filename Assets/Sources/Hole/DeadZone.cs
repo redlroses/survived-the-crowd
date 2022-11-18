@@ -1,11 +1,9 @@
-using System;
-using Sources.Creatures;
-using Sources.Creatures.Player;
+using Sources.Enemy;
 using Sources.HealthLogic;
 using Sources.Player;
 using UnityEngine;
 
-namespace Hole
+namespace Sources.Hole
 {
     public sealed class DeadZone : MonoBehaviour
     {

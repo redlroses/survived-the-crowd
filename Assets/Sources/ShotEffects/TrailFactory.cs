@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Sources.ShotEffects
 {
     [RequireComponent(typeof(TrailPool))]
-    public class TrailFactory : MonoBehaviour
+    public sealed class TrailFactory : MonoBehaviour
     {
         [SerializeField] private Transform _shotTransform;
         [SerializeField] private TrailPool _pool;

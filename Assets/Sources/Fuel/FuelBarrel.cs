@@ -1,7 +1,7 @@
 using System;
 using Sources.Pool;
+using Sources.Vehicle;
 using UnityEngine;
-using Vehicle;
 
 namespace Sources.Fuel
 {

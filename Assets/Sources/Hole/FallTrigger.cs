@@ -1,9 +1,8 @@
 using System;
-using Sources.Creatures;
 using Sources.HealthLogic;
 using UnityEngine;
 
-namespace Hole
+namespace Sources.Hole
 {
     public sealed class FallTrigger : MonoBehaviour
     {

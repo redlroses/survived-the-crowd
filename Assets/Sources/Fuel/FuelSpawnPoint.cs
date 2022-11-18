@@ -1,7 +1,6 @@
-using Sources.Fuel;
 using UnityEngine;
 
-namespace Fuel
+namespace Sources.Fuel
 {
     public sealed class FuelSpawnPoint : MonoBehaviour
     {

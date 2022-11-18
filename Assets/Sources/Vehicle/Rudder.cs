@@ -1,9 +1,9 @@
 using System;
+using Sources.Tools.Extensions;
+using Sources.Types;
 using Sources.Vehicle.View;
-using Tools.Extensions;
-using Types;
 using UnityEngine;
-using static Tools.Constants;
+using static Sources.Tools.Constants;
 using static UnityEngine.Gizmos;
 using static UnityEngine.Mathf;
 

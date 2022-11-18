@@ -1,11 +1,10 @@
 using System;
 using System.Collections;
-using Sources.Creatures.Player;
 using Sources.HealthLogic;
 using Sources.Player;
 using UnityEngine;
 
-namespace Mine
+namespace Sources.Mine
 {
     public sealed class Mine : MonoBehaviour
     {

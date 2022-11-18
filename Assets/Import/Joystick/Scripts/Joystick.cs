@@ -55,7 +55,6 @@ namespace Import.Joystick.Scripts
             _background.gameObject.SetActive(true);
             OnDrag(eventData);
             StickDown?.Invoke();
-            Debug.Log("Stick down");
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -75,7 +74,6 @@ namespace Import.Joystick.Scripts
             _input = Vector2.zero;
             _handle.anchoredPosition = Vector2.zero;
             StickUp?.Invoke();
-            Debug.Log("Stick up");
         }
 
         private void HandleInput(float magnitude, Vector2 normalised)

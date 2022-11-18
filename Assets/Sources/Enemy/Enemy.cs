@@ -1,5 +1,4 @@
 using System;
-using Sources.Custom;
 using Sources.HealthLogic;
 using Sources.Pool;
 using UnityEngine;
@@ -17,11 +16,6 @@ namespace Sources.Enemy
         public event Action<Enemy> Destroyed;
         private IEnemyAnimator Animator => (IEnemyAnimator) _animator;
         private IHealth Health => (IHealth) _health;
-
-        private void Start()
-        {
-            Debug.Log(name + "start");
-        }
 
         private void OnEnable()
         {

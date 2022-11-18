@@ -1,5 +1,8 @@
 using UnityEngine;
 
-public sealed class Ground : MonoBehaviour
+namespace Sources
 {
+    public sealed class Ground : MonoBehaviour
+    {
+    }
 }

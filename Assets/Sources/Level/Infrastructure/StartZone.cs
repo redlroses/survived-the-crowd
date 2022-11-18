@@ -1,7 +1,6 @@
-using Sources.Level.Infrastructure;
 using UnityEngine;
 
-namespace Level.Infrastructure
+namespace Sources.Level.Infrastructure
 {
     public sealed class StartZone : GameZone
     {

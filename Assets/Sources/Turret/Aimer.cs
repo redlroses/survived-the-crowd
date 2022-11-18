@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Turret
+namespace Sources.Turret
 {
     [RequireComponent(typeof(Rotator))]
     [RequireComponent(typeof(TargetSeeker))]

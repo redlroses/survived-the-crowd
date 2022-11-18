@@ -1,7 +1,7 @@
-using Tools;
+using Sources.Tools;
 using UnityEngine;
 
-namespace Vehicle
+namespace Sources.Vehicle
 {
     public sealed class GasTank : MonoBehaviour
     {
