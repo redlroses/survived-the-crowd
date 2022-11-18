@@ -2,7 +2,7 @@
 
 namespace Sources.DamageDeal.Data
 {
-    public class RayCastData
+    public class RayCastData : DamageData
     {
         public RayCastData(Ray ray, LayerMask mask)
         {

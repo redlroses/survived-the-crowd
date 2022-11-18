@@ -1,7 +1,6 @@
 ﻿namespace Sources.DamageDeal.Data
 {
-    public class DamageData
+    public abstract class DamageData
     {
-        
     }
 }

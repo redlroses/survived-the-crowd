@@ -1,5 +1,4 @@
 using System;
-using Sources.DamageDeal;
 using Sources.DamageDeal.Data;
 using UnityEngine;
 
@@ -13,12 +12,19 @@ namespace Sources.Turret
 
         public event Action ShotOff;
 
+        public RayDamageDealer RayDamageDealer { get; private set; }
+
+        private void Awake()
+        {
+            RayDamageDealer = new RayDamageDealer();
+        }
+
         public void MakeShot()
         {
             Ray ray = new Ray(_shotPoint.position, _shotPoint.forward);
             RayCastData data = new RayCastData(ray, _layer);
-            DamageDealer.DealDamage(_shotDamage, data);
             ShotOff?.Invoke();
+            RayDamageDealer.DealDamage(_shotDamage, data);
         }
     }
 }

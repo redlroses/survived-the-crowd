@@ -16,7 +16,14 @@ namespace Sources.Enemy
         [Space][Header("Attack")]
         [SerializeField] private int _hitDamage;
 
+        private OverlapSphereDamageDealer _damageDealer;
+
         private IEnemyAnimator Animator => (IEnemyAnimator) _animator;
+
+        private void Awake()
+        {
+            _damageDealer = new OverlapSphereDamageDealer();
+        }
 
         private void OnEnable()
         {
@@ -36,7 +43,7 @@ namespace Sources.Enemy
         private void Attack()
         {
             OverlapSphereData data = new OverlapSphereData(_hitCenter.position, _hitRadius, _layer);
-            DamageDealer.DealDamage(_hitDamage, data);
+            _damageDealer.DealDamage(_hitDamage, data);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Sources.DamageDeal.Data
 {
-    public class OverlapSphereData
+    public class OverlapSphereData : DamageData
     {
         public OverlapSphereData(Vector3 sphereCenter, float sphereRadius, LayerMask layerMask)
         {

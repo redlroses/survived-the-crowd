@@ -1,4 +1,5 @@
 ﻿using Sources.DamageDeal;
+using Sources.Turret;
 using UnityEngine;
 
 namespace Sources.ShotEffects
@@ -6,6 +7,7 @@ namespace Sources.ShotEffects
     [RequireComponent(typeof(TrailPool))]
     public sealed class TrailFactory : MonoBehaviour
     {
+        [SerializeField] private RayShotMaker _rayShotMaker;
         [SerializeField] private Transform _shotTransform;
         [SerializeField] private TrailPool _pool;
 
@@ -16,12 +18,12 @@ namespace Sources.ShotEffects
 
         private void OnEnable()
         {
-            DamageDealer.RayHited += Draw;
+            _rayShotMaker.RayDamageDealer.RayHit += Draw;
         }
 
         private void OnDisable()
         {
-            DamageDealer.RayHited -= Draw;
+            _rayShotMaker.RayDamageDealer.RayHit -= Draw;
         }
 
         private void Draw(RaycastHit hit)

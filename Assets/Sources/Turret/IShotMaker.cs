@@ -2,7 +2,7 @@
 
 namespace Sources.Turret
 {
-    internal interface IShotMaker
+    public interface IShotMaker
     {
         public event Action ShotOff;
         public void MakeShot();

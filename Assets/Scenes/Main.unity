@@ -9077,6 +9077,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3502520702935187320}
   m_PrefabAsset: {fileID: 0}
+--- !u!136 &1900870075 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 6182600510270755779, guid: addfdba0dabd3cc40adddd7dbe08ade3,
+    type: 3}
+  m_PrefabInstance: {fileID: 3502520702935187320}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1904144291
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9491,7 +9497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pool: {fileID: 2027237527}
-  _enemiesPerLevel: 1
+  _enemiesPerLevel: 10
   _spawnPoint: {fileID: 1368152489}
 --- !u!114 &2027237527
 MonoBehaviour:
@@ -79007,6 +79013,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5287018565041529617, guid: addfdba0dabd3cc40adddd7dbe08ade3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5287018565041529617, guid: addfdba0dabd3cc40adddd7dbe08ade3,
+        type: 3}
+      propertyPath: _ownerHurtBox
+      value: 
+      objectReference: {fileID: 1900870075}
+    - target: {fileID: 6182600509182622992, guid: addfdba0dabd3cc40adddd7dbe08ade3,
+        type: 3}
+      propertyPath: _acceleration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6182600509182622992, guid: addfdba0dabd3cc40adddd7dbe08ade3,
+        type: 3}
+      propertyPath: _maxMoveSpeed
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6182600509182622999, guid: addfdba0dabd3cc40adddd7dbe08ade3,
+        type: 3}
+      propertyPath: _maxFuel
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6182600509182622999, guid: addfdba0dabd3cc40adddd7dbe08ade3,
+        type: 3}
+      propertyPath: _fuelLevel
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: addfdba0dabd3cc40adddd7dbe08ade3, type: 3}
 --- !u!1001 &4615638572681418155
@@ -79033,11 +79069,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Serpent Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 5126573251260583773, guid: 8a6eedee1524ac54a8889774c93d8268,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8469721867714096840, guid: 8a6eedee1524ac54a8889774c93d8268,
         type: 3}

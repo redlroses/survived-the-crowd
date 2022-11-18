@@ -9,7 +9,7 @@ namespace Sources.ShotEffects
         [SerializeField] [RequireInterface(typeof(IShotMaker))] private MonoBehaviour _shooter;
         [SerializeField] private ParticleSystem _shootEffects;
 
-        private IShotMaker Shooter => (IShotMaker) _shooter;
+        private IShotMaker Shooter => _shooter as IShotMaker;
 
         private void OnEnable()
         {
