@@ -10,14 +10,16 @@ namespace Sources.Turret
         [SerializeField] private Transform _shotPoint;
         [SerializeField] private LayerMask _layer;
 
+        private RayDamageDealer _rayDamageDealer = new RayDamageDealer();
+
         public event Action ShotOff;
 
-        public RayDamageDealer RayDamageDealer { get; private set; }
+        public RayDamageDealer RayDamageDealer => _rayDamageDealer;
 
-        private void Awake()
-        {
-            RayDamageDealer = new RayDamageDealer();
-        }
+        // private void Awake()
+        // {
+        //     RayDamageDealer = new RayDamageDealer();
+        // }
 
         public void MakeShot()
         {
