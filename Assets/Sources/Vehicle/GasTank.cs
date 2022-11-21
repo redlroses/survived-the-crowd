@@ -1,3 +1,4 @@
+using System;
 using Sources.Tools;
 using UnityEngine;
 
@@ -8,8 +9,10 @@ namespace Sources.Vehicle
         [SerializeField] private float _fuelLevel;
         [SerializeField] private float _maxFuel;
 
-        public bool Empty => _fuelLevel <= 0;
+        public bool IsEmpty => _fuelLevel <= 0;
         public float FuelLevelPercent => _fuelLevel / _maxFuel * Constants.ToPercent;
+
+        public event Action Empty;
 
         private void Start()
         {
@@ -28,8 +31,9 @@ namespace Sources.Vehicle
 
         public void Reduce(float amount)
         {
-            if (Empty)
+            if (IsEmpty)
             {
+                Empty?.Invoke();
                 return;
             }
 

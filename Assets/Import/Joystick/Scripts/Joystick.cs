@@ -23,7 +23,7 @@ namespace Import.Joystick.Scripts
         private Canvas _canvas;
         private Vector2 _input = Vector2.zero;
 
-        public event Action<float, float> StickDeviated;
+        public event Action StickDeviated;
         public event Action StickDown;
         public event Action StickUp;
 
@@ -65,7 +65,7 @@ namespace Import.Joystick.Scripts
             FormatInput();
             HandleInput(_input.magnitude, _input.normalized);
             _handle.anchoredPosition = _input * radius * _handleRange;
-            StickDeviated?.Invoke(Horizontal, Vertical);
+            StickDeviated?.Invoke();
         }
 
         public void OnPointerUp(PointerEventData eventData)

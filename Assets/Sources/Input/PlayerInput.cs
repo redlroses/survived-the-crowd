@@ -30,9 +30,10 @@ namespace Sources.Input
 
         private void Update()
         {
-            Vector2 direction = _isInput
+            var direction = _isInput && _joystick.Direction != Vector2.zero
                 ? _joystick.Direction.RotateVector2(byAngle: _cameraRotationCompensation).ToWorld()
                 : Vector2.zero;
+
             Mover.Move(direction);
         }
 

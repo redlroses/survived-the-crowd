@@ -42,15 +42,17 @@ namespace Sources.Player
 
         public void Move(Vector2 newDirection)
         {
-            if (Mathf.Approximately(newDirection.magnitude, 0f))
+            if (Mathf.Approximately(newDirection.sqrMagnitude, 0f))
             {
                 RotateToDirection(_prevDirection);
             }
             else
             {
+                Debug.Log(_prevDirection);
                 RotateToDirection(newDirection);
                 _prevDirection = _vehicle.Rudder.WheelDirection.ToInputFormat();
             }
+
         }
 
         public void Accelerate()

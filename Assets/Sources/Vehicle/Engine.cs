@@ -17,12 +17,27 @@ namespace Sources.Vehicle
             _speedCalculation = UniformMotion;
         }
 
+        private void OnEnable()
+        {
+            _gasTank.Empty += OnEmptyGasTank;
+        }
+
+        private void OnDisable()
+        {
+            _gasTank.Empty -= OnEmptyGasTank;
+        }
+
+        private void OnEmptyGasTank()
+        {
+            StopAcceleration();
+        }
+
         public float CalculateNewSpeed(float currentSpeed)
             => _speedCalculation(currentSpeed);
 
         public void BeginAcceleration()
         {
-            if (_gasTank.Empty)
+            if (_gasTank.IsEmpty)
             {
                 StopAcceleration();
                 return;
