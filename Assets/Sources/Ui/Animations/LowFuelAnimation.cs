@@ -1,15 +1,12 @@
-using System;
 using DG.Tweening;
 using Sources.Vehicle;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Sources.Ui
+namespace Sources.Ui.Animations
 {
     public sealed class LowFuelAnimation : MonoBehaviour
     {
-        private const int Infinite = -1;
-
         [SerializeField] private Image _icon;
         [SerializeField] private GasTank _gasTank;
         [SerializeField] [Range(0, 100f)] private float _levelTrigger = 20f;
@@ -17,7 +14,6 @@ namespace Sources.Ui
 
         private Sequence _animationSequence;
         private bool _isPlaying;
-        private Tween _animation;
 
         private void Start()
         {
@@ -46,7 +42,6 @@ namespace Sources.Ui
         {
             if (_isPlaying)
             {
-                Debug.Log("complete");
                 _animationSequence.Restart();
             }
             else
