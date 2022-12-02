@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Sources.Player
 {
-    public class PlayerHealth : Health, IAttackable
+    public sealed class PlayerHealth : Health, IAttackable
     {
         [SerializeField] private Collider _hurtBox;
 
