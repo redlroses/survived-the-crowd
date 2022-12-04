@@ -15,16 +15,30 @@ namespace Sources.Fuel
         [SerializeField] private FuelSpawnPoint[] _spawnPoints;
 
         private WaitForSeconds _waitForSpawnDelay;
+        private Coroutine _spawning;
 
         private void Awake()
         {
             _pool ??= GetComponent<FuelBarrelPool>();
         }
 
-        private void Start()
+        public void Run()
         {
             _waitForSpawnDelay = new WaitForSeconds(_spawnDelay);
             StartSpawning();
+        }
+
+        public void Stop()
+        {
+            StopSpawning();
+        }
+
+        public void DisableAll()
+        {
+            foreach (var spawnPoint in _spawnPoints)
+            {
+                spawnPoint.Clear();
+            }
         }
 
         private FuelSpawnPoint GetSpawnPoint()
@@ -44,7 +58,14 @@ namespace Sources.Fuel
         private void StartSpawning()
         {
             _isSpawning = true;
-            StartCoroutine(Spawning());
+            _spawning ??= StartCoroutine(Spawning());
+        }
+
+        private void StopSpawning()
+        {
+            _isSpawning = false;
+            StopCoroutine(_spawning);
+            _spawning = null;
         }
 
         private IEnumerator Spawning()

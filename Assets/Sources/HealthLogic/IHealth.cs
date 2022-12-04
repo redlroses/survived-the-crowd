@@ -8,5 +8,6 @@ namespace Sources.HealthLogic
         public int Max { get; }
         public int Current { get; }
         public bool IsAlive { get; }
+        public void Damage(int value);
     }
 }

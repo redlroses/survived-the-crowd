@@ -10,6 +10,9 @@ namespace Sources.Fuel
         [SerializeField] private float _fuelAmount = 30f;
 
         public event Action<FuelBarrel> Destroyed;
+        public event Action PickedUp;
+
+        public float FuelAmount => _fuelAmount;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -25,6 +28,17 @@ namespace Sources.Fuel
         private void OnDestroy()
         {
             Destroyed?.Invoke(this);
+        }
+
+        public float PickUp()
+        {
+            PickedUp?.Invoke();
+            return _fuelAmount;
+        }
+
+        public void Disable()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

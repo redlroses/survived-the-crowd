@@ -6,7 +6,8 @@ namespace Sources.Vehicle
     public sealed class Engine : MonoBehaviour
     {
         [SerializeField] private GasTank _gasTank;
-        [SerializeField] [Min(0)] float _consumption = 0.01f;
+        [SerializeField] [Min(0)] float _consumption = 0.005f;
+        [SerializeField] [Min(0)] float _idleConsumption = 0.001f;
         [SerializeField] [Min(0)] private float _acceleration = 0.4f;
         [SerializeField] [Min(0)] private float _maxMoveSpeed = 15f;
 
@@ -63,11 +64,14 @@ namespace Sources.Vehicle
         }
 
         private float UniformMotion(float currentSpeed)
-            => currentSpeed;
+        {
+            BurnFuel(currentSpeed);
+            return currentSpeed;
+        }
 
         private void BurnFuel(float currentSpeed)
         {
-            float burnAmount = currentSpeed * _consumption;
+            float burnAmount = _idleConsumption + currentSpeed * _consumption;
             _gasTank.Reduce(burnAmount);
         }
     }

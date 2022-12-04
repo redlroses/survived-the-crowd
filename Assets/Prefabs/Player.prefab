@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1037889404924a8fa7d1b0eaceea2284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxPoints: 50
-  _currentPoints: 50
+  _maxPoints: 45
+  _currentPoints: 45
   _hurtBox: {fileID: 3502520702869770650}
 --- !u!65 &3502520702869770650
 BoxCollider:
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3502520703753373377}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ff73e1cf82434543aeec06a41d24530, type: 3}
   m_Name: 
@@ -572,6 +572,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 8774198834300159489, guid: 7191a0df8b6695d449a0f18a361bc311,
+        type: 3}
+      propertyPath: _ownerHurtBox
+      value: 
+      objectReference: {fileID: 6182600510270755779}
     m_RemovedComponents:
     - {fileID: 7302154059826053563, guid: 7191a0df8b6695d449a0f18a361bc311, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7191a0df8b6695d449a0f18a361bc311, type: 3}
@@ -611,6 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 698ae6d542954ec998a70e1799a1b2e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rayShotMaker: {fileID: 1972601186}
   _shotTransform: {fileID: 3498103072970557288}
   _pool: {fileID: 872118110}
 --- !u!114 &872118110
@@ -914,8 +920,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gasTank: {fileID: 6182600509182622999}
   _consumption: 0.01
-  _acceleration: 0.4
-  _maxMoveSpeed: 10
+  _acceleration: 0.5
+  _maxMoveSpeed: 16
 --- !u!114 &6182600509182622999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -928,8 +934,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6375d576234502545a94f86f2f76b3b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fuelLevel: 1000
-  _maxFuel: 1000
+  _fuelLevel: 20
+  _maxFuel: 100
 --- !u!114 &6847115353819374941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -945,6 +951,19 @@ MonoBehaviour:
   _engine: {fileID: 6182600509182622992}
   _gasTank: {fileID: 6182600509182622999}
   _rudder: {fileID: 5871851085956436689}
+--- !u!114 &7363073868906738516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7692307491158146862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab217290e1fa8be46ab537aea18511a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gasTank: {fileID: 6182600509182622999}
 --- !u!4 &7695044911437101596 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4003065149773328, guid: ac9102f1356132243931a01c705f2f8a,

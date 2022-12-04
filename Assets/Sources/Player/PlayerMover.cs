@@ -13,6 +13,8 @@ namespace Sources.Player
         [SerializeField] private float _rotationSpeed = 1;
         [SerializeField] private float _angleEpsilon = 0.0001f;
         [SerializeField] private float _moveSpeed;
+        [SerializeField] private Vector3 _startPosition;
+        [SerializeField] private Vector3 _startRotation;
 
         private Vector2 _prevDirection;
         private Vector2 _inputDirection;
@@ -40,6 +42,22 @@ namespace Sources.Player
             Gizmos.DrawRay(position, new Vector3(_inputDirection.x, position.y, _inputDirection.y) * 6f);
         }
 
+        public void Activate()
+        {
+            enabled = true;
+        }
+
+        public void Deactivate()
+        {
+            enabled = false;
+        }
+
+        public void ResetPosition()
+        {
+            _rigidbody.position = _startPosition;
+            _rigidbody.rotation = Quaternion.Euler(_startRotation);
+        }
+
         public void Move(Vector2 newDirection)
         {
             if (Mathf.Approximately(newDirection.sqrMagnitude, 0f))
@@ -48,11 +66,9 @@ namespace Sources.Player
             }
             else
             {
-                Debug.Log(_prevDirection);
                 RotateToDirection(newDirection);
                 _prevDirection = _vehicle.Rudder.WheelDirection.ToInputFormat();
             }
-
         }
 
         public void Accelerate()

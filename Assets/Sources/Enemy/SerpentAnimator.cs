@@ -81,12 +81,13 @@ namespace Sources.Enemy
         private void PlayPostDeath()
         {
             transform.DOMoveY(transform.position.y - _downshiftAfterDeath, _downshiftDuration)
-                .SetDelay(_downshiftDelaySecond).OnComplete(InvokeAfterDeathAnimation);
+                .SetDelay(_downshiftDelaySecond).OnComplete(InvokeAfterDeathAnimation).Play();
         }
 
         private void RestorePosition()
         {
-            transform.localPosition = transform.localPosition.SetY(0);
+            Vector3 position = transform.localPosition;
+            transform.localPosition = position.SetY(0);
         }
 
         private void OnEmptyHealth()

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4068238039169234}
   - component: {fileID: 33873675672806256}
   - component: {fileID: 23098213190569932}
-  - component: {fileID: 6478611543307833255}
+  - component: {fileID: 4828500315286812660}
   m_Layer: 0
   m_Name: SM_Prop_BarrelStack_02
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6478611543307833255
+--- !u!65 &4828500315286812660
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,5 +95,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.185864, y: 1.4702718, z: 1.49357}
-  m_Center: {x: 0, y: 0.6968863, z: 0.000015258789}
+  m_Size: {x: 2.185863, y: 1.4702718, z: 1.4935694}
+  m_Center: {x: -0.0000076293945, y: 0.6968863, z: -0.000015258789}

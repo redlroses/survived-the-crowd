@@ -13,13 +13,25 @@ namespace Sources.Fuel
         public void SetFuelBarrel(FuelBarrel fuelBarrel)
         {
             _fuelBarrel = fuelBarrel;
-            _fuelBarrel.Destroyed += FuelBarrelRaised;
+            _fuelBarrel.PickedUp += OnFuelBarrelPickedUp;
             _state = SpawnPointState.Busy;
         }
 
-        private void FuelBarrelRaised(FuelBarrel fuelBarrel)
+        public void Clear()
         {
-            _fuelBarrel.Destroyed -= FuelBarrelRaised;
+            if (_fuelBarrel == null)
+            {
+                return;
+            }
+
+            OnFuelBarrelPickedUp();
+        }
+
+        private void OnFuelBarrelPickedUp()
+        {
+            _fuelBarrel.PickedUp -= OnFuelBarrelPickedUp;
+            _fuelBarrel.Disable();
+            _fuelBarrel = null;
             _state = SpawnPointState.Empty;
         }
     }

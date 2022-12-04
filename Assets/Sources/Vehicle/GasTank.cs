@@ -12,10 +12,11 @@ namespace Sources.Vehicle
         public bool IsEmpty => _fuelLevel <= 0;
         public float FuelLevelPercent => _fuelLevel / _maxFuel * Constants.ToPercent;
         public float MaxFuelLevelPercent => 100f;
+        public float MaxFuelLevel => _maxFuel;
 
         public event Action Empty;
 
-        private void Start()
+        private void OnEnable()
         {
             _fuelLevel = _maxFuel;
         }

@@ -14,8 +14,9 @@ namespace Sources.Enemy
         [SerializeField] private ComponentSwitcher _switcher;
 
         public event Action<Enemy> Destroyed;
+
+        public IHealth Health => (IHealth) _health;
         private IEnemyAnimator Animator => (IEnemyAnimator) _animator;
-        private IHealth Health => (IHealth) _health;
 
         private void OnEnable()
         {
@@ -57,6 +58,11 @@ namespace Sources.Enemy
         private void Disable()
         {
             gameObject.SetActive(false);
+        }
+
+        public void Kill()
+        {
+            throw new NotImplementedException();
         }
     }
 }

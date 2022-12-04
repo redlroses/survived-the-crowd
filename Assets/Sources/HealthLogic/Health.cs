@@ -23,7 +23,7 @@ namespace Sources.HealthLogic
 
         public void Damage(int value)
         {
-            ValidateDamage(value);
+            Validate(value);
 
             if (IsDead)
             {
@@ -46,7 +46,7 @@ namespace Sources.HealthLogic
             _currentPoints = 0;
         }
 
-        private void ValidateDamage(int value)
+        private void Validate(int value)
         {
             if (value < 0)
             {

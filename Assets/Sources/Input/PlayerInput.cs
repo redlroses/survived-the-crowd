@@ -49,6 +49,16 @@ namespace Sources.Input
             _joystick.StickDown -= StartMove;
         }
 
+        public void Activate()
+        {
+            enabled = true;
+        }
+
+        public void Deactivate()
+        {
+            enabled = false;
+        }
+
         private void StartMove()
         {
             _isInput = true;
