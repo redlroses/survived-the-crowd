@@ -37,7 +37,12 @@ namespace Sources.Vehicle
         {
             _wheelBase = GetWheelBase();
             _frontAxleLength = GetFrontAxleLength();
-            DeflectSteeringWheel(0.1f);
+        }
+
+        private void OnEnable()
+        {
+            _moveDirection = Vector3.left;
+            _wheelDirection = Vector3.left;
         }
 
         private void OnDrawGizmos()

@@ -8,6 +8,11 @@ namespace Sources.Vehicle.View
         [SerializeField] private Transform _leftWheel;
         [SerializeField] private Transform _rightWheel;
 
+        private void OnEnable()
+        {
+            RotateWheels(0, 0);
+        }
+
         public void RotateWheels(float leftWheelAngle, float rightWheelAngle)
         {
             _leftWheel.SetLocalEulerY(leftWheelAngle);

@@ -16,11 +16,6 @@ namespace Sources.Turret
 
         public RayDamageDealer RayDamageDealer => _rayDamageDealer;
 
-        // private void Awake()
-        // {
-        //     RayDamageDealer = new RayDamageDealer();
-        // }
-
         public void MakeShot()
         {
             Ray ray = new Ray(_shotPoint.position, _shotPoint.forward);

@@ -38,24 +38,23 @@ namespace Sources.Turret
             Cooldown = _cooldown;
         }
 
-        private void Start()
+        private void OnEnable()
         {
+            _targetSeeker.TargetFound += StartShoot;
+            _targetSeeker.TargetLost += StopShoot;
+
             if (_isShooting)
             {
                 StartShoot();
             }
         }
 
-        private void OnEnable()
-        {
-            _targetSeeker.TargetFound += StartShoot;
-            _targetSeeker.TargetLost += StopShoot;
-        }
-
         private void OnDisable()
         {
             _targetSeeker.TargetFound -= StartShoot;
             _targetSeeker.TargetLost -= StopShoot;
+
+            StopShoot();
         }
 
 #if UNITY_EDITOR
@@ -77,6 +76,7 @@ namespace Sources.Turret
             while (_isShooting)
             {
                 ShotMaker.MakeShot();
+                Debug.Log(name + " shoot");
                 yield return _waitForShot;
             }
         }
@@ -95,13 +95,8 @@ namespace Sources.Turret
 
         private void StartShoot()
         {
-            if (_shootingCoroutine != null)
-            {
-                return;
-            }
-
             _isShooting = true;
-            _shootingCoroutine = StartCoroutine(Shooting());
+            _shootingCoroutine ??= StartCoroutine(Shooting());
         }
     }
 }

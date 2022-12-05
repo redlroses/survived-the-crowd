@@ -30,7 +30,7 @@ namespace Sources.Input
 
         private void Update()
         {
-            var direction = _isInput && _joystick.Direction != Vector2.zero
+            var direction = _isInput
                 ? _joystick.Direction.RotateVector2(byAngle: _cameraRotationCompensation).ToWorld()
                 : Vector2.zero;
 
@@ -47,6 +47,8 @@ namespace Sources.Input
         {
             _joystick.StickUp -= StopMove;
             _joystick.StickDown -= StartMove;
+
+            StopMove();
         }
 
         public void Activate()

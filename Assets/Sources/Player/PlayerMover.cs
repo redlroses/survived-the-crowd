@@ -22,9 +22,10 @@ namespace Sources.Player
         public Vector2 ForwardDirection => new Vector2(transform.forward.x, transform.forward.z).normalized;
         public float CurrentSpeed => _rigidbody.velocity.magnitude;
 
-        private void Start()
+        private void OnEnable()
         {
-            Move(ForwardDirection);
+            ResetPosition();
+            ResetPrevDirection();
         }
 
         private void FixedUpdate()
@@ -40,23 +41,6 @@ namespace Sources.Player
             Gizmos.DrawRay(position, new Vector3(ForwardDirection.x, position.y, ForwardDirection.y) * 6f);
             Gizmos.color = Color.red;
             Gizmos.DrawRay(position, new Vector3(_inputDirection.x, position.y, _inputDirection.y) * 6f);
-        }
-
-        public void Activate()
-        {
-            enabled = true;
-        }
-
-        public void Deactivate()
-        {
-            enabled = false;
-        }
-
-        public void ResetPosition()
-        {
-            _rigidbody.position = _startPosition;
-            _rigidbody.rotation = Quaternion.Euler(_startRotation);
-            _rigidbody.velocity = Vector3.zero;
         }
 
         public void Move(Vector2 newDirection)
@@ -80,6 +64,18 @@ namespace Sources.Player
         public void Decelerate()
         {
             _vehicle.Engine.StopAcceleration();
+        }
+
+        private void ResetPosition()
+        {
+            _rigidbody.position = _startPosition;
+            _rigidbody.rotation = Quaternion.Euler(_startRotation);
+            _rigidbody.velocity = Vector3.zero;
+        }
+
+        private void ResetPrevDirection()
+        {
+            _prevDirection = Vector2.left;
         }
 
         private void RotateToDirection(Vector2 direction)

@@ -30,6 +30,17 @@ namespace Sources.Turret
             _targetSeeker.TargetUpdated += SetTarget;
             _targetSeeker.TargetLost += StopAim;
             _targetSeeker.TargetFound += StartAim;
+
+            _rotator.ResetRotation();
+        }
+
+        private void OnDisable()
+        {
+            _targetSeeker.TargetUpdated -= SetTarget;
+            _targetSeeker.TargetLost -= StopAim;
+            _targetSeeker.TargetFound -= StartAim;
+
+            StopAim();
         }
 
         private void Update()
@@ -38,13 +49,6 @@ namespace Sources.Turret
             {
                 _rotator.RotateTo(_target);
             }
-        }
-
-        private void OnDisable()
-        {
-            _targetSeeker.TargetUpdated -= SetTarget;
-            _targetSeeker.TargetLost -= StopAim;
-            _targetSeeker.TargetFound -= StartAim;
         }
 
         private void SetTarget(Transform target)

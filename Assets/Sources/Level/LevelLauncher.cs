@@ -1,3 +1,4 @@
+using Import.Joystick.Scripts;
 using Sources.Enemy;
 using Sources.Fuel;
 using Sources.Input;
@@ -12,14 +13,15 @@ namespace Sources.Level
         [SerializeField] private FuelBarrelFactory _fuelFactory;
         [SerializeField] private PlayerInput _inputService;
         [SerializeField] private PlayerMover _mover;
+        [SerializeField] private Joystick _joystick;
 
         public void Run()
         {
             Debug.Log(name + "Run level");
             _enemyFactory.Run();
             _fuelFactory.Run();
-            _inputService.Activate();
-            _mover.Activate();
+            // _inputService.Activate();
+            _joystick.gameObject.SetActive(true);
         }
 
         public void Restart()
@@ -28,10 +30,10 @@ namespace Sources.Level
             _enemyFactory.KillAll();
             _fuelFactory.DisableAll();
             _fuelFactory.Stop();
-            _inputService.Deactivate();
+            // _inputService.Deactivate();
             _mover.gameObject.SetActive(true);
-            _mover.Deactivate();
-            _mover.ResetPosition();
+            // _mover.ResetPosition();
+            _joystick.gameObject.SetActive(false);
         }
     }
 }
