@@ -17,21 +17,21 @@ namespace Sources
         private void OnEnable()
         {
             ApplyBaseColor();
-            BaseEnemy.Damaged += ApplyDamagedColor;
+            BaseEnemy.Changed += ApplyDamagedColor;
         }
 
         private void OnDisable()
         {
             if (_renderer.material == _baseMaterial)
             {
-                BaseEnemy.Damaged -= ApplyDamagedColor;
+                BaseEnemy.Changed -= ApplyDamagedColor;
             }
         }
 
         private void ApplyDamagedColor()
         {
             _renderer.material = _damagedMaterial;
-            BaseEnemy.Damaged -= ApplyDamagedColor;
+            BaseEnemy.Changed -= ApplyDamagedColor;
         }
 
         private void ApplyBaseColor()

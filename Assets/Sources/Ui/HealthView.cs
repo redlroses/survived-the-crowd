@@ -14,17 +14,17 @@ namespace Sources.Ui
         private void Start()
         {
             _slider.SetBounds(0, _health.Max);
-            UpdateView();
         }
 
         private void OnEnable()
         {
-            _health.Damaged += UpdateView;
+            _health.Changed += UpdateView;
+            UpdateView();
         }
 
         private void OnDisable()
         {
-            _health.Damaged -= UpdateView;
+            _health.Changed -= UpdateView;
         }
 
         private void UpdateView()

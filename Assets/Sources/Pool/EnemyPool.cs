@@ -8,9 +8,10 @@ namespace Sources.Pool
         [SerializeField] [RequireInterface(typeof(IAttackable))] private MonoBehaviour _targetFollow;
         protected override void InitCopy(Enemy.Enemy copy)
         {
-            copy.GetComponent<AgentToTargetMover>().ApplyTarget(_targetFollow as IAttackable);
-            copy.GetComponent<AgentPatternSwitcher>().Init(_targetFollow.transform);
-            copy.GetComponent<AgentAttackRangeTracker>().Init(_targetFollow as IAttackable);
+            IAttackable targetAsIAttackable = (IAttackable) _targetFollow;
+            copy.GetComponent<AgentToTargetMover>().ApplyTarget(targetAsIAttackable);
+            copy.GetComponent<AgentPatternSwitcher>().Init(targetAsIAttackable);
+            copy.GetComponent<AgentAttackRangeTracker>().Init(targetAsIAttackable);
         }
     }
 }

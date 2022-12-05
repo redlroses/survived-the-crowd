@@ -6,13 +6,16 @@ namespace Sources.Enemy
     public sealed class AgentPatternSwitcher : MonoBehaviour
     {
         [Header("Components")]
-        [SerializeField] private Transform _player;
-        [SerializeField] private AgentAttackRangeTracker _rangeTracker;
+        [SerializeField] [RequireInterface(typeof(IAttackable))] private MonoBehaviour _player;
         [SerializeField] private AgentToTargetMover _toTargetMover;
         [SerializeField] private AgentIdleMover _idleMover;
 
         [Space] [Header("Settings")]
         [SerializeField] private float _aggressionRadius;
+
+        private bool _isAggressive = false;
+
+        private IAttackable Player => (IAttackable) _player;
 
         private void OnEnable()
         {
@@ -21,32 +24,39 @@ namespace Sources.Enemy
 
         private void Update()
         {
-            if (IsPlayerInAggressiveRadius())
+            if (_isAggressive == false && IsPlayerInAggressiveRadius() && Player.IsAttackable)
             {
                 SwitchToAggressivePattern();
+                _isAggressive = true;
+            }
+            else if (_isAggressive && Player.IsAttackable == false)
+            {
+                SwitchToIdlePattern();
+                _isAggressive = false;
             }
         }
 
-        public void Init(Transform player)
+        public void Init(IAttackable player)
         {
-            _player = player ? player : throw new NullReferenceException();
+            _player = (MonoBehaviour) player ?? throw new ArgumentNullException();
         }
 
         private void SwitchToAggressivePattern()
         {
-            _rangeTracker.enabled = true;
             _idleMover.enabled = false;
             _toTargetMover.enabled = true;
         }
 
         private void SwitchToIdlePattern()
         {
-            _rangeTracker.enabled = false;
             _idleMover.enabled = true;
             _toTargetMover.enabled = false;
         }
 
         private bool IsPlayerInAggressiveRadius()
-            => Vector3.Distance(transform.position, _player.position) <= _aggressionRadius;
+        {
+            Vector3 position = transform.position;
+            return Vector3.Distance(position, Player.GetAttackPoint(position)) <= _aggressionRadius;
+        }
     }
 }

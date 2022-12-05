@@ -363,6 +363,7 @@ MonoBehaviour:
   - {fileID: 959444991}
   - {fileID: 959444998}
   - {fileID: 2016093644}
+  - {fileID: 959444997}
   _toDisable:
   - {fileID: 2810749575635535955}
   - {fileID: 3154126900586711986}
@@ -400,7 +401,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
-  _rangeTracker: {fileID: 959444997}
   _toTargetMover: {fileID: 2810749575635535955}
   _idleMover: {fileID: 2016093643}
   _aggressionRadius: 20

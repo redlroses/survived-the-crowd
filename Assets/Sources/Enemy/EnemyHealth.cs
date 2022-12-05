@@ -7,5 +7,7 @@ namespace Sources.Enemy
     {
         public Vector3 GetAttackPoint(Vector3 attackerPosition)
             => transform.position;
+
+        public bool IsAttackable => gameObject.activeInHierarchy;
     }
 }

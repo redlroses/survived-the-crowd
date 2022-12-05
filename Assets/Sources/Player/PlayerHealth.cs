@@ -12,5 +12,7 @@ namespace Sources.Player
 
         public Vector3 GetAttackCenter(Vector3 attackerPosition)
             => _hurtBox.transform.position;
+
+        public bool IsAttackable => gameObject.activeInHierarchy;
     }
 }

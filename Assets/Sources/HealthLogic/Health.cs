@@ -9,7 +9,7 @@ namespace Sources.HealthLogic
         [SerializeField] [Min(0)] private int _currentPoints;
 
         public event Action Empty;
-        public event Action Damaged;
+        public event Action Changed;
 
         public int Max => _maxPoints;
         public int Current => _currentPoints;
@@ -19,6 +19,7 @@ namespace Sources.HealthLogic
         private void OnEnable()
         {
             _currentPoints = _maxPoints;
+            Changed?.Invoke();
         }
 
         public void Damage(int value)
@@ -32,7 +33,7 @@ namespace Sources.HealthLogic
 
             _currentPoints -= value;
             CheckIsLethalDamage();
-            Damaged?.Invoke();
+            Changed?.Invoke();
         }
 
         private void CheckIsLethalDamage()

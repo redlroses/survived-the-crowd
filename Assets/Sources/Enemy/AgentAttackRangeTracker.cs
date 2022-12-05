@@ -18,34 +18,35 @@ namespace Sources.Enemy
 
         private void Update()
         {
-            if (IsEnteredInAttackRange())
+            if (Target.IsAttackable && IsEnteredInAttackRange())
             {
                 _isWithinReach = true;
                 EnteredRange?.Invoke();
             }
-
-            if (IsOutOfAttackRange())
+            else if (Target.IsAttackable == false || IsOutOfAttackRange())
             {
                 _isWithinReach = false;
                 OutOfRange?.Invoke();
             }
         }
 
+        public void Init(IAttackable attackable)
+        {
+            _target = (MonoBehaviour) attackable;
+        }
+
         private bool IsOutOfAttackRange()
         {
             Vector3 selfPosition = transform.position;
-            return Vector3.Distance(Target.GetAttackPoint(selfPosition), selfPosition) >= _maxRange && _isWithinReach;
+            return _isWithinReach
+                   && Vector3.Distance(Target.GetAttackPoint(selfPosition), selfPosition) >= _maxRange;
         }
 
         private bool IsEnteredInAttackRange()
         {
             Vector3 selfPosition = transform.position;
-            return Vector3.Distance(Target.GetAttackPoint(selfPosition), selfPosition) < _range && _isWithinReach == false;
-        }
-
-        public void Init(IAttackable attackable)
-        {
-            _target = (MonoBehaviour) attackable;
+            return _isWithinReach == false
+                   && Vector3.Distance(Target.GetAttackPoint(selfPosition), selfPosition) < _range;
         }
     }
 }

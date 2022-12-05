@@ -56,6 +56,7 @@ namespace Sources.Player
         {
             _rigidbody.position = _startPosition;
             _rigidbody.rotation = Quaternion.Euler(_startRotation);
+            _rigidbody.velocity = Vector3.zero;
         }
 
         public void Move(Vector2 newDirection)
