@@ -9,5 +9,6 @@ namespace Sources.HealthLogic
         public int Current { get; }
         public bool IsAlive { get; }
         public void Damage(int value);
+        public void Heal(int value);
     }
 }

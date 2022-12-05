@@ -1,3 +1,4 @@
+using QFSW.QC;
 using Sources.HealthLogic;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace Sources.Level
             PlayerHealth.Empty -= OnEmptyPlayerHealth;
         }
 
+        [Command("Restart", "force restart screen")]
         private void OnEmptyPlayerHealth()
         {
             _playerObject.SetActive(false);

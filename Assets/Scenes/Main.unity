@@ -567,7 +567,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 3502520702935187320}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1114040580}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1037889404924a8fa7d1b0eaceea2284, type: 3}
@@ -4234,7 +4234,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 656874353}
-  m_LocalRotation: {x: -0.17126971, y: 0.82644874, z: -0.41149315, w: -0.34398058}
+  m_LocalRotation: {x: -0.17126977, y: 0.82644874, z: -0.4114931, w: -0.34398067}
   m_LocalPosition: {x: 72.46, y: 33.08, z: 103.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6837,6 +6837,26 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1082617546}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1114040580 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3502520702869770648, guid: addfdba0dabd3cc40adddd7dbe08ade3,
+    type: 3}
+  m_PrefabInstance: {fileID: 3502520702935187320}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1114040583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114040580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e869ea4c9f994bd1be2f56d0f9c8461b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerHealth: {fileID: 0}
+  _gasTank: {fileID: 0}
 --- !u!1001 &1119111516
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12467,6 +12487,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ff73e1cf82434543aeec06a41d24530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1900870081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957742819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e869ea4c9f994bd1be2f56d0f9c8461b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerHealth: {fileID: 98971363}
+  _gasTank: {fileID: 1571163862}
 --- !u!1001 &1904144291
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12704,7 +12738,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967758108}
-  m_LocalRotation: {x: -0.17126971, y: 0.82644874, z: -0.41149315, w: -0.34398058}
+  m_LocalRotation: {x: -0.17126977, y: 0.82644874, z: -0.4114931, w: -0.34398067}
   m_LocalPosition: {x: 72.46, y: 33.08, z: 103.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -13421,7 +13455,7 @@ PrefabInstance:
     - target: {fileID: 8170153791668043269, guid: 0d230cc8be529a542a08cb878ab14b18,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8170153792821263258, guid: 0d230cc8be529a542a08cb878ab14b18,
         type: 3}

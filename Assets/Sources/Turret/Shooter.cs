@@ -57,30 +57,16 @@ namespace Sources.Turret
             StopShoot();
         }
 
-#if UNITY_EDITOR
-        [ContextMenu("CallStartShoot")]
-        public void CallStartShoot()
-        {
-            StartShoot();
-        }
-
-        [ContextMenu("CallStopShoot")]
-        public void CallStopShoot()
-        {
-            StopShoot();
-        }
-#endif
-
         private IEnumerator Shooting()
         {
             while (_isShooting)
             {
                 ShotMaker.MakeShot();
-                Debug.Log(name + " shoot");
                 yield return _waitForShot;
             }
         }
 
+        [ContextMenu("CallStopShoot")]
         private void StopShoot()
         {
             if (_shootingCoroutine == null)
@@ -93,6 +79,7 @@ namespace Sources.Turret
             _isShooting = false;
         }
 
+        [ContextMenu("CallStartShoot")]
         private void StartShoot()
         {
             _isShooting = true;

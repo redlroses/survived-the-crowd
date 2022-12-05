@@ -36,6 +36,30 @@ namespace Sources.HealthLogic
             Changed?.Invoke();
         }
 
+        public void Heal(int value)
+        {
+            Validate(value);
+
+            _currentPoints += value;
+
+            if (_currentPoints >= _maxPoints)
+            {
+                _currentPoints = _maxPoints;
+            }
+
+            Changed?.Invoke();
+        }
+
+        protected void SetMaxPoints(int value)
+        {
+            if (value <= 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            _maxPoints = value;
+        }
+
         private void CheckIsLethalDamage()
         {
             if (_currentPoints > 0)
