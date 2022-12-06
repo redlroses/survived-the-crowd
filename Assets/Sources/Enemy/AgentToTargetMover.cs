@@ -24,6 +24,7 @@ namespace Sources.Enemy
         private void OnEnable()
         {
             _agent.speed = _speed;
+            _isInAttackRange = false;
             _rangeTracker.EnteredRange += OnEnteredRange;
             _rangeTracker.OutOfRange += OnOutOfRange;
         }

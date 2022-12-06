@@ -22,7 +22,6 @@ namespace Sources.Input
         {
             _camera = Camera.main;
 
-            CheckNull(_joystick);
             CheckNull(_camera);
 
             _cameraRotationCompensation = _camera.transform.rotation.eulerAngles.y;
@@ -51,14 +50,19 @@ namespace Sources.Input
             StopMove();
         }
 
+        public void Init(Joystick joyStick)
+        {
+            _joystick = joyStick;
+        }
+
         public void Activate()
         {
-            _isInputActive = true;
+            enabled = true;
         }
 
         public void Deactivate()
         {
-            StopMove();
+            enabled = false;
         }
 
         private void StartMove()

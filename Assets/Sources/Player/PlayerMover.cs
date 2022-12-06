@@ -13,8 +13,6 @@ namespace Sources.Player
         [SerializeField] private float _rotationSpeed = 1;
         [SerializeField] private float _angleEpsilon = 0.0001f;
         [SerializeField] private float _moveSpeed;
-        [SerializeField] private Vector3 _startPosition;
-        [SerializeField] private Vector3 _startRotation;
 
         private Vector2 _prevDirection;
         private Vector2 _inputDirection;
@@ -24,8 +22,7 @@ namespace Sources.Player
 
         private void OnEnable()
         {
-            ResetPosition();
-            ResetPrevDirection();
+            Reset();
         }
 
         private void FixedUpdate()
@@ -41,6 +38,11 @@ namespace Sources.Player
             Gizmos.DrawRay(position, new Vector3(ForwardDirection.x, position.y, ForwardDirection.y) * 6f);
             Gizmos.color = Color.red;
             Gizmos.DrawRay(position, new Vector3(_inputDirection.x, position.y, _inputDirection.y) * 6f);
+        }
+
+        public void Init(Car car)
+        {
+            _vehicle = car;
         }
 
         public void Move(Vector2 newDirection)
@@ -66,15 +68,9 @@ namespace Sources.Player
             _vehicle.Engine.StopAcceleration();
         }
 
-        private void ResetPosition()
+        private void Reset()
         {
-            _rigidbody.position = _startPosition;
-            _rigidbody.rotation = Quaternion.Euler(_startRotation);
             _rigidbody.velocity = Vector3.zero;
-        }
-
-        private void ResetPrevDirection()
-        {
             _prevDirection = Vector2.left;
         }
 

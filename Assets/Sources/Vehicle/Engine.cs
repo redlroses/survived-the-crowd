@@ -13,7 +13,7 @@ namespace Sources.Vehicle
 
         private Func<float, float> _speedCalculation;
 
-        private void Start()
+        private void Awake()
         {
             _speedCalculation = UniformMotion;
         }

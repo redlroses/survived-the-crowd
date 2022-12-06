@@ -8,6 +8,10 @@ namespace Sources.Ui.Wrapper.Screens
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private float _duration;
 
+        private Tween _tween;
+
+        public bool IsActive => _canvasGroup.interactable;
+
         public void Show(bool isSmoothly)
         {
             SetAlpha(1f, isSmoothly);
@@ -24,9 +28,11 @@ namespace Sources.Ui.Wrapper.Screens
 
         private void SetAlpha(float alpha, bool isSmoothly)
         {
+            _tween?.Kill();
+
             if (isSmoothly)
             {
-                _canvasGroup.DOFade(alpha, _duration).Play();
+                _tween = _canvasGroup.DOFade(alpha, _duration).Play();
             }
             else
             {

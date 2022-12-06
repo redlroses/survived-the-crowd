@@ -1,14 +1,17 @@
+using Sources.Ui.Animations;
+using Sources.Ui.Wrapper;
 using Sources.Vehicle;
 using UnityEngine;
 
-namespace Sources.Ui.Wrapper
+namespace Sources.Ui
 {
     public sealed class FuelView : MonoBehaviour
     {
         [SerializeField] private GasTank _gasTank;
         [SerializeField] private SliderSetter _slider;
-        [SerializeField] private bool _isSmoothly = false;
+        [SerializeField] private bool _isSmoothly;
         [SerializeField] private float _duration;
+        [SerializeField] private LowFuelAnimation _lowFuelAnimation;
 
         private float _fuelLevel;
 
@@ -27,6 +30,12 @@ namespace Sources.Ui.Wrapper
 
             _fuelLevel = Mathf.Lerp(_fuelLevel, _gasTank.FuelLevelPercent, _duration * Time.deltaTime);
             UpdateView();
+        }
+
+        public void Init(GasTank gasTank)
+        {
+            _gasTank = gasTank;
+            _lowFuelAnimation.Init(gasTank);
         }
 
         private void UpdateView()

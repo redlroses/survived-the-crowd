@@ -38,6 +38,11 @@ namespace Sources.Ui.Animations
             }
         }
 
+        public void Init(GasTank gasTank)
+        {
+            _gasTank = gasTank;
+        }
+
         private void TryPlayAnimation()
         {
             if (_isPlaying)

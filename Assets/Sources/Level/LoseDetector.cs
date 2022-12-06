@@ -11,6 +11,7 @@ namespace Sources.Level
     {
         private const string RanOutOfFuel = "Ran out of fuel";
         private const string CarIsBroken = "Car is broken";
+        private const string PunishedByTheGods = "Punished by the gods";
 
         [SerializeField] [RequireInterface(typeof(IHealth))] private MonoBehaviour _playerHealth;
         [SerializeField] private GasTank _gasTank;
@@ -32,6 +33,17 @@ namespace Sources.Level
             _gasTank.Empty -= OnEmptyGasTank;
         }
 
+        public void Init(GasTank gasTank)
+        {
+            _gasTank = gasTank;
+        }
+
+        public void RestartManual()
+        {
+            _loseScreen.SetLoseCause(PunishedByTheGods);
+            ShowLoseScreen();
+        }
+
         private void OnEmptyGasTank()
         {
             _loseScreen.SetLoseCause(RanOutOfFuel);
@@ -47,6 +59,11 @@ namespace Sources.Level
 
         private void ShowLoseScreen()
         {
+            if (_loseScreen.IsActive)
+            {
+                return;
+            }
+
             Lose?.Invoke();
             _loseScreen.Show(true);
         }

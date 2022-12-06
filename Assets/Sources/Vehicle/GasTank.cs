@@ -18,6 +18,11 @@ namespace Sources.Vehicle
 
         private void OnEnable()
         {
+            Init();
+        }
+
+        public void Init()
+        {
             _fuelLevel = _maxFuel;
         }
 
