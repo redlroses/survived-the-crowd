@@ -14,7 +14,7 @@ namespace Sources.Input
 
         private float _cameraRotationCompensation;
         private Camera _camera;
-        private bool _isInput;
+        private bool _isInputActive;
 
         private ICarControllable Mover => (ICarControllable) _mover;
 
@@ -30,7 +30,7 @@ namespace Sources.Input
 
         private void Update()
         {
-            var direction = _isInput
+            var direction = _isInputActive && _joystick.Direction != Vector2.zero
                 ? _joystick.Direction.RotateVector2(byAngle: _cameraRotationCompensation).ToWorld()
                 : Vector2.zero;
 
@@ -53,23 +53,23 @@ namespace Sources.Input
 
         public void Activate()
         {
-            enabled = true;
+            _isInputActive = true;
         }
 
         public void Deactivate()
         {
-            enabled = false;
+            StopMove();
         }
 
         private void StartMove()
         {
-            _isInput = true;
+            _isInputActive = true;
             Mover.Accelerate();
         }
 
         private void StopMove()
         {
-            _isInput = false;
+            _isInputActive = false;
             Mover.Decelerate();
         }
     }

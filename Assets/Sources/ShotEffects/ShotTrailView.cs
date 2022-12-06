@@ -31,6 +31,12 @@ namespace Sources.ShotEffects
             StartFading();
         }
 
+        public void Create(Vector3 from, Vector3 to)
+        {
+            _line.SetPosition(0, from);
+            _line.SetPosition(1, to);
+        }
+
         private void Init()
         {
             _line.startWidth = _startWidth;
@@ -38,18 +44,12 @@ namespace Sources.ShotEffects
 
         private void StartFading()
         {
-            DOTween.To(width => _line.startWidth = width, _line.startWidth, 0, _lifeTime);
+            DOTween.To(width => _line.startWidth = width, _line.startWidth, 0, _lifeTime).Play().SetAutoKill(true);
         }
 
         private void OnDestroy()
         {
             Destroyed?.Invoke(this);
-        }
-
-        public void Create(Vector3 from, Vector3 to)
-        {
-            _line.SetPosition(0, from);
-            _line.SetPosition(1, to);
         }
 
         private IEnumerator LifeTime()

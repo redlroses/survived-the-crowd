@@ -63,6 +63,11 @@ namespace Sources.Fuel
 
         private void StopSpawning()
         {
+            if (_spawning == null)
+            {
+                return;
+            }
+
             _isSpawning = false;
             StopCoroutine(_spawning);
             _spawning = null;

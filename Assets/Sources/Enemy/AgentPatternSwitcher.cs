@@ -20,6 +20,7 @@ namespace Sources.Enemy
         private void OnEnable()
         {
             SwitchToIdlePattern();
+            _isAggressive = false;
         }
 
         private void Update()

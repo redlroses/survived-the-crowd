@@ -21,5 +21,15 @@ namespace Sources.Vehicle
             _gasTank ??= GetComponent<GasTank>();
             _rudder ??= GetComponent<Rudder>();
         }
+
+        public void StartEngine()
+        {
+            _gasTank.enabled = true;
+        }
+
+        public void StopEngine()
+        {
+            _gasTank.enabled = false;
+        }
     }
 }
