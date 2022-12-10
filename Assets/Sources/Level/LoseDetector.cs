@@ -1,6 +1,7 @@
 using System;
 using QFSW.QC;
 using Sources.HealthLogic;
+using Sources.Player;
 using Sources.Ui.Wrapper.Screens;
 using Sources.Vehicle;
 using UnityEngine;
@@ -33,9 +34,10 @@ namespace Sources.Level
             _gasTank.Empty -= OnEmptyGasTank;
         }
 
-        public void Init(GasTank gasTank)
+        public void Init(GasTank gasTank, PlayerHealth playerHealth)
         {
             _gasTank = gasTank;
+            _playerHealth = playerHealth;
         }
 
         public void RestartManual()

@@ -16,6 +16,7 @@ namespace Sources.Level
         [SerializeField] private Car _car;
         [SerializeField] private Joystick _joystick;
 
+
         [SerializeField] private Vector3 _starPlayerPosition;
         [SerializeField] private Vector3 _starPlayerRotation;
 
@@ -39,8 +40,8 @@ namespace Sources.Level
             Debug.Log(name + " Run level");
             _enemyFactory.Run();
             _fuelFactory.Run();
-            // _joystick.gameObject.SetActive(true);
             _input.Activate();
+            _loseDetector.enabled = true;
         }
 
         public void Restart()
@@ -53,11 +54,11 @@ namespace Sources.Level
             _input.gameObject.SetActive(true);
             _input.transform.position = _starPlayerPosition;
             _input.transform.rotation = Quaternion.Euler(_starPlayerRotation);
+            _loseDetector.enabled = false;
         }
 
         private void OnLose()
         {
-            // _joystick.gameObject.SetActive(false);
             _input.Deactivate();
         }
     }

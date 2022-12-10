@@ -6,8 +6,8 @@ namespace Sources.Vehicle
     public sealed class Engine : MonoBehaviour
     {
         [SerializeField] private GasTank _gasTank;
-        [SerializeField] [Min(0)] float _consumption = 0.005f;
-        [SerializeField] [Min(0)] float _idleConsumption = 0.001f;
+        [SerializeField] [Min(0)] private float _consumption = 0.005f;
+        [SerializeField] [Min(0)] private float _idleConsumption = 0.001f;
         [SerializeField] [Min(0)] private float _acceleration = 0.4f;
         [SerializeField] [Min(0)] private float _maxMoveSpeed = 15f;
 

@@ -17,6 +17,7 @@ namespace Sources.Ui.Wrapper.Screens
             SetAlpha(1f, isSmoothly);
             _canvasGroup.interactable = true;
             _canvasGroup.blocksRaycasts = true;
+            OnShow();
         }
 
         public void Hide(bool isSmoothly)
@@ -24,6 +25,15 @@ namespace Sources.Ui.Wrapper.Screens
             SetAlpha(0, isSmoothly);
             _canvasGroup.interactable = false;
             _canvasGroup.blocksRaycasts = false;
+            OnHide();
+        }
+
+        protected virtual void OnShow()
+        {
+        }
+
+        protected virtual void OnHide()
+        {
         }
 
         private void SetAlpha(float alpha, bool isSmoothly)

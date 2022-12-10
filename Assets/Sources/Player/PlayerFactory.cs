@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cinemachine;
 using Sources.Level;
+using Sources.Pool;
 using Sources.Ui;
 using Sources.Vehicle;
 using UnityEngine;
@@ -9,23 +11,78 @@ namespace Sources.Player
 {
     public class PlayerFactory : MonoBehaviour
     {
+        private readonly List<Car> _availableCars = new List<Car>();
+
+        [SerializeField] private EnemyPool _enemyPool;
         [SerializeField] private CinemachineVirtualCamera _camera;
-        [SerializeField] private GameObject _base;
+        [SerializeField] private PlayerMover _base;
         [SerializeField] private GameObject _currentWeapon;
-        [SerializeField] private Car _currentCar;
         [SerializeField] private LoseDetector _loseDetector;
         [SerializeField] private LevelLauncher _levelLauncher;
         [SerializeField] private FuelView _fuelView;
+        [SerializeField] private HealthView _healthView;
 
-        public event Action<GameObject> PlayerAssembled;
+        [SerializeField] private List<Car> _cars = new List<Car>();
+        [SerializeField] private List<GameObject> _weapons = new List<GameObject>();
+
+        private Car _currentCar;
+        private int _carIndex;
 
         private void Awake()
         {
-            SetCar();
+            InitCars();
+            SetCar(0);
+            ApplyCar();
             SetWeapon();
-            PlayerAssembled?.Invoke(_base);
             _camera.Follow = _base.transform;
             _camera.LookAt = _base.transform;
+        }
+
+        public void ShowNextCar()
+        {
+            _carIndex++;
+
+            if (_carIndex >= _cars.Count)
+            {
+                _carIndex = 0;
+            }
+
+            SetCar(_carIndex);
+        }
+
+        public void ShowPreviousCar()
+        {
+            _carIndex--;
+
+            if (_carIndex <= 0)
+            {
+                _carIndex = _availableCars.Count - 1;
+            }
+
+            SetCar(_carIndex);
+        }
+
+        public void ApplyCar()
+        {
+            var playerHealth = _currentCar.GetComponentInChildren<PlayerHealth>();
+
+            _base.Init(_currentCar);
+            _levelLauncher.Init(_currentCar);
+            _fuelView.Init(_currentCar.GasTank);
+            _loseDetector.Init(_currentCar.GasTank, playerHealth);
+            _healthView.Init(playerHealth);
+            _enemyPool.Init(playerHealth);
+        }
+
+        private void SetCar(int index)
+        {
+            if (_currentCar != null)
+            {
+                _currentCar.gameObject.SetActive(false);
+            }
+
+            _currentCar = _availableCars[index];
+            _currentCar.gameObject.SetActive(true);
         }
 
         private void SetWeapon()
@@ -33,13 +90,14 @@ namespace Sources.Player
             var weapon = Instantiate(_currentWeapon, _base.transform);
         }
 
-        private void SetCar()
+        private void InitCars()
         {
-            Car car = Instantiate(_currentCar, _base.transform);
-            _base.GetComponent<PlayerMover>().Init(car);
-            _loseDetector.Init(car.GasTank);
-            _levelLauncher.Init(car);
-            _fuelView.Init(car.GasTank);
+            foreach (Car car in _cars)
+            {
+                Car currentCar = Instantiate(car, _base.transform);
+                currentCar.gameObject.SetActive(false);
+                _availableCars.Add(currentCar);
+            }
         }
     }
 }

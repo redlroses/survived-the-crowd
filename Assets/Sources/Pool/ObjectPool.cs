@@ -19,6 +19,7 @@ namespace Sources.Pool
         [SerializeField] private int _expansionAmount = 4;
         [SerializeField] private Transform _customContainer;
         [SerializeField] private bool _isStaticContainer;
+        [SerializeField] private bool _isManualFill;
         [SerializeField] private List<T> _copies;
 
         protected ObjectPool()
@@ -34,6 +35,12 @@ namespace Sources.Pool
             }
 
             ValidateCopies();
+
+            if (_isManualFill)
+            {
+                return;
+            }
+
             Fill(_size);
         }
 
@@ -106,6 +113,14 @@ namespace Sources.Pool
             return objectCopy;
         }
 
+        protected void FillPool()
+        {
+            Fill(_size);
+        }
+
+        protected IEnumerable<T> GetReadOnlyCopies()
+            => _objectsPool;
+
         private void CreateContainer()
         {
             _customContainer = new GameObject($"{typeof(T).Name} container").transform;
@@ -117,7 +132,6 @@ namespace Sources.Pool
 
             _customContainer.parent = transform;
         }
-
 
         private T GetNew(T copy)
         {
@@ -181,7 +195,7 @@ namespace Sources.Pool
         {
             foreach (var copy in _copies)
             {
-                for (int i = 0; i < size; i++)
+                for (int i = _objectsPool.Count / _copies.Count; i < size; i++)
                 {
                     Add(GetNew(copy));
                 }

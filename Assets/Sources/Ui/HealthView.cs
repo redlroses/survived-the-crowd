@@ -1,4 +1,5 @@
 ﻿using Sources.HealthLogic;
+using Sources.Player;
 using Sources.Ui.Wrapper;
 using UnityEngine;
 
@@ -11,11 +12,6 @@ namespace Sources.Ui
         [SerializeField] private TextSetter _text;
         [SerializeField] private bool _isSmoothly = true;
 
-        private void Start()
-        {
-            _slider.SetBounds(0, _health.Max);
-        }
-
         private void OnEnable()
         {
             _health.Changed += UpdateView;
@@ -25,6 +21,12 @@ namespace Sources.Ui
         private void OnDisable()
         {
             _health.Changed -= UpdateView;
+        }
+
+        public void Init(PlayerHealth health)
+        {
+            _health = health;
+            _slider.SetBounds(0, _health.Max);
         }
 
         private void UpdateView()
