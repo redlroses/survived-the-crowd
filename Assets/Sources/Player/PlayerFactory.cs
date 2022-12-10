@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cinemachine;
 using Sources.Level;
 using Sources.Pool;
@@ -18,7 +17,6 @@ namespace Sources.Player
         [SerializeField] private PlayerMover _base;
         [SerializeField] private GameObject _currentWeapon;
         [SerializeField] private LoseDetector _loseDetector;
-        [SerializeField] private LevelLauncher _levelLauncher;
         [SerializeField] private FuelView _fuelView;
         [SerializeField] private HealthView _healthView;
 
@@ -54,7 +52,7 @@ namespace Sources.Player
         {
             _carIndex--;
 
-            if (_carIndex <= 0)
+            if (_carIndex < 0)
             {
                 _carIndex = _availableCars.Count - 1;
             }
@@ -67,7 +65,6 @@ namespace Sources.Player
             var playerHealth = _currentCar.GetComponentInChildren<PlayerHealth>();
 
             _base.Init(_currentCar);
-            _levelLauncher.Init(_currentCar);
             _fuelView.Init(_currentCar.GasTank);
             _loseDetector.Init(_currentCar.GasTank, playerHealth);
             _healthView.Init(playerHealth);

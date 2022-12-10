@@ -2,7 +2,6 @@ using Import.Joystick.Scripts;
 using Sources.Enemy;
 using Sources.Fuel;
 using Sources.Input;
-using Sources.Vehicle;
 using UnityEngine;
 
 namespace Sources.Level
@@ -13,10 +12,7 @@ namespace Sources.Level
         [SerializeField] private EnemyFactory _enemyFactory;
         [SerializeField] private FuelBarrelFactory _fuelFactory;
         [SerializeField] private PlayerInput _input;
-        [SerializeField] private Car _car;
         [SerializeField] private Joystick _joystick;
-
-
         [SerializeField] private Vector3 _starPlayerPosition;
         [SerializeField] private Vector3 _starPlayerRotation;
 
@@ -28,11 +24,6 @@ namespace Sources.Level
         private void OnDisable()
         {
             _loseDetector.Lose -= OnLose;
-        }
-
-        public void Init(Car car)
-        {
-            _car = car;
         }
 
         public void Run()
