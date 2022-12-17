@@ -823,7 +823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gasTank: {fileID: 5396592951090273457}
-  _consumption: 0.005
+  _consumption: 0.002
   _idleConsumption: 0.001
   _acceleration: 0.5
   _maxMoveSpeed: 20

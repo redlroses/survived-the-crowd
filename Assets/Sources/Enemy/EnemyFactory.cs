@@ -1,6 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sources.Pool;
+using Sources.Tools;
+using Sources.Tools.Extensions;
 using UnityEngine;
 
 namespace Sources.Enemy
@@ -11,17 +14,41 @@ namespace Sources.Enemy
         private readonly List<Enemy> _aliveEnemies = new List<Enemy>();
 
         [SerializeField] private EnemyPool _pool;
-        [SerializeField] private int _enemiesPerLevel;
-        [SerializeField] private Transform _spawnPoint;
+        [SerializeField] private int _enemiesPerSpawnTick;
+        [SerializeField] private float _spawnRate;
+        [SerializeField] private List<Transform> _spawnPoints = new List<Transform>();
+        [SerializeField] private bool _isSpawning;
+
+        private WaitForSeconds _waitForSpawn;
+        private Coroutine _spawning;
 
         private void Awake()
         {
             _pool ??= GetComponent<EnemyPool>();
+            _waitForSpawn = new WaitForSeconds(_spawnRate);
         }
 
         public void Run()
         {
-            Spawn();
+            StartSpawn();
+        }
+
+        private void StartSpawn()
+        {
+            _isSpawning = true;
+            StartCoroutine(Spawn());
+        }
+
+        private void StopSpawn()
+        {
+            if (_spawning == null)
+            {
+                return;
+            }
+
+            _isSpawning = false;
+            StopCoroutine(_spawning);
+            _spawning = null;
         }
 
         public void KillAll()
@@ -32,19 +59,29 @@ namespace Sources.Enemy
             }
         }
 
-        private void Spawn()
+        private IEnumerator Spawn()
         {
-            for (int i = 0; i < _enemiesPerLevel; i++)
+            while (_isSpawning)
             {
-                Enemy spawnedEnemy = _pool.Enable(_spawnPoint.position);
+                var spawnPoint = GetSpawnPoint();
 
-                if (_aliveEnemies.Contains(spawnedEnemy))
+                for (int i = 0; i < _enemiesPerSpawnTick; i++)
                 {
-                    continue;
+                    Enemy spawnedEnemy = _pool.Enable(spawnPoint);
+
+                    if (_aliveEnemies.Contains(spawnedEnemy))
+                    {
+                        continue;
+                    }
+
+                    _aliveEnemies.Add(spawnedEnemy);
                 }
 
-                _aliveEnemies.Add(spawnedEnemy);
+                yield return _waitForSpawn;
             }
         }
+
+        private Vector3 GetSpawnPoint()
+            => _spawnPoints.GetRandom().position;
     }
 }
