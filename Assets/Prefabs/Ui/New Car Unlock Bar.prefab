@@ -2156,7 +2156,6 @@ GameObject:
   - component: {fileID: 7110134963698541685}
   - component: {fileID: 7110134963698541686}
   - component: {fileID: 2254210756092987561}
-  - component: {fileID: 328528443294160963}
   m_Layer: 5
   m_Name: New Car Unlock Bar
   m_TagString: Untagged
@@ -2278,22 +2277,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &328528443294160963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7110134963698541672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd961484684bbea45921129371d62db7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _slider: {fileID: 0}
-  _grid: {fileID: 7110134963487139221}
-  _count: {fileID: 2254210754930181409}
-  _isSmoothly: 1
 --- !u!1 &7110134964287366150
 GameObject:
   m_ObjectHideFlags: 0

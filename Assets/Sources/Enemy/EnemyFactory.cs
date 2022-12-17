@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sources.Pool;
-using Sources.Tools;
 using Sources.Tools.Extensions;
 using UnityEngine;
 
@@ -16,30 +15,28 @@ namespace Sources.Enemy
         [SerializeField] private EnemyPool _pool;
         [SerializeField] private int _enemiesPerSpawnTick;
         [SerializeField] private float _spawnRate;
+        [SerializeField] private int _enemiesPerLevelStarted;
+        [SerializeField] private int _maxEnemies = 30;
         [SerializeField] private List<Transform> _spawnPoints = new List<Transform>();
         [SerializeField] private bool _isSpawning;
 
-        private WaitForSeconds _waitForSpawn;
+        private WaitForSeconds _waitForSpawnDelay;
         private Coroutine _spawning;
 
         private void Awake()
         {
             _pool ??= GetComponent<EnemyPool>();
-            _waitForSpawn = new WaitForSeconds(_spawnRate);
+            _waitForSpawnDelay = new WaitForSeconds(_spawnRate);
         }
 
         public void Run()
         {
-            StartSpawn();
-        }
-
-        private void StartSpawn()
-        {
             _isSpawning = true;
+            SpawnOnLevelStarted();
             StartCoroutine(Spawn());
         }
 
-        private void StopSpawn()
+        public void Stop()
         {
             if (_spawning == null)
             {
@@ -59,6 +56,31 @@ namespace Sources.Enemy
             }
         }
 
+        private void SpawnOnLevelStarted()
+        {
+            for (int i = 0; i < _enemiesPerLevelStarted; i++)
+            {
+                SpawnEnemy(GetSpawnPoint());
+            }
+        }
+
+        private void SpawnEnemy(Vector3 at)
+        {
+            if (_aliveEnemies.Count(enemy => enemy.enabled) > _maxEnemies)
+            {
+                return;
+            }
+
+            Enemy spawnedEnemy = _pool.Enable(at);
+
+            if (_aliveEnemies.Contains(spawnedEnemy))
+            {
+                return;
+            }
+
+            _aliveEnemies.Add(spawnedEnemy);
+        }
+
         private IEnumerator Spawn()
         {
             while (_isSpawning)
@@ -67,17 +89,10 @@ namespace Sources.Enemy
 
                 for (int i = 0; i < _enemiesPerSpawnTick; i++)
                 {
-                    Enemy spawnedEnemy = _pool.Enable(spawnPoint);
-
-                    if (_aliveEnemies.Contains(spawnedEnemy))
-                    {
-                        continue;
-                    }
-
-                    _aliveEnemies.Add(spawnedEnemy);
+                    SpawnEnemy(spawnPoint);
                 }
 
-                yield return _waitForSpawn;
+                yield return _waitForSpawnDelay;
             }
         }
 

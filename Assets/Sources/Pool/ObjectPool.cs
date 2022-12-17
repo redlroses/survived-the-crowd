@@ -113,6 +113,9 @@ namespace Sources.Pool
             return objectCopy;
         }
 
+        public T[] GetActiveObjects()
+            => _customContainer.GetComponentsInChildren<T>().Where(copy => copy.gameObject.activeSelf).ToArray();
+
         protected void FillPool()
         {
             Fill(_size);

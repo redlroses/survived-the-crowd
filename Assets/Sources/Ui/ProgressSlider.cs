@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
 using Sources.Tools;
+using Sources.Ui.Wrapper;
 using UnityEngine;
 using ProgressBar = Sources.Level.ProgressBar;
 
-namespace Sources.Ui.Wrapper
+namespace Sources.Ui
 {
-    public sealed class ProgressSlider : MonoBehaviour
+    public class ProgressSlider : MonoBehaviour
     {
         private const string TheSliderIsAlreadyLinkedToTheProgressBarObject = "The slider is already linked to the progress bar object";
 
@@ -18,7 +19,7 @@ namespace Sources.Ui.Wrapper
         private ProgressBar _progressBar;
         private bool _isSelfUpdated;
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             if (_isSelfUpdated)
             {
@@ -26,7 +27,7 @@ namespace Sources.Ui.Wrapper
             }
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             if (_isSelfUpdated)
             {

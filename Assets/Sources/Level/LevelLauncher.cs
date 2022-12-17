@@ -1,4 +1,5 @@
 using Import.Joystick.Scripts;
+using Sources.Collectables;
 using Sources.Enemy;
 using Sources.Fuel;
 using Sources.Input;
@@ -11,6 +12,7 @@ namespace Sources.Level
         [SerializeField] private LoseDetector _loseDetector;
         [SerializeField] private EnemyFactory _enemyFactory;
         [SerializeField] private FuelBarrelFactory _fuelFactory;
+        [SerializeField] private CarDetailsFactory _carDetailsFactory;
         [SerializeField] private PlayerInput _input;
         [SerializeField] private Joystick _joystick;
         [SerializeField] private Vector3 _starPlayerPosition;
@@ -31,6 +33,7 @@ namespace Sources.Level
             Debug.Log(name + " Run level");
             _enemyFactory.Run();
             _fuelFactory.Run();
+            _carDetailsFactory.Run();
             _input.Activate();
             _loseDetector.enabled = true;
         }
@@ -39,8 +42,11 @@ namespace Sources.Level
         {
             Debug.Log(name + " Restart level");
             _enemyFactory.KillAll();
+            _enemyFactory.Stop();
             _fuelFactory.DisableAll();
             _fuelFactory.Stop();
+            _carDetailsFactory.DisableAll();
+            _carDetailsFactory.Stop();
             _input.gameObject.SetActive(false);
             _input.gameObject.SetActive(true);
             _input.transform.position = _starPlayerPosition;

@@ -22,18 +22,13 @@ namespace Sources.Fuel
             }
 
             gasTank.Refuel(_fuelAmount);
+            PickedUp?.Invoke();
             gameObject.SetActive(false);
         }
 
         private void OnDestroy()
         {
             Destroyed?.Invoke(this);
-        }
-
-        public float PickUp()
-        {
-            PickedUp?.Invoke();
-            return _fuelAmount;
         }
 
         public void Disable()
