@@ -12,7 +12,6 @@ namespace Sources.Saves
         {
             PlayerPrefs.SetString(ProgressKey, progress.ToJson());
             PlayerPrefs.Save();
-            Debug.Log("Save saver " + progress.ToJson());
         }
 
         public PlayerProgress Load() =>
