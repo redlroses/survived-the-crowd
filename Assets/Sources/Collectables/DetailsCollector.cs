@@ -17,8 +17,6 @@ namespace Sources.Collectables
 
         private ProgressBar _progressBar;
 
-        public event Action<ProgressBar> BarActivated;
-
         public ProgressBar CurrentProgressBar => _progressBar;
 
         private void Awake()

@@ -59,10 +59,5 @@ namespace Sources.Enemy
         {
             gameObject.SetActive(false);
         }
-
-        public void Kill()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

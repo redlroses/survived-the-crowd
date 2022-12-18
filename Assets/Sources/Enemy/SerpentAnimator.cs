@@ -81,7 +81,7 @@ namespace Sources.Enemy
         private void PlayPostDeath()
         {
             transform.DOMoveY(transform.position.y - _downshiftAfterDeath, _downshiftDuration)
-                .SetDelay(_downshiftDelaySecond).OnComplete(InvokeAfterDeathAnimation).Play();
+                .SetDelay(_downshiftDelaySecond).OnComplete(InvokeAfterDeathAnimation).Play().SetAutoKill(true);
         }
 
         private void RestorePosition()

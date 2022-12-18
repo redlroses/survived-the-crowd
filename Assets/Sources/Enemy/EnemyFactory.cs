@@ -10,8 +10,6 @@ namespace Sources.Enemy
     [RequireComponent(typeof(EnemyPool))]
     public sealed class EnemyFactory : MonoBehaviour
     {
-        private readonly List<Enemy> _aliveEnemies = new List<Enemy>();
-
         [SerializeField] private EnemyPool _pool;
         [SerializeField] private int _enemiesPerSpawnTick;
         [SerializeField] private float _spawnRate;
@@ -33,7 +31,7 @@ namespace Sources.Enemy
         {
             _isSpawning = true;
             SpawnOnLevelStarted();
-            StartCoroutine(Spawn());
+            _spawning ??= StartCoroutine(Spawn());
         }
 
         public void Stop()
@@ -50,7 +48,7 @@ namespace Sources.Enemy
 
         public void KillAll()
         {
-            foreach (var enemy in _aliveEnemies.Where(enemy => enemy.enabled))
+            foreach (var enemy in _pool.GetActiveObjects())
             {
                 enemy.Health.Damage(enemy.Health.Max);
             }
@@ -66,19 +64,12 @@ namespace Sources.Enemy
 
         private void SpawnEnemy(Vector3 at)
         {
-            if (_aliveEnemies.Count(enemy => enemy.enabled) > _maxEnemies)
+            if (_pool.GetActiveObjects().Count(enemy => enemy.enabled) > _maxEnemies)
             {
                 return;
             }
 
-            Enemy spawnedEnemy = _pool.Enable(at);
-
-            if (_aliveEnemies.Contains(spawnedEnemy))
-            {
-                return;
-            }
-
-            _aliveEnemies.Add(spawnedEnemy);
+            _pool.Enable(at);
         }
 
         private IEnumerator Spawn()
