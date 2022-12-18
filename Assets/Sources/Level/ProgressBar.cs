@@ -13,7 +13,7 @@ namespace Sources.Level
 
         private int _stage;
 
-        public ProgressBar(int stages, int highValue = HighValueDefault, int lowValue = LowValueDefault)
+        public ProgressBar(int stages, int highValue = HighValueDefault, int lowValue = LowValueDefault, int stage = 0)
         {
             if (stages <= 0)
             {
@@ -29,9 +29,10 @@ namespace Sources.Level
             HighValue = highValue;
             LowValue = lowValue;
             StepSize = highValue / (float) stages;
+            Stage = stage;
         }
 
-        public ProgressBar(int stages, float stepSize, int lowValue = LowValueDefault)
+        public ProgressBar(int stages, float stepSize, int lowValue = LowValueDefault, int stage = 0)
         {
             if (stepSize <= 0)
             {
@@ -47,6 +48,7 @@ namespace Sources.Level
             Stages = stages;
             HighValue = stepSize * stages;
             LowValue = lowValue;
+            Stage = stage;
         }
 
         public event Action Updated;
@@ -54,7 +56,7 @@ namespace Sources.Level
         public int Stages { get; }
         public float StepSize { get; }
         public float HighValue { get; }
-        public float LowValue { get; }
+        public int LowValue { get; }
 
         public bool IsComplete => Stage == Stages;
 

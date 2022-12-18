@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Sources.Data;
 using Sources.Level;
+using Sources.Saves;
+using Sources.Tools.Extensions;
 using UnityEngine;
 
 namespace Sources.Collectables
 {
-    public class DetailsCollector : MonoBehaviour
+    public class DetailsCollector : MonoBehaviour, ISavedProgress
     {
         [SerializeField] private int _detailsAmount;
 
@@ -19,11 +21,6 @@ namespace Sources.Collectables
 
         public ProgressBar CurrentProgressBar => _progressBar;
 
-        private void Awake()
-        {
-            _progressBar = _carUnlocksProgress[0];
-        }
-
         public void Increase()
         {
             _detailsAmount++;
@@ -34,5 +31,20 @@ namespace Sources.Collectables
                 _progressBar = _carUnlocksProgress[1];
             }
         }
+
+        public void LoadProgress(PlayerProgress progress)
+        {
+            if (progress.CarUnlocksProgressBar == null)
+            {
+                _progressBar = _carUnlocksProgress[0];
+            }
+
+            _progressBar = progress.CarUnlocksProgressBar.ToProgressBar();
+        }
+
+        public void UpdateProgress(PlayerProgress progress)
+        {
+            progress.CarUnlocksProgressBar = _progressBar.ToProgressBarData();
+        }
     }
-} 
+}
