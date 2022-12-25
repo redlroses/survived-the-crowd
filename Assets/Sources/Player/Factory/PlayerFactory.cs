@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Cinemachine;
+using Sources.Collectables;
 using Sources.Level;
 using Sources.Pool;
 using Sources.Turret;
@@ -7,98 +8,109 @@ using Sources.Ui;
 using Sources.Vehicle;
 using UnityEngine;
 
-namespace Sources.Player
+namespace Sources.Player.Factory
 {
     public class PlayerFactory : MonoBehaviour
     {
-        private readonly List<Car> _availableCars = new List<Car>();
-
         [SerializeField] private EnemyPool _enemyPool;
         [SerializeField] private CinemachineVirtualCamera _camera;
         [SerializeField] private PlayerMover _base;
-        [SerializeField] private TargetSeeker _currentTurret;
         [SerializeField] private LoseDetector _loseDetector;
         [SerializeField] private FuelView _fuelView;
         [SerializeField] private HealthView _healthView;
 
         [SerializeField] private List<Car> _cars = new List<Car>();
-        [SerializeField] private List<GameObject> _weapons = new List<GameObject>();
+        [SerializeField] private List<Weapon> _weapons = new List<Weapon>();
 
-        private Car _currentCar;
-        private int _carIndex;
-
-        private TargetSeeker _currentWeapon;
-        private int _weaponIndex;
+        private Iterable<Car> _availableCars;
+        private Iterable<Weapon> _availableWeapons;
 
         private void Awake()
         {
-            Init();
-            SetCar(0);
+            InitCars();
+            InitWeapons();
             ApplyCar();
-            SetWeapon();
+            ApplyWeapon();
+            ShowPreviousCar();
+            ShowPreviousWeapon();
             _camera.Follow = _base.transform;
             _camera.LookAt = _base.transform;
         }
 
         public void ShowNextCar()
         {
-            _carIndex++;
-
-            if (_carIndex >= _cars.Count)
-            {
-                _carIndex = 0;
-            }
-
-            SetCar(_carIndex);
+            ShowNext(_availableCars);
         }
 
         public void ShowPreviousCar()
         {
-            _carIndex--;
+            ShowPrevious(_availableCars);
+        }
 
-            if (_carIndex < 0)
-            {
-                _carIndex = _availableCars.Count - 1;
-            }
+        public void ShowNextWeapon()
+        {
+            ShowNext(_availableWeapons);
+        }
 
-            SetCar(_carIndex);
+        public void ShowPreviousWeapon()
+        {
+            ShowPrevious(_availableWeapons);
         }
 
         public void ApplyCar()
         {
-            var playerHealth = _currentCar.GetComponentInChildren<PlayerHealth>();
-
-            _base.Init(_currentCar);
-            _fuelView.Init(_currentCar.GasTank);
-            _loseDetector.Init(_currentCar.GasTank, playerHealth);
+            Car currentCar = _availableCars.Current;
+            var playerHealth = currentCar.GetComponentInChildren<PlayerHealth>();
+            _base.Init(currentCar);
+            _fuelView.Init(currentCar.GasTank);
+            _loseDetector.Init(currentCar.GasTank, playerHealth);
             _healthView.Init(playerHealth);
             _enemyPool.Init(playerHealth);
         }
 
-        private void SetCar(int index)
+        public void ApplyWeapon()
         {
-            if (_currentCar != null)
-            {
-                _currentCar.gameObject.SetActive(false);
-            }
-
-            _currentCar = _availableCars[index];
-            _currentCar.gameObject.SetActive(true);
+            TargetSeeker currentWeapon = _availableWeapons.Current.TargetSeeker;
         }
 
-        private void SetWeapon()
+        private void InitCars()
         {
-            var weapon = Instantiate(_currentWeapon, _base.transform);
+            _availableCars = new Iterable<Car>(Spawn(_cars), 0);
         }
 
-        private void Init<T>(List<T> objects) where T : MonoBehaviour
+        private void InitWeapons()
         {
-            foreach (T item in objects)
+            _availableWeapons = new Iterable<Weapon>(Spawn(_weapons), 0);
+
+            foreach (Weapon weapon in _availableWeapons)
             {
-                T currentItem = Instantiate(item, _base.transform);
-                item.gameObject.SetActive(false);
-                _availableCars.Add(item);
+                weapon.TargetSeeker.Init(_loseDetector);
             }
+        }
+
+        private List<T> Spawn<T>(List<T> objects) where T : MonoBehaviour
+        {
+            List<T> spawnedCars = new List<T>(objects.Count);
+
+            foreach (T spawnedObject in objects)
+            {
+                T currentItem = Instantiate(spawnedObject, _base.transform);
+                spawnedCars.Add(currentItem);
+            }
+
+            return spawnedCars;
+        }
+
+        private void ShowNext<T>(Iterable<T> iterable) where T : MonoBehaviour
+        {
+            iterable.Current.gameObject.SetActive(false);
+            iterable.Next().gameObject.SetActive(true);
+        }
+
+        private void ShowPrevious<T>(Iterable<T> iterable) where T : MonoBehaviour
+        {
+            iterable.Current.gameObject.SetActive(false);
+            iterable.Previous().gameObject.SetActive(true);
         }
     }
 }

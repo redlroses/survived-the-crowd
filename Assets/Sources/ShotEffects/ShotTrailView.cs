@@ -14,6 +14,7 @@ namespace Sources.ShotEffects
 
         private float _startWidth;
         private WaitForSeconds _waitForDisable;
+        private Tweener _fadeTween;
 
         public event Action<ShotTrailView> Destroyed;
 
@@ -22,6 +23,7 @@ namespace Sources.ShotEffects
             _startWidth = _line.startWidth;
             _waitForDisable = new WaitForSeconds(_lifeTime);
             _line ??= GetComponent<LineRenderer>();
+            _fadeTween = DOTween.To(width => _line.startWidth = width, _line.startWidth, 0, _lifeTime);
         }
 
         private void OnEnable()
@@ -44,7 +46,7 @@ namespace Sources.ShotEffects
 
         private void StartFading()
         {
-            DOTween.To(width => _line.startWidth = width, _line.startWidth, 0, _lifeTime).Play().SetAutoKill(true);
+            _fadeTween.Restart();
         }
 
         private void OnDestroy()

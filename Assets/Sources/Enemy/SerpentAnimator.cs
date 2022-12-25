@@ -1,5 +1,7 @@
 using System;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using JetBrains.Annotations;
 using Sources.AnimatorStateMachine;
 using Sources.HealthLogic;
@@ -26,6 +28,8 @@ namespace Sources.Enemy
         private readonly float _downshiftDuration = 1.76f;
         private readonly float _downshiftDelaySecond = 2f;
 
+        private TweenerCore<Vector3, Vector3, VectorOptions> _moveTween;
+
         [SerializeField] private Animator _animator;
         [SerializeField] [RequireInterface(typeof(IHealth))] private MonoBehaviour _health;
 
@@ -40,6 +44,9 @@ namespace Sources.Enemy
         private void Awake()
         {
             _animator ??= GetComponent<Animator>();
+
+            _moveTween = transform.DOMoveY(transform.position.y - _downshiftAfterDeath, _downshiftDuration)
+                .SetDelay(_downshiftDelaySecond).OnComplete(InvokeAfterDeathAnimation);
         }
 
         private void OnEnable()
@@ -80,8 +87,7 @@ namespace Sources.Enemy
 
         private void PlayPostDeath()
         {
-            transform.DOMoveY(transform.position.y - _downshiftAfterDeath, _downshiftDuration)
-                .SetDelay(_downshiftDelaySecond).OnComplete(InvokeAfterDeathAnimation).Play().SetAutoKill(true);
+            _moveTween.Restart();
         }
 
         private void RestorePosition()

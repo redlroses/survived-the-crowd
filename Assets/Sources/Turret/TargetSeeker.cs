@@ -1,114 +1,88 @@
 using System;
-using System.Collections;
 using System.Linq;
+using Sources.Level;
 using UnityEngine;
 
 namespace Sources.Turret
 {
-    public sealed class TargetSeeker : MonoBehaviour
+    public sealed class TargetSeeker : Radar
     {
-        private readonly int _cacheSize = 50;
-
-        [SerializeField] private bool _isScanning;
-        [SerializeField] [Min(0)] private float _scanRadius;
-        [SerializeField] [Min(0.001f)] private float _scanFrequency;
-        [SerializeField] private LayerMask _filter;
-
-        private Coroutine _scan;
-        private WaitForSeconds _waitForScan;
-        private Collider[] _cachedTargets;
+        private Transform _selfTransform;
         private Transform _closestTarget;
+        private LoseDetector _loseDetector;
         private bool _isHasTarget;
 
         public event Action<Transform> TargetUpdated;
         public event Action TargetLost;
         public event Action TargetFound;
 
-        private void Awake()
+        private void Start()
         {
-            ScanFrequency = _scanFrequency;
-            _cachedTargets = new Collider[_cacheSize];
+            _selfTransform = transform;
         }
 
         private void OnEnable()
         {
+            _loseDetector.Lose += OnLose;
             StartScan();
         }
 
         private void OnDisable()
         {
+            _loseDetector.Lose -= OnLose;
             StopScan();
         }
 
-        private float ScanFrequency
+        public void Init(LoseDetector loseDetector)
         {
-            set
+            _loseDetector = loseDetector;
+        }
+
+        protected override void OnTargetsUpdated()
+        {
+            if (TargetsCount != 0)
             {
-                if (value <= 0)
+                TryUpdateTarget(GetClosest());
+            }
+
+            InvokeStateEvents(TargetsCount);
+        }
+
+        private void OnLose()
+        {
+            StopScan();
+            TargetLost?.Invoke();
+        }
+
+        private Transform GetClosest()
+        {
+            var minDistance = float.MaxValue;
+            Transform closest = null;
+
+            foreach (var target in Targets)
+            {
+                if (target is null)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(_scanFrequency));
+                    break;
                 }
 
-                _scanFrequency = value;
-                _waitForScan = new WaitForSeconds(1f / value);
-            }
-        }
+                float distanceToTarget = Vector3.Distance(_selfTransform.position, target.position);
 
-        private void OnDrawGizmos()
-        {
-            if (_isScanning == false)
-            {
-                return;
-            }
-
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, _scanRadius);
-            Gizmos.color = Color.white;
-        }
-
-#if UNITY_EDITOR
-        [ContextMenu("StartScan")]
-        public void CallStartScan()
-        {
-            StartScan();
-        }
-
-        [ContextMenu("StopScan")]
-        public void CallStopScan()
-        {
-            StopScan();
-        }
-#endif
-
-        private IEnumerator Scan()
-        {
-            while (_isScanning)
-            {
-                int targetsCount = FindTargets();
-                InvokeStateEvents(targetsCount);
-
-                if (targetsCount == 0)
+                if (distanceToTarget >= minDistance)
                 {
-                    yield return _waitForScan;
-
                     continue;
                 }
 
-                TryUpdateTarget(GetClosest());
-
-                if (targetsCount > _cacheSize)
-                {
-                    _cachedTargets = new Collider[_cachedTargets.Length + _cacheSize];
-                }
-
-                yield return _waitForScan;
+                minDistance = distanceToTarget;
+                closest = target;
             }
-        }
 
-        private int FindTargets()
-        {
-            ClearCache();
-            return Physics.OverlapSphereNonAlloc(transform.position, _scanRadius, _cachedTargets, _filter);
+            if (closest is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return closest;
         }
 
         private void TryUpdateTarget(Transform newClosest)
@@ -140,67 +114,6 @@ namespace Sources.Turret
                     _isHasTarget = true;
                 }
             }
-        }
-
-        private Transform GetClosest()
-        {
-            var minDistance = float.MaxValue;
-            Transform closest = null;
-
-            var filteredTargets = _cachedTargets
-                .Where(target => target != null)
-                .Select(target => target.transform);
-
-            foreach (var target in filteredTargets)
-            {
-                float distanceToTarget = Vector3.Distance(transform.position, target.position);
-
-                if (distanceToTarget >= minDistance)
-                {
-                    continue;
-                }
-
-                minDistance = distanceToTarget;
-                closest = target;
-            }
-
-            if (closest is null)
-            {
-                throw new NullReferenceException();
-            }
-
-            return closest;
-        }
-
-        private void ClearCache()
-        {
-            for (var i = 0; i < _cacheSize; i++)
-            {
-                _cachedTargets[i] = null;
-            }
-        }
-
-        private void StopScan()
-        {
-            if (_scan == null)
-            {
-                return;
-            }
-
-            StopCoroutine(_scan);
-            _scan = null;
-            _isScanning = false;
-        }
-
-        private void StartScan()
-        {
-            if (_scan != null)
-            {
-                return;
-            }
-
-            _isScanning = true;
-            _scan = StartCoroutine(Scan());
         }
     }
 }

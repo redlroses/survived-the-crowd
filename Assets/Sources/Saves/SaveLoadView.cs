@@ -9,13 +9,12 @@ namespace Sources.Saves
     {
         private ISaveLoader _saveLoader = new PlayerPrefsSaveLoader();
 
-        [SerializeField] [RequireInterface(typeof(ISavedProgressReader))] private List<MonoBehaviour> _progressWriters
-            = new List<MonoBehaviour>();
+        [SerializeField] [RequireInterface(typeof(ISavedProgressReader))]
+        private List<MonoBehaviour> _progressWriters = new List<MonoBehaviour>();
 
-        private List<ISavedProgressReader> ProgressReaders => _progressWriters.ConvertAll(input
-            => (ISavedProgressReader) input);
-        private List<ISavedProgress> ProgressWriters => _progressWriters.Where(obj
-                => obj is ISavedProgress)
+        private List<ISavedProgressReader> ProgressReaders => _progressWriters
+            .ConvertAll(input => (ISavedProgressReader) input);
+        private List<ISavedProgress> ProgressWriters => _progressWriters.Where(obj => obj is ISavedProgress)
             .ToList()
             .ConvertAll(input => (ISavedProgress) input);
 
@@ -43,7 +42,6 @@ namespace Sources.Saves
 
             foreach (var progressWriter in ProgressWriters)
             {
-                Debug.Log("Foreach");
                 progressWriter.UpdateProgress(progress);
             }
 

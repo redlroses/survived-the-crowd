@@ -1,49 +1,51 @@
-﻿using System.Collections.Generic;
-using Sources.Vehicle;
+﻿using System.Collections;
+using System.Collections.Generic;
 
-namespace Sources.Player.Factory
+namespace Sources.Collectables
 {
-    public class Iterable<T>
+    public class Iterable<T> : IEnumerable
     {
         private readonly List<T> _iterableObjects;
 
-        protected int _currentIndex;
+        protected int Index;
 
-        public Iterable(List<T> iterableObjects, int currentIndex)
+        public Iterable(List<T> iterableObjects, int index)
         {
             _iterableObjects = iterableObjects;
-            _currentIndex = currentIndex;
+            Index = index;
         }
 
-        public T Current => _iterableObjects[_currentIndex];
+        public T Current => _iterableObjects[Index];
+        public int CurrentIndex => Index;
+        public IEnumerator GetEnumerator() => _iterableObjects.GetEnumerator();
 
         public T Next()
         {
-            _currentIndex++;
+            Index++;
             ClampNext();
-            return _iterableObjects[_currentIndex];
+            return _iterableObjects[Index];
         }
 
         public T Previous()
         {
-            _currentIndex--;
+            Index--;
             ClampPrevious();
-            return _iterableObjects[_currentIndex];
+            return _iterableObjects[Index];
         }
 
-        protected void ClampNext()
+        protected virtual void ClampNext()
         {
-            if (_currentIndex > _iterableObjects.Count - 1)
+            if (Index > _iterableObjects.Count - 1)
             {
-                _currentIndex = _iterableObjects.Count - 1;
+                Index = _iterableObjects.Count - 1;
             }
         }
 
-        protected void ClampPrevious()
+        protected virtual void ClampPrevious()
         {
-            if (_currentIndex < 0)
+            if (Index < 0)
             {
-                _currentIndex = 0;
+                Index = 0;
             }
         }
     }

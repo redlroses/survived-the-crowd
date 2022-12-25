@@ -1,7 +1,9 @@
+using System;
 using Sources.Input;
 using Sources.Tools;
 using Sources.Tools.Extensions;
 using Sources.Vehicle;
+using TMPro;
 using UnityEngine;
 
 namespace Sources.Player
@@ -17,6 +19,8 @@ namespace Sources.Player
         private Vector2 _prevDirection;
         private Vector2 _inputDirection;
 
+        private bool _isInitialized;
+
         public Vector2 ForwardDirection => new Vector2(transform.forward.x, transform.forward.z).normalized;
         public float CurrentSpeed => _rigidbody.velocity.magnitude;
 
@@ -27,6 +31,11 @@ namespace Sources.Player
 
         private void FixedUpdate()
         {
+            if (_isInitialized == false)
+            {
+                return;
+            }
+
             Rotate();
             SetVelocity();
         }
@@ -43,6 +52,7 @@ namespace Sources.Player
         public void Init(Car car)
         {
             _vehicle = car;
+            _isInitialized = true;
         }
 
         public void Move(Vector2 newDirection)

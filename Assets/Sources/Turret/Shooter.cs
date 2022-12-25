@@ -57,7 +57,7 @@ namespace Sources.Turret
             StopShoot();
         }
 
-        private IEnumerator Shooting()
+        private IEnumerator Shoot()
         {
             while (_isShooting)
             {
@@ -83,7 +83,7 @@ namespace Sources.Turret
         private void StartShoot()
         {
             _isShooting = true;
-            _shootingCoroutine ??= StartCoroutine(Shooting());
+            _shootingCoroutine ??= StartCoroutine(Shoot());
         }
     }
 }

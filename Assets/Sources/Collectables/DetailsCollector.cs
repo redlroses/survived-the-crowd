@@ -9,15 +9,16 @@ namespace Sources.Collectables
 {
     public class DetailsCollector : MonoBehaviour, ISavedProgress
     {
-        [SerializeField] private int _detailsAmount;
-
-        private List<ProgressBar> _carUnlocksProgress = new List<ProgressBar>
+        private readonly List<ProgressBar> _carUnlocksProgress = new List<ProgressBar>
         {
-            new ProgressBar(4, 4),
-            new ProgressBar(8, 8)
+            new ProgressBar(5, 5),
+            new ProgressBar(10, 10)
         };
 
+        [SerializeField] private int _detailsAmount;
+
         private ProgressBar _progressBar;
+        private CarUnlockBars _carUnlockBars;
 
         public ProgressBar CurrentProgressBar => _progressBar;
 
@@ -28,7 +29,7 @@ namespace Sources.Collectables
 
             if (_progressBar.IsComplete)
             {
-                _progressBar = _carUnlocksProgress[1];
+                _progressBar = _carUnlockBars.Next();
             }
         }
 
@@ -36,10 +37,14 @@ namespace Sources.Collectables
         {
             if (progress.CarUnlocksProgressBar == null)
             {
-                _progressBar = _carUnlocksProgress[0];
+                _carUnlockBars = new CarUnlockBars(_carUnlocksProgress, 0);
+                _progressBar = _carUnlockBars.Current;
             }
-
-            _progressBar = progress.CarUnlocksProgressBar.ToProgressBar();
+            else
+            {
+                _carUnlockBars = new CarUnlockBars(_carUnlocksProgress, progress.CurrentCarUnlockBarIndex);
+                _progressBar = progress.CarUnlocksProgressBar.ToProgressBar();
+            }
         }
 
         public void UpdateProgress(PlayerProgress progress)
