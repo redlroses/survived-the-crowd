@@ -2,6 +2,7 @@
 using Cinemachine;
 using Sources.Level;
 using Sources.Pool;
+using Sources.Turret;
 using Sources.Ui;
 using Sources.Vehicle;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace Sources.Player
         [SerializeField] private EnemyPool _enemyPool;
         [SerializeField] private CinemachineVirtualCamera _camera;
         [SerializeField] private PlayerMover _base;
-        [SerializeField] private GameObject _currentWeapon;
+        [SerializeField] private TargetSeeker _currentTurret;
         [SerializeField] private LoseDetector _loseDetector;
         [SerializeField] private FuelView _fuelView;
         [SerializeField] private HealthView _healthView;
@@ -26,9 +27,12 @@ namespace Sources.Player
         private Car _currentCar;
         private int _carIndex;
 
+        private TargetSeeker _currentWeapon;
+        private int _weaponIndex;
+
         private void Awake()
         {
-            InitCars();
+            Init();
             SetCar(0);
             ApplyCar();
             SetWeapon();
@@ -87,13 +91,13 @@ namespace Sources.Player
             var weapon = Instantiate(_currentWeapon, _base.transform);
         }
 
-        private void InitCars()
+        private void Init<T>(List<T> objects) where T : MonoBehaviour
         {
-            foreach (Car car in _cars)
+            foreach (T item in objects)
             {
-                Car currentCar = Instantiate(car, _base.transform);
-                currentCar.gameObject.SetActive(false);
-                _availableCars.Add(currentCar);
+                T currentItem = Instantiate(item, _base.transform);
+                item.gameObject.SetActive(false);
+                _availableCars.Add(item);
             }
         }
     }
