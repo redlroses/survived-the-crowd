@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Sources.Level;
 using UnityEngine;
 
@@ -23,12 +22,14 @@ namespace Sources.Turret
 
         private void OnEnable()
         {
+            Updated += OnTargetsUpdated;
             _loseDetector.Lose += OnLose;
             StartScan();
         }
 
         private void OnDisable()
         {
+            Updated -= OnTargetsUpdated;
             _loseDetector.Lose -= OnLose;
             StopScan();
         }
@@ -38,7 +39,7 @@ namespace Sources.Turret
             _loseDetector = loseDetector;
         }
 
-        protected override void OnTargetsUpdated()
+        private void OnTargetsUpdated()
         {
             if (TargetsCount != 0)
             {

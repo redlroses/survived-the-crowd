@@ -64,7 +64,7 @@ namespace Sources.Enemy
 
         private void SpawnEnemy(Vector3 at)
         {
-            if (_pool.GetActiveObjects().Count(enemy => enemy.enabled) > _maxEnemies)
+            if (_pool.GetActiveObjects().Count() > _maxEnemies)
             {
                 return;
             }

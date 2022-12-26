@@ -22,6 +22,8 @@ namespace Sources.Pool
         [SerializeField] private bool _isManualFill;
         [SerializeField] private List<T> _copies;
 
+        public Transform Container => _customContainer;
+
         protected ObjectPool()
         {
             _objectsPool = new List<T>(_size);
@@ -113,8 +115,8 @@ namespace Sources.Pool
             return objectCopy;
         }
 
-        public T[] GetActiveObjects()
-            => _customContainer.GetComponentsInChildren<T>().Where(copy => copy.gameObject.activeSelf).ToArray();
+        public IEnumerable<T> GetActiveObjects()
+            => _objectsPool.Where(copy => copy.gameObject.activeSelf);
 
         protected void FillPool()
         {

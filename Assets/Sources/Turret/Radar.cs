@@ -8,8 +8,7 @@ namespace Sources.Turret
 {
     public class Radar : MonoBehaviour
     {
-        private readonly int _cacheSize = 15;
-
+        [SerializeField] private int _cacheSize = 30;
         [SerializeField] private bool _isScanning;
         [SerializeField] [Min(0)] private float _scanRadius;
         [SerializeField] [Min(0.001f)] private float _scanFrequency;
@@ -20,13 +19,10 @@ namespace Sources.Turret
         private WaitForSeconds _waitForScan;
         private Collider[] _cachedTargets;
 
-        private void Awake()
-        {
-            ScanFrequency = _scanFrequency;
-            _cachedTargets = new Collider[_cacheSize];
-        }
+        public event Action Updated;
 
         public int TargetsCount => _targetsCount;
+
         public IEnumerable<Transform> Targets => _cachedTargets
             .Where(target => target != null)
             .Select(target => target.transform);
@@ -45,6 +41,12 @@ namespace Sources.Turret
             }
         }
 
+        private void Awake()
+        {
+            ScanFrequency = _scanFrequency;
+            _cachedTargets = new Collider[_cacheSize];
+        }
+
         private void OnDrawGizmos()
         {
             if (_isScanning == false)
@@ -55,10 +57,6 @@ namespace Sources.Turret
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, _scanRadius);
             Gizmos.color = Color.white;
-        }
-
-        protected virtual void OnTargetsUpdated()
-        {
         }
 
         [ContextMenu("Stop Scan")]
@@ -92,20 +90,7 @@ namespace Sources.Turret
             {
                 ClearCache(_targetsCount);
                 _targetsCount = FindTargets();
-                OnTargetsUpdated();
-
-                if (_targetsCount == 0)
-                {
-                    yield return _waitForScan;
-
-                    continue;
-                }
-
-                if (_targetsCount > _cacheSize)
-                {
-                    _cachedTargets = new Collider[_cachedTargets.Length + _cacheSize];
-                    continue;
-                }
+                Updated?.Invoke();
 
                 yield return _waitForScan;
             }

@@ -30,6 +30,20 @@ namespace Sources.Ui.Indication
             RotateIndicator(_indicatorArrow);
         }
 
+        public float DistanceToTarget
+            => Vector3.Distance(_target.position, _centerTransform.position);
+
+        public void Activate(Transform target)
+        {
+            _target = target;
+            gameObject.SetActive(true);
+        }
+
+        public void Deactivate()
+        {
+            gameObject.SetActive(false);
+        }
+
         private Vector3 GetDirection()
         {
             Vector3 direction = (_target.position - _centerTransform.position).normalized;
