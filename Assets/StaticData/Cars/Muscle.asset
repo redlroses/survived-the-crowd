@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b9a4fe76ba2b9b45aacfd24e9d9fa61, type: 3}
   m_Name: Muscle
   m_EditorClassIdentifier: 
-  CarId: 0
-  MaxHealth: 20
-  MaxWheelAngle: 30
-  Consumption: 0.002
-  IdleConsumption: 0.001
-  Acceleration: 0.5
+  CarId: 2
+  MaxHealth: 50
+  MaxWheelAngle: 50
+  Consumption: 0.008
+  IdleConsumption: 0.006
+  Acceleration: 1
   Deceleration: 0
-  MaxSpeed: 13
+  MaxSpeed: 19
   MaxFuel: 100

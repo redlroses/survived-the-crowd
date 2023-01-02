@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b9a4fe76ba2b9b45aacfd24e9d9fa61, type: 3}
   m_Name: Buggy
   m_EditorClassIdentifier: 
-  CarId: 0
+  CarId: 1
   MaxHealth: 20
-  MaxWheelAngle: 30
-  Consumption: 0.002
-  IdleConsumption: 0.001
-  Acceleration: 0.5
+  MaxWheelAngle: 65
+  Consumption: 0.003
+  IdleConsumption: 0.0015
+  Acceleration: 0.75
   Deceleration: 0
-  MaxSpeed: 13
+  MaxSpeed: 16
   MaxFuel: 100
