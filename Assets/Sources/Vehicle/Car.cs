@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sources.Player.Factory;
+using UnityEngine;
 
 namespace Sources.Vehicle
 {
@@ -7,6 +8,7 @@ namespace Sources.Vehicle
     [RequireComponent(typeof(Engine))]
     public sealed class Car : MonoBehaviour
     {
+        [SerializeField] private CarId _id;
         [SerializeField] private Engine _engine;
         [SerializeField] private GasTank _gasTank;
         [SerializeField] private Rudder _rudder;
@@ -14,6 +16,7 @@ namespace Sources.Vehicle
         public Engine Engine => _engine;
         public GasTank GasTank => _gasTank;
         public Rudder Rudder => _rudder;
+        public CarId Id => _id;
 
         private void Awake()
         {

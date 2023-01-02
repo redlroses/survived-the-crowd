@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 646da1e038cd5c345a3843fc239a5fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cacheSize: 30
   _isScanning: 1
   _scanRadius: 30
   _scanFrequency: 5
@@ -381,6 +382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetSeeker: {fileID: 1926394862771120482}
+  _id: 1
 --- !u!1 &3339404363656144677
 GameObject:
   m_ObjectHideFlags: 0

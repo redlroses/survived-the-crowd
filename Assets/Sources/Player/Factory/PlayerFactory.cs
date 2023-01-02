@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cinemachine;
 using Sources.Collectables;
 using Sources.Level;
@@ -18,12 +19,17 @@ namespace Sources.Player.Factory
         [SerializeField] private LoseDetector _loseDetector;
         [SerializeField] private FuelView _fuelView;
         [SerializeField] private HealthView _healthView;
-
         [SerializeField] private List<Car> _cars = new List<Car>();
         [SerializeField] private List<Weapon> _weapons = new List<Weapon>();
 
         private Iterable<Car> _availableCars;
         private Iterable<Weapon> _availableWeapons;
+
+        private Car _currentCar;
+        private Weapon _currentWeapon;
+
+        public event Action<CarId> CarChanged;
+        public event Action<WeaponId> WeaponChanged;
 
         private void Awake()
         {
@@ -39,22 +45,26 @@ namespace Sources.Player.Factory
 
         public void ShowNextCar()
         {
-            ShowNext(_availableCars);
+            _currentCar = ShowNext(_availableCars);
+            CarChanged?.Invoke(_currentCar.Id);
         }
 
         public void ShowPreviousCar()
         {
-            ShowPrevious(_availableCars);
+            _currentCar = ShowPrevious(_availableCars);
+            CarChanged?.Invoke(_currentCar.Id);
         }
 
         public void ShowNextWeapon()
         {
-            ShowNext(_availableWeapons);
+            _currentWeapon = ShowNext(_availableWeapons);
+            WeaponChanged?.Invoke(_currentWeapon.Id);
         }
 
         public void ShowPreviousWeapon()
         {
-            ShowPrevious(_availableWeapons);
+            _currentWeapon = ShowPrevious(_availableWeapons);
+            WeaponChanged?.Invoke(_currentWeapon.Id);
         }
 
         public void ApplyCar()
@@ -101,16 +111,26 @@ namespace Sources.Player.Factory
             return spawnedCars;
         }
 
-        private void ShowNext<T>(Iterable<T> iterable) where T : MonoBehaviour
+        private T ShowNext<T>(Iterable<T> iterable) where T : MonoBehaviour
         {
             iterable.Current.gameObject.SetActive(false);
-            iterable.Next().gameObject.SetActive(true);
+            T current = iterable.Next();
+            current.gameObject.SetActive(true);
+            return current;
         }
 
-        private void ShowPrevious<T>(Iterable<T> iterable) where T : MonoBehaviour
+        private T ShowPrevious<T>(Iterable<T> iterable) where T : MonoBehaviour
         {
             iterable.Current.gameObject.SetActive(false);
-            iterable.Previous().gameObject.SetActive(true);
+            T current = iterable.Previous();
+            current.gameObject.SetActive(true);
+            return current;
         }
+    }
+
+    public enum WeaponId
+    {
+        MachineGun,
+        RocketLauncher
     }
 }

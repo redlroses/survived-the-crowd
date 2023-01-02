@@ -7,6 +7,8 @@ namespace Sources.Data
     public class PlayerProgress : IPlayerProgress
     {
         public ProgressBarData CarUnlocksProgressBar;
-        public int CurrentCarUnlockBarIndex;
+        public int CurrentCarUnlockBarIndex = 0;
+        public int LastUnlockedCarId = 0;
+        public int LastUnlockedWeaponId = 0;
     }
 }

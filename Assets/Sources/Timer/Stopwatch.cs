@@ -4,6 +4,9 @@ namespace Sources.Timer
     {
         private float _elapsedTime;
 
+        public float GetSeconds()
+            => _elapsedTime;
+
         public void Tick(float deltaTime)
         {
             _elapsedTime += deltaTime;

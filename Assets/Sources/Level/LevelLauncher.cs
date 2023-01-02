@@ -3,6 +3,7 @@ using Sources.Collectables;
 using Sources.Enemy;
 using Sources.Fuel;
 using Sources.Input;
+using Sources.Pool;
 using UnityEngine;
 
 namespace Sources.Level
@@ -11,9 +12,11 @@ namespace Sources.Level
     {
         [SerializeField] private LoseDetector _loseDetector;
         [SerializeField] private EnemyFactory _enemyFactory;
+        [SerializeField] private EnemyPool _enemyPool;
         [SerializeField] private FuelBarrelFactory _fuelFactory;
         [SerializeField] private CarDetailsFactory _carDetailsFactory;
         [SerializeField] private PlayerInput _input;
+        [SerializeField] private GateAnimation _gateAnimation;
         [SerializeField] private Joystick _joystick;
         [SerializeField] private Vector3 _starPlayerPosition;
         [SerializeField] private Vector3 _starPlayerRotation;
@@ -35,7 +38,9 @@ namespace Sources.Level
             _fuelFactory.Run();
             _carDetailsFactory.Run();
             _input.Activate();
+            _gateAnimation.Open();
             _loseDetector.enabled = true;
+            _joystick.enabled = true;
         }
 
         public void Restart()
@@ -52,11 +57,14 @@ namespace Sources.Level
             _input.transform.position = _starPlayerPosition;
             _input.transform.rotation = Quaternion.Euler(_starPlayerRotation);
             _loseDetector.enabled = false;
+            _gateAnimation.Reset();
+            _enemyPool.ResetDeadEnemyCounter();
         }
 
         private void OnLose()
         {
             _input.Deactivate();
+            _joystick.enabled = false;
         }
     }
 }

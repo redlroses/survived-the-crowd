@@ -1,20 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Sources.Data;
+using Sources.Level;
 using UnityEngine;
 
 namespace Sources.Saves
 {
     public class SaveLoadView : MonoBehaviour
     {
-        private ISaveLoader _saveLoader = new PlayerPrefsSaveLoader();
+        [SerializeField] private LoseDetector _loseDetector;
 
         [SerializeField] [RequireInterface(typeof(ISavedProgressReader))]
-        private List<MonoBehaviour> _progressWriters = new List<MonoBehaviour>();
+        private List<MonoBehaviour> _progressReaders = new List<MonoBehaviour>();
 
-        private List<ISavedProgressReader> ProgressReaders => _progressWriters
-            .ConvertAll(input => (ISavedProgressReader) input);
-        private List<ISavedProgress> ProgressWriters => _progressWriters.Where(obj => obj is ISavedProgress)
+        private ISaveLoader _saveLoader = new PlayerPrefsSaveLoader();
+
+        private List<ISavedProgressReader> ProgressReaders => _progressReaders
+            .ConvertAll(input => input as ISavedProgressReader);
+        private List<ISavedProgress> ProgressWriters => _progressReaders.Where(obj => obj is ISavedProgress)
             .ToList()
             .ConvertAll(input => (ISavedProgress) input);
 
@@ -23,8 +26,14 @@ namespace Sources.Saves
             Load();
         }
 
+        private void OnEnable()
+        {
+            _loseDetector.Lose += Save;
+        }
+
         private void OnDisable()
         {
+            _loseDetector.Lose -= Save;
             Save();
         }
 

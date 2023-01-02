@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Sources.Level;
 using Sources.Ui.Wrapper;
 using UnityEngine;
@@ -27,6 +26,9 @@ namespace Sources.Timer
         {
             _loseDetector.Lose -= StopCountTime;
         }
+
+        public float GetTime()
+            => _stopwatch.GetSeconds();
 
         private void StartCountTime()
         {
