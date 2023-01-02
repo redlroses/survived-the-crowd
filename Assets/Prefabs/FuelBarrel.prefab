@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2068594374335907071}
   - component: {fileID: 2287703088949981120}
-  - component: {fileID: 5655447617327826506}
+  - component: {fileID: 5696065351311944303}
   m_Layer: 14
   m_Name: FuelBarrel
   m_TagString: Untagged
@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fuelAmount: 30
---- !u!65 &5655447617327826506
-BoxCollider:
+--- !u!135 &5696065351311944303
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -58,8 +58,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 2, z: 1}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Radius: 4
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1001 &3026687995176950412
 PrefabInstance:
   m_ObjectHideFlags: 0

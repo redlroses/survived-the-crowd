@@ -1,4 +1,5 @@
 using System;
+using Sources.StaticData;
 using Sources.Tools.Extensions;
 using Sources.Types;
 using Sources.Vehicle.View;
@@ -31,6 +32,7 @@ namespace Sources.Vehicle
         private RotationDirection _rotationDirection;
 
         public Vector3 MoveDirection => _moveDirection;
+
         public Vector3 WheelDirection => _wheelDirection;
 
         private void Start()
@@ -61,6 +63,11 @@ namespace Sources.Vehicle
             DrawSphere(_vehicleCenter, _debugSphereRadius);
             color = Color.yellow;
             DrawRay(transform.position, _moveDirection * _moveDirectionGizmosLength);
+        }
+
+        public void Construct(CarStaticData carStaticData)
+        {
+            _maxAngle = carStaticData.MaxWheelAngle;
         }
 
         public void DeflectSteeringWheel(float angle)

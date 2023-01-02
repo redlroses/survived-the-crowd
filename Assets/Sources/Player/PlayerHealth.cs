@@ -1,4 +1,5 @@
 ﻿using Sources.HealthLogic;
+using Sources.StaticData;
 using UnityEngine;
 
 namespace Sources.Player
@@ -14,5 +15,10 @@ namespace Sources.Player
             => _hurtBox.transform.position;
 
         public bool IsAttackable => gameObject.activeInHierarchy;
+
+        public void Construct(CarStaticData carStaticData)
+        {
+            SetMaxPoints(carStaticData.MaxHealth);
+        }
     }
 }

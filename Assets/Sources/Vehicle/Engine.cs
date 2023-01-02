@@ -1,4 +1,5 @@
 using System;
+using Sources.StaticData;
 using UnityEngine;
 
 namespace Sources.Vehicle
@@ -26,6 +27,14 @@ namespace Sources.Vehicle
         private void OnDisable()
         {
             _gasTank.Empty -= OnEmptyGasTank;
+        }
+
+        public void Construct(CarStaticData carStaticData)
+        {
+            _consumption = carStaticData.Consumption;
+            _idleConsumption = carStaticData.IdleConsumption;
+            _acceleration = carStaticData.Acceleration;
+            _maxMoveSpeed = carStaticData.MaxSpeed;
         }
 
         private void OnEmptyGasTank()

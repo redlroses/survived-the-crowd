@@ -3,7 +3,7 @@
     public enum CarId
     {
         HotRod,
-        HotRod2,
-        HotRod3
+        Buggy,
+        Muscle
     }
 }

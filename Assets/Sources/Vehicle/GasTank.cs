@@ -1,4 +1,5 @@
 using System;
+using Sources.StaticData;
 using Sources.Tools;
 using UnityEngine;
 
@@ -18,12 +19,12 @@ namespace Sources.Vehicle
 
         private void OnEnable()
         {
-            Init();
+            _fuelLevel = _maxFuel;
         }
 
-        public void Init()
+        public void Construct(CarStaticData carStaticData)
         {
-            _fuelLevel = _maxFuel;
+            _maxFuel = carStaticData.MaxFuel;
         }
 
         public void Refuel(float amount)

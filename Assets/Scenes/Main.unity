@@ -6554,7 +6554,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 656874353}
-  m_LocalRotation: {x: -0.17126976, y: 0.82644874, z: -0.4114931, w: -0.3439807}
+  m_LocalRotation: {x: -0.17126974, y: 0.8264487, z: -0.4114931, w: -0.34398064}
   m_LocalPosition: {x: 69.5, y: 33.08, z: 103.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -15636,9 +15636,9 @@ MonoBehaviour:
   _fuelView: {fileID: 3283135147942847716}
   _healthView: {fileID: 2435114360823698668}
   _cars:
+  - {fileID: 4624169844833551611, guid: b19079b487bd8b941989bd2f5bbfe751, type: 3}
   - {fileID: 4624169844833551611, guid: cf15d0e042eb12e47a93fca4e6b11813, type: 3}
   - {fileID: 4624169844833551611, guid: 8f5792cd28a2d724bbc8632fc4605324, type: 3}
-  - {fileID: 4624169844833551611, guid: b19079b487bd8b941989bd2f5bbfe751, type: 3}
   _weapons:
   - {fileID: 4905869873644069729, guid: 516c2cede3752ea4bb2977367283b4f8, type: 3}
   - {fileID: 4905869873644069729, guid: 37a68c4e5940f624c8341b79c7b983aa, type: 3}
@@ -20268,7 +20268,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967758108}
-  m_LocalRotation: {x: -0.17126976, y: 0.82644874, z: -0.4114931, w: -0.3439807}
+  m_LocalRotation: {x: -0.17126974, y: 0.8264487, z: -0.4114931, w: -0.34398064}
   m_LocalPosition: {x: 69.5, y: 33.08, z: 103.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

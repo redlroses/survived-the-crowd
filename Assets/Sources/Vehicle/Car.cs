@@ -1,4 +1,6 @@
-﻿using Sources.Player.Factory;
+﻿using Sources.Player;
+using Sources.Player.Factory;
+using Sources.StaticData;
 using UnityEngine;
 
 namespace Sources.Vehicle
@@ -9,9 +11,11 @@ namespace Sources.Vehicle
     public sealed class Car : MonoBehaviour
     {
         [SerializeField] private CarId _id;
+        [SerializeField] private CarStaticData _carStaticData;
         [SerializeField] private Engine _engine;
         [SerializeField] private GasTank _gasTank;
         [SerializeField] private Rudder _rudder;
+        [SerializeField] private PlayerHealth _playerHealth;
 
         public Engine Engine => _engine;
         public GasTank GasTank => _gasTank;
@@ -23,16 +27,11 @@ namespace Sources.Vehicle
             _engine ??= GetComponent<Engine>();
             _gasTank ??= GetComponent<GasTank>();
             _rudder ??= GetComponent<Rudder>();
-        }
 
-        public void StartEngine()
-        {
-            _gasTank.enabled = true;
-        }
-
-        public void StopEngine()
-        {
-            _gasTank.enabled = false;
+            _engine.Construct(_carStaticData);
+            _gasTank.Construct(_carStaticData);
+            _rudder.Construct(_carStaticData);
+            _playerHealth.Construct(_carStaticData);
         }
     }
 }
