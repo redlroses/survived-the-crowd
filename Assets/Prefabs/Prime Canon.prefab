@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 646da1e038cd5c345a3843fc239a5fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cacheSize: 30
   _isScanning: 1
   _scanRadius: 30
   _scanFrequency: 5
@@ -252,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shotMaker: {fileID: 2218685803088426137}
   _isShooting: 0
-  _cooldown: 0.2
+  _fireRate: 0
 --- !u!114 &7200254466841553316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,7 +381,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6046e67bdf3b4d408c6cab5a03cf207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _id: 0
+  _weaponData: {fileID: 11400000, guid: 3fab0fffbdb3e3c4493cc4cc0aee6fd1, type: 2}
   _targetSeeker: {fileID: 1926394862771120482}
+  _shooter: {fileID: 3534067933571649953}
+  _shotMaker: {fileID: 2218685803088426137}
 --- !u!1 &3339404363656144677
 GameObject:
   m_ObjectHideFlags: 0

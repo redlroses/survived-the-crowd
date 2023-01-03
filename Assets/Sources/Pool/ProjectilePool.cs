@@ -8,6 +8,7 @@ namespace Sources.Pool
         [Header("Projectile Settings")]
         [SerializeField] private Collider _ownerHurtBox;
 
+        private int _projectileDamage;
         private bool _isOwnerHurtBoxNull;
 
         private void Start()
@@ -15,8 +16,16 @@ namespace Sources.Pool
             _isOwnerHurtBoxNull = _ownerHurtBox == null;
         }
 
+        public void Construct(int projectileDamage)
+        {
+            _projectileDamage = projectileDamage;
+            FillPool();
+        }
+
         protected override void InitCopy(Projectile copy)
         {
+            copy.Construct(_projectileDamage);
+
             if (_isOwnerHurtBoxNull)
             {
                 return;
@@ -26,8 +35,6 @@ namespace Sources.Pool
             {
                 Physics.IgnoreCollision(bulletCollider, _ownerHurtBox, true);
             }
-
-            Physics.IgnoreCollision(bulletCollider, _ownerHurtBox, true);
         }
     }
 }

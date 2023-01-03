@@ -1,5 +1,6 @@
 using System;
 using Sources.DamageDeal.Data;
+using Sources.StaticData;
 using UnityEngine;
 
 namespace Sources.Turret
@@ -15,6 +16,11 @@ namespace Sources.Turret
         public event Action ShotOff;
 
         public RayDamageDealer RayDamageDealer => _rayDamageDealer;
+
+        public void Construct(WeaponStaticData weaponData)
+        {
+            _shotDamage = weaponData.Damage;
+        }
 
         public void MakeShot()
         {

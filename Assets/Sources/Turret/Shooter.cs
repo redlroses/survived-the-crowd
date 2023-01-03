@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Sources.StaticData;
 using UnityEngine;
 
 namespace Sources.Turret
@@ -9,33 +10,34 @@ namespace Sources.Turret
     {
         [SerializeField] [RequireInterface(typeof(IShotMaker))] private MonoBehaviour _shotMaker;
         [SerializeField] private bool _isShooting;
-        [SerializeField] [Min(0.001f)] private float _cooldown;
+        [SerializeField] [Min(0.001f)] private float _fireRate;
 
         private TargetSeeker _targetSeeker;
         private WaitForSeconds _waitForShot;
+
         private Coroutine _shootingCoroutine;
 
         private IShotMaker ShotMaker => (IShotMaker) _shotMaker;
 
-        public float Cooldown
+        public float FireRate
         {
-            get => _cooldown;
+            get => _fireRate;
             private set
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(Cooldown));
+                    throw new ArgumentOutOfRangeException(nameof(FireRate));
                 }
 
-                _cooldown = value;
-                _waitForShot = new WaitForSeconds(value);
+                _fireRate = value;
+                _waitForShot = new WaitForSeconds(1f / _fireRate);
             }
         }
 
         private void Awake()
         {
             _targetSeeker = GetComponent<TargetSeeker>();
-            Cooldown = _cooldown;
+            FireRate = _fireRate;
         }
 
         private void OnEnable()
@@ -55,6 +57,11 @@ namespace Sources.Turret
             _targetSeeker.TargetLost -= StopShoot;
 
             StopShoot();
+        }
+
+        public void Construct(WeaponStaticData weaponData)
+        {
+            FireRate = weaponData.FireRate;
         }
 
         private IEnumerator Shoot()

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Sources.StaticData;
 using UnityEngine;
 
 namespace Sources.Turret
@@ -10,8 +11,8 @@ namespace Sources.Turret
     {
         [SerializeField] private int _cacheSize = 30;
         [SerializeField] private bool _isScanning;
-        [SerializeField] [Min(0)] private float _scanRadius;
-        [SerializeField] [Min(0.001f)] private float _scanFrequency;
+        [SerializeField] private float _scanRadius;
+        [SerializeField] private float _scanFrequency;
         [SerializeField] private LayerMask _filter;
 
         private int _targetsCount;
@@ -21,9 +22,9 @@ namespace Sources.Turret
 
         public event Action Updated;
 
-        public int TargetsCount => _targetsCount;
+        protected int TargetsCount => _targetsCount;
 
-        public IEnumerable<Transform> Targets => _cachedTargets
+        protected IEnumerable<Transform> Targets => _cachedTargets
             .Where(target => target != null)
             .Select(target => target.transform);
 
@@ -57,6 +58,11 @@ namespace Sources.Turret
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, _scanRadius);
             Gizmos.color = Color.white;
+        }
+
+        public void Construct(WeaponStaticData weaponData)
+        {
+            _scanRadius = weaponData.Radius;
         }
 
         [ContextMenu("Stop Scan")]

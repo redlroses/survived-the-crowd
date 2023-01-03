@@ -28,8 +28,6 @@ namespace Sources.Projectiles
             Destroyed?.Invoke(this);
         }
 
-        protected abstract void Move(float moveSpeed);
-
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out IDamageable damageable))
@@ -39,6 +37,13 @@ namespace Sources.Projectiles
 
             Disable();
         }
+
+        public void Construct(int damage)
+        {
+            _damageValue = damage;
+        }
+
+        protected abstract void Move(float moveSpeed);
 
         private void SetLifeTime(float lifeTime)
         {

@@ -33,6 +33,17 @@ namespace Sources.Collectables
             return _iterableObjects[Index];
         }
 
+        public bool Reset(T iterable)
+        {
+            if (_iterableObjects.Contains(iterable) == false)
+            {
+                return false;
+            }
+
+            Index = _iterableObjects.IndexOf(iterable);
+            return true;
+        }
+
         protected virtual void ClampNext()
         {
             if (Index > _iterableObjects.Count - 1)

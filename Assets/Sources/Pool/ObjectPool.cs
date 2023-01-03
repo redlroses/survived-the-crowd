@@ -120,6 +120,11 @@ namespace Sources.Pool
 
         protected void FillPool()
         {
+            if (_isManualFill)
+            {
+                Clear();
+            }
+
             Fill(_size);
         }
 
@@ -224,6 +229,14 @@ namespace Sources.Pool
             if (_copies.Count == 0 || _copies.Any(copy => copy == null))
             {
                 throw new NullReferenceException(NoCopies);
+            }
+        }
+
+        private void Clear()
+        {
+            foreach (var copy in _objectsPool)
+            {
+                Remove(copy);
             }
         }
     }

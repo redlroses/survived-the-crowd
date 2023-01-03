@@ -1,5 +1,6 @@
 ﻿using System;
 using Sources.Pool;
+using Sources.StaticData;
 using UnityEngine;
 
 namespace Sources.Turret
@@ -15,6 +16,11 @@ namespace Sources.Turret
         private void Awake()
         {
             _pool ??= GetComponent<ProjectilePool>();
+        }
+
+        public void Construct(WeaponStaticData weaponData)
+        {
+            _pool.Construct(weaponData.Damage);
         }
 
         public void MakeShot()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using Sources.Collectables;
 using Sources.Level;
@@ -28,58 +29,75 @@ namespace Sources.Player.Factory
         private Car _currentCar;
         private Weapon _currentWeapon;
 
+        private Car _appliedCar;
+        private Weapon _appliedWeapon;
+
         public event Action<CarId> CarChanged;
         public event Action<WeaponId> WeaponChanged;
+
+        private Vector3 WeaponPivot => _availableCars.Current.WeaponPivot.localPosition;
 
         private void Awake()
         {
             InitCars();
             InitWeapons();
-            ApplyCar();
-            ApplyWeapon();
-            ShowPreviousCar();
-            ShowPreviousWeapon();
+            ChangeCar(_availableCars.Current);
+            ChangeWeapon(_availableWeapons.Current);
             _camera.Follow = _base.transform;
             _camera.LookAt = _base.transform;
+            PlaceWeapon();
+            ApplyCar();
+            ApplyWeapon();
         }
 
         public void ShowNextCar()
         {
-            _currentCar = ShowNext(_availableCars);
-            CarChanged?.Invoke(_currentCar.Id);
+            ChangeCar(GetNext(_availableCars));
+            PlaceWeapon();
         }
 
         public void ShowPreviousCar()
         {
-            _currentCar = ShowPrevious(_availableCars);
-            CarChanged?.Invoke(_currentCar.Id);
+            ChangeCar(GetPrevious(_availableCars));
+            PlaceWeapon();
         }
 
         public void ShowNextWeapon()
         {
-            _currentWeapon = ShowNext(_availableWeapons);
-            WeaponChanged?.Invoke(_currentWeapon.Id);
+            ChangeWeapon(GetNext(_availableWeapons));
+            PlaceWeapon();
         }
 
         public void ShowPreviousWeapon()
         {
-            _currentWeapon = ShowPrevious(_availableWeapons);
-            WeaponChanged?.Invoke(_currentWeapon.Id);
+            ChangeWeapon(GetPrevious(_availableWeapons));
+            PlaceWeapon();
+        }
+
+        public void OnResume()
+        {
+            Hide(_availableCars.Current);
+            Hide(_availableWeapons.Current);
+            _availableCars.Reset(_appliedCar);
+            _availableWeapons.Reset(_appliedWeapon);
+            ChangeCar(_appliedCar);
+            ChangeWeapon(_appliedWeapon);
         }
 
         public void ApplyCar()
         {
-            Car currentCar = _availableCars.Current;
-            var playerHealth = currentCar.GetComponentInChildren<PlayerHealth>();
-            _base.Init(currentCar);
-            _fuelView.Init(currentCar.GasTank);
-            _loseDetector.Init(currentCar.GasTank, playerHealth);
+            _appliedCar = _availableCars.Current;
+            PlayerHealth playerHealth = _appliedCar.GetComponentInChildren<PlayerHealth>();
+            _base.Init(_appliedCar);
+            _fuelView.Init(_appliedCar.GasTank);
+            _loseDetector.Init(_appliedCar.GasTank, playerHealth);
             _healthView.Init(playerHealth);
             _enemyPool.Init(playerHealth);
         }
 
         public void ApplyWeapon()
         {
+            _appliedWeapon = _availableWeapons.Current;
             TargetSeeker currentWeapon = _availableWeapons.Current.TargetSeeker;
         }
 
@@ -98,39 +116,54 @@ namespace Sources.Player.Factory
             }
         }
 
+        private void ChangeCar(Car car)
+        {
+            Show(car);
+            CarChanged?.Invoke(car.Id);
+        }
+
+        private void ChangeWeapon(Weapon weapon)
+        {
+            Show(weapon);
+            WeaponChanged?.Invoke(weapon.Id);
+        }
+
         private List<T> Spawn<T>(List<T> objects) where T : MonoBehaviour
         {
             List<T> spawnedCars = new List<T>(objects.Count);
-
-            foreach (T spawnedObject in objects)
-            {
-                T currentItem = Instantiate(spawnedObject, _base.transform);
-                spawnedCars.Add(currentItem);
-            }
+            spawnedCars.AddRange(objects
+                .Select(spawnedObject => Instantiate(spawnedObject, _base.transform)));
 
             return spawnedCars;
         }
 
-        private T ShowNext<T>(Iterable<T> iterable) where T : MonoBehaviour
+        private T GetNext<T>(Iterable<T> iterable) where T : MonoBehaviour
         {
-            iterable.Current.gameObject.SetActive(false);
+            Hide(iterable.Current);
             T current = iterable.Next();
-            current.gameObject.SetActive(true);
             return current;
         }
 
-        private T ShowPrevious<T>(Iterable<T> iterable) where T : MonoBehaviour
+        private T GetPrevious<T>(Iterable<T> iterable) where T : MonoBehaviour
         {
-            iterable.Current.gameObject.SetActive(false);
+            Hide(iterable.Current);
             T current = iterable.Previous();
-            current.gameObject.SetActive(true);
             return current;
         }
-    }
 
-    public enum WeaponId
-    {
-        MachineGun,
-        RocketLauncher
+        private void Hide<T>(T iterable) where T : MonoBehaviour
+        {
+            iterable.gameObject.SetActive(false);
+        }
+
+        private void Show<T>(T iterable) where T : MonoBehaviour
+        {
+            iterable.gameObject.SetActive(true);
+        }
+
+        private void PlaceWeapon()
+        {
+            _availableWeapons.Current.transform.localPosition = WeaponPivot;
+        }
     }
 }

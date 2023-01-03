@@ -253,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shotMaker: {fileID: 2218685803088426137}
   _isShooting: 0
-  _cooldown: 0.15
+  _fireRate: 0.42
 --- !u!114 &7200254466841553316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,7 +312,7 @@ GameObject:
   - component: {fileID: 2218685804260180645}
   - component: {fileID: 4905869873644069729}
   m_Layer: 10
-  m_Name: Extented Canon
+  m_Name: Rocket Launcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -381,8 +381,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6046e67bdf3b4d408c6cab5a03cf207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetSeeker: {fileID: 1926394862771120482}
   _id: 1
+  _weaponData: {fileID: 11400000, guid: d5949d5c439c5654e84621a854c1497c, type: 2}
+  _targetSeeker: {fileID: 1926394862771120482}
+  _shooter: {fileID: 3534067933571649953}
+  _shotMaker: {fileID: 2218685803088426137}
 --- !u!1 &3339404363656144677
 GameObject:
   m_ObjectHideFlags: 0

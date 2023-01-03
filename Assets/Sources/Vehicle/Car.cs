@@ -16,22 +16,33 @@ namespace Sources.Vehicle
         [SerializeField] private GasTank _gasTank;
         [SerializeField] private Rudder _rudder;
         [SerializeField] private PlayerHealth _playerHealth;
+        [SerializeField] private Transform _weaponPivot;
 
         public Engine Engine => _engine;
         public GasTank GasTank => _gasTank;
         public Rudder Rudder => _rudder;
         public CarId Id => _id;
+        public Transform WeaponPivot => _weaponPivot;
 
         private void Awake()
         {
-            _engine ??= GetComponent<Engine>();
-            _gasTank ??= GetComponent<GasTank>();
-            _rudder ??= GetComponent<Rudder>();
+            SetComponents();
+            ConstructData();
+        }
 
+        private void ConstructData()
+        {
             _engine.Construct(_carStaticData);
             _gasTank.Construct(_carStaticData);
             _rudder.Construct(_carStaticData);
             _playerHealth.Construct(_carStaticData);
+        }
+
+        private void SetComponents()
+        {
+            _engine ??= GetComponent<Engine>();
+            _gasTank ??= GetComponent<GasTank>();
+            _rudder ??= GetComponent<Rudder>();
         }
     }
 }
