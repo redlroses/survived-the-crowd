@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using Sources.Collectables;
+using Sources.Data;
 using Sources.Level;
 using Sources.Pool;
+using Sources.Saves;
 using Sources.Turret;
 using Sources.Ui;
 using Sources.Vehicle;
@@ -12,7 +14,7 @@ using UnityEngine;
 
 namespace Sources.Player.Factory
 {
-    public class PlayerFactory : MonoBehaviour
+    public class PlayerFactory : MonoBehaviour, ISavedProgress
     {
         [SerializeField] private EnemyPool _enemyPool;
         [SerializeField] private CinemachineVirtualCamera _camera;
@@ -37,41 +39,24 @@ namespace Sources.Player.Factory
 
         private Vector3 WeaponPivot => _availableCars.Current.WeaponPivot.localPosition;
 
-        private void Awake()
-        {
-            InitCars();
-            InitWeapons();
-            ChangeCar(_availableCars.Current);
-            ChangeWeapon(_availableWeapons.Current);
-            _camera.Follow = _base.transform;
-            _camera.LookAt = _base.transform;
-            PlaceWeapon();
-            ApplyCar();
-            ApplyWeapon();
-        }
-
         public void ShowNextCar()
         {
             ChangeCar(GetNext(_availableCars));
-            PlaceWeapon();
         }
 
         public void ShowPreviousCar()
         {
             ChangeCar(GetPrevious(_availableCars));
-            PlaceWeapon();
         }
 
         public void ShowNextWeapon()
         {
             ChangeWeapon(GetNext(_availableWeapons));
-            PlaceWeapon();
         }
 
         public void ShowPreviousWeapon()
         {
             ChangeWeapon(GetPrevious(_availableWeapons));
-            PlaceWeapon();
         }
 
         public void OnResume()
@@ -98,22 +83,59 @@ namespace Sources.Player.Factory
         public void ApplyWeapon()
         {
             _appliedWeapon = _availableWeapons.Current;
-            TargetSeeker currentWeapon = _availableWeapons.Current.TargetSeeker;
         }
 
-        private void InitCars()
+        public void LoadProgress(PlayerProgress progress)
         {
-            _availableCars = new Iterable<Car>(Spawn(_cars), 0);
+            Init(progress);
         }
 
-        private void InitWeapons()
+        public void UpdateProgress(PlayerProgress progress)
         {
-            _availableWeapons = new Iterable<Weapon>(Spawn(_weapons), 0);
+            progress.LastChosenCar = _availableCars.Current.Id;
+            progress.LastChosenWeapon = _availableWeapons.Current.Id;
+        }
+
+        private void Init(PlayerProgress progress)
+        {
+            InitCars(progress.LastChosenCar);
+            InitWeapons(progress.LastChosenWeapon);
+            ChangeCar(_availableCars.Current);
+            ChangeWeapon(_availableWeapons.Current);
+            InitCamera();
+            PlaceWeapon();
+            ApplyCar();
+            ApplyWeapon();
+        }
+
+        private void InitCamera()
+        {
+            var baseTransform = _base.transform;
+            _camera.Follow = baseTransform;
+            _camera.LookAt = baseTransform;
+        }
+
+        private void InitCars(CarId chosenCar)
+        {
+            List<Car> ordered = Sort(Spawn(_cars), car => car.Id);
+            _availableCars = new Iterable<Car>(ordered, (int) chosenCar);
+        }
+
+        private void InitWeapons(WeaponId chosenWeapon)
+        {
+            List<Weapon> ordered = Sort(Spawn(_weapons), weapon => weapon.Id);
+            _availableWeapons = new Iterable<Weapon>(ordered, (int) chosenWeapon);
 
             foreach (Weapon weapon in _availableWeapons)
             {
                 weapon.TargetSeeker.Init(_loseDetector);
             }
+        }
+
+        private List<T> Sort<T, TKey>(IEnumerable<T> unsorted, Func<T, TKey> keySelector) where T : MonoBehaviour
+        {
+            List<T> ordered = unsorted.OrderBy(keySelector).ToList();
+            return ordered;
         }
 
         private void ChangeCar(Car car)
@@ -130,11 +152,11 @@ namespace Sources.Player.Factory
 
         private List<T> Spawn<T>(List<T> objects) where T : MonoBehaviour
         {
-            List<T> spawnedCars = new List<T>(objects.Count);
-            spawnedCars.AddRange(objects
+            List<T> spawned = new List<T>(objects.Count);
+            spawned.AddRange(objects
                 .Select(spawnedObject => Instantiate(spawnedObject, _base.transform)));
 
-            return spawnedCars;
+            return spawned;
         }
 
         private T GetNext<T>(Iterable<T> iterable) where T : MonoBehaviour
@@ -159,6 +181,7 @@ namespace Sources.Player.Factory
         private void Show<T>(T iterable) where T : MonoBehaviour
         {
             iterable.gameObject.SetActive(true);
+            PlaceWeapon();
         }
 
         private void PlaceWeapon()

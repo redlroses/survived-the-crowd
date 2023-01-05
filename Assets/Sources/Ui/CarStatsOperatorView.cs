@@ -25,24 +25,20 @@ namespace Sources.Ui
         private float _maxWheelAngleRange;
         private float _consumptionRange;
 
-        private void Awake()
-        {
-            _maxHealthRange = _carsStaticData.Max(data => data.MaxHealth);
-            _maxSpeedRange = _carsStaticData.Max(data => data.MaxSpeed);
-            _accelerationRange = _carsStaticData.Max(data => data.Acceleration);
-            _maxWheelAngleRange = _carsStaticData.Max(data => data.MaxWheelAngle);
-            _consumptionRange = _carsStaticData.Max(data => data.Consumption);
-        }
+        private bool IsInitializedStatRange => _maxHealthRange > 0;
 
         public void SetStats(CarId carId)
         {
-            print("car stat set ");
-            
             CarStaticData carData = _carsStaticData.FirstOrDefault(data => data.CarId == carId);
 
             if (carData is null)
             {
                 throw new ArgumentNullException(nameof(carData));
+            }
+
+            if (IsInitializedStatRange == false)
+            {
+                InitStatRange();
             }
 
             _label.Set(carId.ToString());
@@ -51,6 +47,15 @@ namespace Sources.Ui
             _acceleration.SetStat(GetNormalized(carData.Acceleration, _accelerationRange));
             _maxWheelAngle.SetStat(GetNormalized(carData.MaxWheelAngle, _maxWheelAngleRange));
             _consumption.SetStat(GetNormalized(carData.Consumption, _consumptionRange));
+        }
+
+        private void InitStatRange()
+        {
+            _maxHealthRange = _carsStaticData.Max(data => data.MaxHealth);
+            _maxSpeedRange = _carsStaticData.Max(data => data.MaxSpeed);
+            _accelerationRange = _carsStaticData.Max(data => data.Acceleration);
+            _maxWheelAngleRange = _carsStaticData.Max(data => data.MaxWheelAngle);
+            _consumptionRange = _carsStaticData.Max(data => data.Consumption);
         }
 
         private float GetNormalized(float value, float maxValue)

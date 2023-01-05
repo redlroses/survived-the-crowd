@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: MachineGun
   m_EditorClassIdentifier: 
   WeaponId: 0
-  Damage: 3
-  FireRate: 2
+  Damage: 2
+  FireRate: 2.53
   Radius: 15

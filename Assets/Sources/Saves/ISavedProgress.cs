@@ -4,6 +4,8 @@ namespace Sources.Saves
 {
     public interface ISavedProgress : ISavedProgressReader
     {
-        public void UpdateProgress(PlayerProgress progress);
+        public void UpdateProgress(PlayerProgress progress)
+        {
+        }
     }
 }

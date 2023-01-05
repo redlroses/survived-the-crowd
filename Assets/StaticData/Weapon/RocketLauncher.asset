@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponId: 1
   Damage: 6
-  FireRate: 1
-  Radius: 20
+  FireRate: 0.68
+  Radius: 22

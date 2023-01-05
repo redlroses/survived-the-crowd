@@ -9,26 +9,33 @@ namespace Sources.Ui.Wrapper.Screens
     {
         [SerializeField] private WeaponStatsOperatorView _statOperatorView;
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             PlayerFactory.WeaponChanged += OnWeaponChanged;
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             PlayerFactory.WeaponChanged -= OnWeaponChanged;
+        }
+
+        public void LoadProgress(PlayerProgress progress)
+        {
+            LastUnlockedId = (int) progress.LastUnlockedWeapon;
+            OnWeaponChanged(progress.LastChosenWeapon);
+        }
+
+        protected override void UpdateUnlock()
+        {
+            LastUnlockedId = (int) UnlockProvider.UnlockedWeapon;
         }
 
         private void OnWeaponChanged(WeaponId id)
         {
             OnChanged((int) id);
             _statOperatorView.SetStats(id);
-        }
-
-        public void LoadProgress(PlayerProgress progress)
-        {
-            LastUnlockedId = progress.LastUnlockedWeaponId;
-            OnWeaponChanged(progress.LastChosenWeapon);
         }
     }
 }

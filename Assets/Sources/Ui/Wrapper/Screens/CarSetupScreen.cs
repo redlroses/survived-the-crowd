@@ -9,26 +9,33 @@ namespace Sources.Ui.Wrapper.Screens
     {
         [SerializeField] private CarStatsOperatorView _statOperatorView;
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
-            print("car on enable");
+            base.OnEnable();
             PlayerFactory.CarChanged += OnCarChanged;
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             PlayerFactory.CarChanged -= OnCarChanged;
+        }
+
+        public void LoadProgress(PlayerProgress progress)
+        {
+            LastUnlockedId = (int) progress.LastUnlockedCar;
+            OnCarChanged(progress.LastChosenCar);
+        }
+
+        protected override void UpdateUnlock()
+        {
+            LastUnlockedId = (int) UnlockProvider.UnlockedCar;
         }
 
         private void OnCarChanged(CarId id)
         {
             OnChanged((int) id);
             _statOperatorView.SetStats(id);
-        }
-
-        public void LoadProgress(PlayerProgress progress)
-        {
-            LastUnlockedId = progress.LastUnlockedCarId;
         }
     }
 }

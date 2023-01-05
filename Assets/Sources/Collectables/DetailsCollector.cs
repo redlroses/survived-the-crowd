@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sources.Data;
 using Sources.Level;
 using Sources.Player.Factory;
@@ -12,13 +13,15 @@ namespace Sources.Collectables
     {
         private readonly List<ProgressBar> _carUnlocksProgress = new List<ProgressBar>
         {
-            new ProgressBar(5, 5),
-            new ProgressBar(10, 10)
+            new ProgressBar(1, 1),
+            new ProgressBar(2, 2)
         };
 
         private ProgressBar _progressBar;
         private CarUnlockBars _carUnlockBars;
-        private int _lastUnlockedCarId;
+        private CarId _lastUnlockedCarId;
+
+        public event Action<CarId> NewCarUnlocked;
 
         public ProgressBar CurrentProgressBar => _progressBar;
 
@@ -33,6 +36,7 @@ namespace Sources.Collectables
 
             _progressBar = _carUnlockBars.Next();
             _lastUnlockedCarId++;
+            NewCarUnlocked?.Invoke(_lastUnlockedCarId);
         }
 
         public void LoadProgress(PlayerProgress progress)
@@ -48,13 +52,13 @@ namespace Sources.Collectables
                 _progressBar = progress.CarUnlocksProgressBar.ToProgressBar();
             }
 
-            _lastUnlockedCarId = progress.LastUnlockedCarId;
+            _lastUnlockedCarId = progress.LastChosenCar;
         }
 
         public void UpdateProgress(PlayerProgress progress)
         {
             progress.CarUnlocksProgressBar = _progressBar.ToProgressBarData();
-            progress.LastUnlockedCarId = _lastUnlockedCarId;
+            progress.LastUnlockedCar = _lastUnlockedCarId;
         }
     }
 }
