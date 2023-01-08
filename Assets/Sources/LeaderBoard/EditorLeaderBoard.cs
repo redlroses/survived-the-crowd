@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Sources.Tools.Extensions;
+using Sources.Ui;
+
+namespace Sources.LeaderBoard
+{
+    internal class EditorLeaderBoard : ILeaderBoard
+    {
+        private List<RanksData> _ranksData;
+        private bool _isLeaderboardDataReceived = false;
+
+        public async Task<RanksData[]> GetLeaderboardEntries()
+        {
+            _isLeaderboardDataReceived = false;
+            List<RanksData> ranks = new List<RanksData>();
+            string[] langs = {"ru", "en", "tr"};
+            string[] avatars = {"HotRoad", "Buggy", "Muscle"};
+
+            ApplyTestData(langs, avatars, ranks);
+
+            while (_isLeaderboardDataReceived == false)
+            {
+                await Task.Yield();
+            }
+
+            return ranks.ToArray();
+        }
+
+        public void SetScore(int score, string avatarName)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async void ApplyTestData(string[] langs, string[] avatars, List<RanksData> ranks)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                var data = RanksDataConverter.FromYandex($"name {i}", i, i * 10, langs.GetRandom(),
+                    avatars.GetRandom());
+                ranks.Add(data);
+                await Task.Delay(300);
+            }
+
+            _isLeaderboardDataReceived = true;
+        }
+    }
+}
