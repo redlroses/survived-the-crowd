@@ -20,6 +20,7 @@ namespace Sources.Player.Factory
         [SerializeField] private CinemachineVirtualCamera _camera;
         [SerializeField] private PlayerMover _base;
         [SerializeField] private LoseDetector _loseDetector;
+        [SerializeField] private PlayerReviver _playerReviver;
         [SerializeField] private FuelView _fuelView;
         [SerializeField] private HealthView _healthView;
         [SerializeField] private List<Car> _cars = new List<Car>();
@@ -37,6 +38,7 @@ namespace Sources.Player.Factory
         public event Action<CarId> CarChanged;
         public event Action<WeaponId> WeaponChanged;
 
+        public CarId CurrentCar => _availableCars.Current.Id;
         private Vector3 WeaponPivot => _availableCars.Current.WeaponPivot.localPosition;
 
         public void ShowNextCar()
@@ -78,11 +80,13 @@ namespace Sources.Player.Factory
             _loseDetector.Init(_appliedCar.GasTank, playerHealth);
             _healthView.Init(playerHealth);
             _enemyPool.Init(playerHealth);
+            _playerReviver.Init(_appliedCar);
         }
 
         public void ApplyWeapon()
         {
             _appliedWeapon = _availableWeapons.Current;
+            _playerReviver.Init(_appliedWeapon);
         }
 
         public void LoadProgress(PlayerProgress progress)

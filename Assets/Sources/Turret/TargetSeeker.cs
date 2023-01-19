@@ -39,6 +39,11 @@ namespace Sources.Turret
             _loseDetector = loseDetector;
         }
 
+        public void OnRevived()
+        {
+            StartScan();
+        }
+
         private void OnTargetsUpdated()
         {
             if (TargetsCount != 0)

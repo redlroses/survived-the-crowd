@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -38,11 +39,9 @@ namespace Sources.Ui.Wrapper.Screens
 
         private void SetAlpha(float alpha, bool isSmoothly)
         {
-            _tween?.Kill();
-
             if (isSmoothly)
             {
-                _tween = _canvasGroup.DOFade(alpha, _duration).Play();
+                _tween = _canvasGroup.DOFade(alpha, _duration).Play().SetAutoKill(true);
             }
             else
             {

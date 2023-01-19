@@ -25,7 +25,7 @@ namespace Sources
 
         public void Reset()
         {
-            _barrier.transform.rotation = Quaternion.Euler(Vector3.zero);
+            _barrier.transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
         }
     }
 }

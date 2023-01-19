@@ -1,4 +1,5 @@
-﻿using Sources.Player;
+﻿using Sources.HealthLogic;
+using Sources.Player;
 using Sources.Player.Factory;
 using Sources.StaticData;
 using UnityEngine;
@@ -23,6 +24,7 @@ namespace Sources.Vehicle
         public Rudder Rudder => _rudder;
         public CarId Id => _id;
         public Transform WeaponPivot => _weaponPivot;
+        public IHealth Health => _playerHealth;
 
         private void Awake()
         {

@@ -49,6 +49,11 @@ namespace Import.Joystick.Scripts
             _background.gameObject.SetActive(false);
         }
 
+        public void Disable()
+        {
+            OnPointerUp(null);
+        }
+
         public void OnPointerDown(PointerEventData eventData)
         {
             _background.anchoredPosition = ScreenPointToAnchoredPosition(eventData.position);

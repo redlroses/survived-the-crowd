@@ -8,6 +8,7 @@ namespace Sources
     public class UnlockProvider : MonoBehaviour
     {
         [SerializeField] private DetailsCollector _detailsCollector;
+        [SerializeField] private WeaponUpgradeCollector _weaponUpgradeCollector;
 
         private CarId _unlockedCar = CarId.Buggy;
         private WeaponId _unlockedWeapon = WeaponId.MachineGun;
@@ -18,12 +19,20 @@ namespace Sources
 
         private void OnEnable()
         {
+            _weaponUpgradeCollector.NewWeaponUnlocked += OnNewWeaponUnlocked;
             _detailsCollector.NewCarUnlocked += OnNewCarUnlocked;
         }
 
         private void OnDisable()
         {
+            _weaponUpgradeCollector.NewWeaponUnlocked -= OnNewWeaponUnlocked;
             _detailsCollector.NewCarUnlocked -= OnNewCarUnlocked;
+        }
+
+        private void OnNewWeaponUnlocked(WeaponId id)
+        {
+            _unlockedWeapon = id;
+            Updated?.Invoke();
         }
 
         private void OnNewCarUnlocked(CarId id)

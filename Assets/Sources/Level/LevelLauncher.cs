@@ -18,6 +18,7 @@ namespace Sources.Level
         [SerializeField] private PlayerInput _input;
         [SerializeField] private GateAnimation _gateAnimation;
         [SerializeField] private Joystick _joystick;
+        [SerializeField] private PlayerReviver _playerReviver;
         [SerializeField] private Vector3 _starPlayerPosition;
         [SerializeField] private Vector3 _starPlayerRotation;
 
@@ -37,10 +38,10 @@ namespace Sources.Level
             _enemyFactory.Run();
             _fuelFactory.Run();
             _carDetailsFactory.Run();
-            _input.Activate();
+            // _input.Activate();
             _gateAnimation.Open();
             _loseDetector.enabled = true;
-            _joystick.enabled = true;
+            _playerReviver.Reset();
         }
 
         public void Restart()
@@ -63,8 +64,8 @@ namespace Sources.Level
 
         private void OnLose()
         {
-            _input.Deactivate();
-            _joystick.enabled = false;
+            // _input.Deactivate();
+            _joystick.Disable();
         }
     }
 }

@@ -30,7 +30,6 @@ namespace Sources.LeaderBoard
 
         public void SetScore(int score, string avatarName)
         {
-            throw new NotImplementedException();
         }
 
         private async void ApplyTestData(string[] langs, string[] avatars, List<RanksData> ranks)

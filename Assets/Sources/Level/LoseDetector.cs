@@ -1,5 +1,4 @@
 using System;
-using QFSW.QC;
 using Sources.HealthLogic;
 using Sources.Player;
 using Sources.Ui.Wrapper.Screens;
@@ -52,7 +51,6 @@ namespace Sources.Level
             ShowLoseScreen();
         }
 
-        [Command("Restart", "force restart screen")]
         private void OnEmptyPlayerHealth()
         {
             _loseScreen.SetLoseCause(CarIsBroken);
@@ -68,6 +66,10 @@ namespace Sources.Level
 
             Lose?.Invoke();
             _loseScreen.Show(true);
+
+#if !UNITY_EDITOR
+            Agava.YandexGames.InterstitialAd.Show();
+#endif
         }
     }
 }

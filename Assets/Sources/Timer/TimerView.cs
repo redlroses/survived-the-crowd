@@ -27,14 +27,14 @@ namespace Sources.Timer
             _loseDetector.Lose -= StopCountTime;
         }
 
-        public float GetTime()
-            => _stopwatch.GetSeconds();
-
-        private void StartCountTime()
+        public void StartCountTime()
         {
             _isCounting = true;
             _countTime ??= StartCoroutine(CountTime());
         }
+
+        public float GetTime()
+            => _stopwatch.GetSeconds();
 
         private void StopCountTime()
         {

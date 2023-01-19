@@ -1,4 +1,5 @@
 using Sources.Enemy;
+using Sources.HealthLogic;
 
 namespace Sources.Pool
 {
@@ -23,7 +24,7 @@ namespace Sources.Pool
             copy.GetComponent<AgentPatternSwitcher>().Init(_attackable);
             copy.GetComponent<AgentAttackRangeTracker>().Init(_attackable);
 
-            copy.GetComponentInChildren<IEnemyAnimator>().DeathAnimationEnded += OnEnemyDead;
+            copy.GetComponentInChildren<IHealth>().Empty += OnEnemyDead;
         }
 
         public void Init(IAttackable attackable)

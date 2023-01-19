@@ -30,7 +30,6 @@ namespace Sources.Ui.Wrapper.Screens
 
         protected virtual void UpdateUnlock()
         {
-            LastUnlockedId = (int) UnlockProvider.UnlockedWeapon;
         }
 
         protected void OnChanged(int id)
