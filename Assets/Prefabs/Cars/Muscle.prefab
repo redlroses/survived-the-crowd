@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2692224706814782632}
   - component: {fileID: 81261890454552099}
   - component: {fileID: 174908239952332311}
-  - component: {fileID: 1340908453781473716}
   m_Layer: 9
   m_Name: Health
   m_TagString: Untagged
@@ -62,20 +61,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.9665024, y: 1.9891745, z: 4.4300213}
   m_Center: {x: -0.0459497, y: 0.9661705, z: -0.06547046}
---- !u!114 &1340908453781473716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182499573177761706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e869ea4c9f994bd1be2f56d0f9c8461b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerHealth: {fileID: 81261890454552099}
-  _gasTank: {fileID: 0}
 --- !u!1 &2254067978425055946
 GameObject:
   m_ObjectHideFlags: 0
