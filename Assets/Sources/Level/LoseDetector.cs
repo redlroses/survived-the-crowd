@@ -9,8 +9,8 @@ namespace Sources.Level
 {
     public sealed class LoseDetector : MonoBehaviour
     {
-        private const string RanOutOfFuel = "Ran out of fuel";
-        private const string CarIsBroken = "Car is broken";
+        private const string DefeatCauseCar = "Defeat Cause Car";
+        private const string DefeatCauseFuel = "Defeat Cause Fuel";
         private const string PunishedByTheGods = "Punished by the gods";
 
         [SerializeField] [RequireInterface(typeof(IHealth))] private MonoBehaviour _playerHealth;
@@ -47,23 +47,28 @@ namespace Sources.Level
 
         private void OnEmptyGasTank()
         {
-            _loseScreen.SetLoseCause(RanOutOfFuel);
+            if (_loseScreen.IsActive)
+            {
+                return;
+            }
+
+            _loseScreen.SetLoseCause(Lean.Localization.LeanLocalization.GetTranslationText(DefeatCauseFuel));
             ShowLoseScreen();
         }
 
         private void OnEmptyPlayerHealth()
-        {
-            _loseScreen.SetLoseCause(CarIsBroken);
-            ShowLoseScreen();
-        }
-
-        private void ShowLoseScreen()
         {
             if (_loseScreen.IsActive)
             {
                 return;
             }
 
+            _loseScreen.SetLoseCause(Lean.Localization.LeanLocalization.GetTranslationText(DefeatCauseCar));
+            ShowLoseScreen();
+        }
+
+        private void ShowLoseScreen()
+        {
             Lose?.Invoke();
             _loseScreen.Show(true);
 
