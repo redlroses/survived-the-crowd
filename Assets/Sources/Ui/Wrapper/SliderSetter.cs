@@ -13,7 +13,7 @@ namespace Sources.Ui.Wrapper
 
         public void SetValue(float progress, bool isSmoothly = false)
         {
-            _tweener.Kill();
+            _tweener?.Kill();
 
             if (isSmoothly)
             {

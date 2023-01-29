@@ -4,6 +4,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using JetBrains.Annotations;
 using Sources.AnimatorStateMachine;
+using Sources.Audio;
 using Sources.HealthLogic;
 using Sources.Tools.Extensions;
 using UnityEngine;
@@ -38,8 +39,8 @@ namespace Sources.Enemy
         private IHealth Health => (IHealth) _health;
 
         public event Action DeathAnimationEnded;
-
         public event Action AttackCarried;
+
 
         private void Awake()
         {
@@ -60,7 +61,11 @@ namespace Sources.Enemy
             Health.Empty -= OnEmptyHealth;
         }
 
-        public void PlayHit() => _animator.SetTrigger(Hit);
+        public void PlayHit()
+        {
+            _animator.SetTrigger(Hit);
+        }
+
 
         public void PlayDeath()
         {
@@ -75,6 +80,7 @@ namespace Sources.Enemy
         public void StartMove() => _animator.SetBool(MoveForward, true);
 
         public void SetSpeed(float speed) => _animator.SetFloat(Speed, speed);
+
 
         public void EnteredState(int stateHash)
         {

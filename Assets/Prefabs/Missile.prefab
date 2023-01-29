@@ -133,9 +133,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3feccba21684454e9131281f81c56d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 35
+  _moveSpeed: 15
   _damageValue: 5
   _lifeTime: 30
+  _explosionRadius: 4
+  _mask:
+    serializedVersion: 2
+    m_Bits: 256
   _rotator: {fileID: 3980110617983816891}
   _targetSeeker: {fileID: 1983503143875260573}
 --- !u!114 &1983503143875260573
@@ -150,9 +154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 646da1e038cd5c345a3843fc239a5fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cacheSize: 10
   _isScanning: 1
-  _scanRadius: 5
-  _scanFrequency: 10
+  _scanRadius: 10
+  _scanFrequency: 20
   _filter:
     serializedVersion: 2
     m_Bits: 64

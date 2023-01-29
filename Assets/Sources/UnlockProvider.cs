@@ -10,7 +10,7 @@ namespace Sources
         [SerializeField] private DetailsCollector _detailsCollector;
         [SerializeField] private WeaponUpgradeCollector _weaponUpgradeCollector;
 
-        private CarId _unlockedCar = CarId.Buggy;
+        private CarId _unlockedCar = CarId.HotRod;
         private WeaponId _unlockedWeapon = WeaponId.MachineGun;
 
         public CarId UnlockedCar => _unlockedCar;

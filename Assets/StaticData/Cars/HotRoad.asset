@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: HotRoad
   m_EditorClassIdentifier: 
   CarId: 0
-  MaxHealth: 35
+  MaxHealth: 30
   MaxWheelAngle: 30
-  Consumption: 0.005
-  IdleConsumption: 0.002
-  Acceleration: 0.5
+  Consumption: 0.006
+  IdleConsumption: 0.003
+  Acceleration: 0.3
   Deceleration: 0
   MaxSpeed: 12
   MaxFuel: 100

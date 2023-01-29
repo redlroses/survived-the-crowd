@@ -1,4 +1,6 @@
+using System;
 using Import.Joystick.Scripts;
+using Sources.Audio;
 using Sources.Tools.Extensions;
 using UnityEngine;
 using static Sources.Tools.ComponentTool;
@@ -6,7 +8,7 @@ using static Sources.Tools.ComponentTool;
 namespace Sources.Input
 {
     [RequireComponent(typeof(IControllable))]
-    public sealed class PlayerInput : MonoBehaviour
+    public sealed class PlayerInput : MonoBehaviour, IAudioStoppable
     {
         [RequireInterface(typeof(ICarControllable))]
         [SerializeField] private MonoBehaviour _mover;
@@ -17,6 +19,9 @@ namespace Sources.Input
         private bool _isInputActive;
 
         private ICarControllable Mover => (ICarControllable) _mover;
+
+        public event Action AudioPlayed;
+        public event Action AudioStopped;
 
         private void Awake()
         {
@@ -50,19 +55,16 @@ namespace Sources.Input
             StopMove();
         }
 
-        public void Init(Joystick joyStick)
-        {
-            _joystick = joyStick;
-        }
-
         public void Activate()
         {
-            enabled = true;
+            AudioPlayed?.Invoke();
+            _isInputActive = true;
         }
 
         public void Deactivate()
         {
-            enabled = false;
+            AudioStopped?.Invoke();
+            _isInputActive = false;
         }
 
         private void StartMove()

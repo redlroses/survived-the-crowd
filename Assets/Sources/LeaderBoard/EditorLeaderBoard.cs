@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Sources.Tools.Extensions;
 using Sources.Ui;
@@ -16,7 +15,7 @@ namespace Sources.LeaderBoard
             _isLeaderboardDataReceived = false;
             List<RanksData> ranks = new List<RanksData>();
             string[] langs = {"ru", "en", "tr"};
-            string[] avatars = {"HotRoad", "Buggy", "Muscle"};
+            string[] avatars = {"HotRod", "Buggy", "Muscle"};
 
             ApplyTestData(langs, avatars, ranks);
 

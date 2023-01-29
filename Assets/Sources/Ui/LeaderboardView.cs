@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Sources.LeaderBoard;
 using Sources.Player.Factory;
-using Sources.Score;
 using Sources.Ui.Animations;
 using Sources.Ui.Wrapper;
 using UnityEngine;

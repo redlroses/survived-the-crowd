@@ -10,8 +10,11 @@ namespace Sources.Projectiles
         [SerializeField] private float _moveSpeed;
         [SerializeField] private int _damageValue;
         [SerializeField] private float _lifeTime;
+        [SerializeField] private float _explosionRadius;
+        [SerializeField] private LayerMask _mask;
 
         public event Action<Projectile> Destroyed;
+        public event Action<Projectile> Disabled;
 
         private void Start()
         {
@@ -30,9 +33,17 @@ namespace Sources.Projectiles
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out IDamageable damageable))
+            if (other.TryGetComponent(out IDamageable damageable) == false)
             {
-                damageable.Damage(_damageValue);
+                return;
+            }
+
+            foreach (Collider collider in Physics.OverlapSphere(transform.position, _explosionRadius, _mask))
+            {
+                if (collider.TryGetComponent(out damageable))
+                {
+                    damageable.Damage(_damageValue);
+                }
             }
 
             Disable();
@@ -52,6 +63,7 @@ namespace Sources.Projectiles
 
         private void Disable()
         {
+            Disabled?.Invoke(this);
             gameObject.SetActive(false);
         }
     }

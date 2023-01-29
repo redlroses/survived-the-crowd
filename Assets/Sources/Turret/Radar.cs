@@ -42,7 +42,7 @@ namespace Sources.Turret
             }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             ScanFrequency = _scanFrequency;
             _cachedTargets = new Collider[_cacheSize];

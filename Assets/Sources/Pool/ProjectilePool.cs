@@ -5,6 +5,8 @@ namespace Sources.Pool
 {
     public sealed class ProjectilePool : ObjectPool<Projectile>
     {
+        [SerializeField] private FxSpawner _fxSpawner;
+
         [Header("Projectile Settings")]
         [SerializeField] private Collider _ownerHurtBox;
 
@@ -24,9 +26,15 @@ namespace Sources.Pool
 
         protected override void InitCopy(Projectile copy)
         {
+            _fxSpawner.Subscribe(copy);
             copy.Construct(_projectileDamage);
 
             if (_isOwnerHurtBoxNull)
+            {
+                return;
+            }
+
+            if (_ownerHurtBox is null)
             {
                 return;
             }

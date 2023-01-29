@@ -10,7 +10,7 @@ namespace Sources.Score
 
         private void OnEnable()
         {
-            _textSetter.Set($"Score: {_scoreCounter.CalculateScore().ToString()}");
+            _textSetter.Set(_scoreCounter.CalculateScore().ToString());
         }
     }
 }

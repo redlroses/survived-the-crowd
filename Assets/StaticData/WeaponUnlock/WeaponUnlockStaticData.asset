@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3723cba44f1131f43b08e7729764ba6f, type: 3}
   m_Name: WeaponUnlockStaticData
   m_EditorClassIdentifier: 
-  ScorePerUpdrades: 000000001e000000
+  ScorePerUpdrades: 000000002c010000

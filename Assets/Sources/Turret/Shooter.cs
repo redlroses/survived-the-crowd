@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
+using Sources.Audio;
 using Sources.StaticData;
 using UnityEngine;
 
 namespace Sources.Turret
 {
     [RequireComponent(typeof(TargetSeeker))]
-    public sealed class Shooter : MonoBehaviour
+    public sealed class Shooter : MonoBehaviour, IAudioPlayable
     {
         [SerializeField] [RequireInterface(typeof(IShotMaker))] private MonoBehaviour _shotMaker;
         [SerializeField] private bool _isShooting;
@@ -18,6 +19,8 @@ namespace Sources.Turret
         private Coroutine _shootingCoroutine;
 
         private IShotMaker ShotMaker => (IShotMaker) _shotMaker;
+
+        public event Action AudioPlayed;
 
         public float FireRate
         {
@@ -69,6 +72,7 @@ namespace Sources.Turret
             while (_isShooting)
             {
                 ShotMaker.MakeShot();
+                AudioPlayed?.Invoke();
                 yield return _waitForShot;
             }
         }

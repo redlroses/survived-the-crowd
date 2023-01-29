@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 442950965940502019}
   - component: {fileID: 442950965940502018}
+  - component: {fileID: 6323833802946045531}
   m_Layer: 0
   m_Name: Tire Trail
   m_TagString: Untagged
@@ -131,3 +132,16 @@ TrailRenderer:
   m_MinVertexDistance: 1.5
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &6323833802946045531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442950965940502029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af195796d4869d247a46ff86c2402eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trailRenderer: {fileID: 442950965940502018}

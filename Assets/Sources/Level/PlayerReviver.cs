@@ -1,4 +1,8 @@
+using Sources.Audio;
+using Sources.Input;
+using Sources.Timer;
 using Sources.Turret;
+using Sources.Ui.Wrapper.Screens;
 using Sources.Vehicle;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,9 +11,14 @@ namespace Sources.Level
 {
     public class PlayerReviver : MonoBehaviour
     {
+        [SerializeField] private PlayerInput _input;
+        [SerializeField] private TimerView _timerView;
+        [SerializeField] private AudioMixerOperator _audioMixerOperator;
         [SerializeField] private float _enemyKillRadius;
         [SerializeField] private LayerMask _enemyMask;
         [SerializeField] private Button _revivalButton;
+        [SerializeField] private LoseScreen _loseScreen;
+        [SerializeField] private GameScreen _gameScreen;
 
         private Weapon _playerWeapon;
         private Car _playerCar;
@@ -32,12 +41,43 @@ namespace Sources.Level
                 return;
             }
 
+            Time.timeScale = 0;
+#if !UNITY_EDITOR
+            Agava.YandexGames.VideoAd.Show(() =>
+                {
+                    _audioMixerOperator.SetMaster(false);
+                },
+                () =>
+                {
+                    KillAroundEnemies();
+                    _playerWeapon.TargetSeeker.OnRevived();
+                    _revivalButton.interactable = false;
+                    _isRevived = true;
+                    ResetFuel();
+                    _timerView.StartCountTime();
+                    _audioMixerOperator.SetMaster(true);
+                    _loseScreen.Hide(false);
+                    _gameScreen.Show(false);
+                    _input.Activate();
+                    Invoke(nameof(ResetHealth), 0.25f);
+                    Time.timeScale = 1;
+                },
+                () =>
+                    _audioMixerOperator.SetMaster(true));
+#endif
+#if UNITY_EDITOR
+            KillAroundEnemies();
             _playerWeapon.TargetSeeker.OnRevived();
             _revivalButton.interactable = false;
             _isRevived = true;
-            KillAroundEnemies();
-            ResetHealth();
             ResetFuel();
+            _timerView.StartCountTime();
+            _audioMixerOperator.SetMaster(true);
+            _loseScreen.Hide(false);
+            _gameScreen.Show(false);
+            _input.Activate();
+            Invoke(nameof(ResetHealth), 0.25f);
+#endif
         }
 
         public void Reset()

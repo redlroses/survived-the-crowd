@@ -11,12 +11,16 @@ namespace Sources
         [SerializeField] private CinemachineVirtualCamera _gameCamera;
         [SerializeField] private CinemachineVirtualCamera _garageCamera;
 
+        [SerializeField] private float _landscapeFov = 22.8f;
+        [SerializeField] private float _portraitFov = 34.4f;
+
         private CinemachineVirtualCamera _currentCamera;
 
         private void Awake()
         {
             _currentCamera = _gameCamera;
             MoveToGameView();
+            SetFov();
         }
 
         [ContextMenu("MoveToGameView")]
@@ -36,6 +40,11 @@ namespace Sources
             _currentCamera.Priority = InactiveCameraPriority;
             _currentCamera = targetCamera;
             _currentCamera.Priority = ActiveCameraPriority;
+        }
+
+        private void SetFov()
+        {
+            _gameCamera.m_Lens.FieldOfView = Camera.main.aspect < 1f ? _portraitFov : _landscapeFov;
         }
     }
 }

@@ -34,11 +34,10 @@ namespace Sources.Level
 
         public void Run()
         {
-            Debug.Log(name + " Run level");
             _enemyFactory.Run();
             _fuelFactory.Run();
             _carDetailsFactory.Run();
-            // _input.Activate();
+            _input.Activate();
             _gateAnimation.Open();
             _loseDetector.enabled = true;
             _playerReviver.Reset();
@@ -46,7 +45,6 @@ namespace Sources.Level
 
         public void Restart()
         {
-            Debug.Log(name + " Restart level");
             _enemyFactory.KillAll();
             _enemyFactory.Stop();
             _fuelFactory.DisableAll();
@@ -64,7 +62,7 @@ namespace Sources.Level
 
         private void OnLose()
         {
-            // _input.Deactivate();
+            _input.Deactivate();
             _joystick.Disable();
         }
     }

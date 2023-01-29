@@ -49,10 +49,10 @@ namespace Sources.LeaderBoard
 
             Leaderboard.GetPlayerEntry(_name, result =>
             {
-                // if (result.score >= score)
-                // {
-                //     return;
-                // }
+                if (result.score >= score)
+                {
+                    return;
+                }
 
                 Leaderboard.SetScore(_name, score, null, null, avatarName);
             });

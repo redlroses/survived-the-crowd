@@ -118,6 +118,9 @@ namespace Sources.Pool
         public IEnumerable<T> GetActiveObjects()
             => _objectsPool.Where(copy => copy.gameObject.activeSelf);
 
+        public IEnumerable<T> GetReadOnlyCopies()
+            => _objectsPool;
+
         protected void FillPool()
         {
             if (_isManualFill)
@@ -127,9 +130,6 @@ namespace Sources.Pool
 
             Fill(_size);
         }
-
-        protected IEnumerable<T> GetReadOnlyCopies()
-            => _objectsPool;
 
         private void CreateContainer()
         {

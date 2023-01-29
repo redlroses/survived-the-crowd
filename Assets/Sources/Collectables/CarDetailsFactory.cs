@@ -49,6 +49,8 @@ namespace Sources.Collectables
 
         private IEnumerator Spawn()
         {
+            yield return _waitForSpawnDelay;
+
             while (_isSpawning)
             {
                 Vector3 spawnPoint = _spawnZones.GetRandom().GetRandomPosition();

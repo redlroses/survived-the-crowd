@@ -1,11 +1,12 @@
 using System;
+using Sources.Audio;
 using Sources.DamageDeal.Data;
 using Sources.StaticData;
 using UnityEngine;
 
 namespace Sources.Turret
 {
-    public sealed class RayShotMaker : MonoBehaviour, IShotMaker
+    public sealed class RayShotMaker : MonoBehaviour, IShotMaker, IAudioPlayable
     {
         [SerializeField] private int _shotDamage;
         [SerializeField] private Transform _shotPoint;
@@ -13,6 +14,7 @@ namespace Sources.Turret
 
         private RayDamageDealer _rayDamageDealer = new RayDamageDealer();
 
+        public event Action AudioPlayed;
         public event Action ShotOff;
 
         public RayDamageDealer RayDamageDealer => _rayDamageDealer;
@@ -27,7 +29,8 @@ namespace Sources.Turret
             Ray ray = new Ray(_shotPoint.position, _shotPoint.forward);
             RayCastData data = new RayCastData(ray, _layer);
             ShotOff?.Invoke();
-            RayDamageDealer.DealDamage(_shotDamage, data);
+            AudioPlayed?.Invoke();
+            _rayDamageDealer.DealDamage(_shotDamage, data);
         }
     }
 }

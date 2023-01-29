@@ -15,9 +15,9 @@ MonoBehaviour:
   CarId: 1
   MaxHealth: 20
   MaxWheelAngle: 65
-  Consumption: 0.003
-  IdleConsumption: 0.0015
-  Acceleration: 0.75
+  Consumption: 0.004
+  IdleConsumption: 0.002
+  Acceleration: 0.43
   Deceleration: 0
   MaxSpeed: 16
   MaxFuel: 100

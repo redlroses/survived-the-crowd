@@ -67,13 +67,18 @@ namespace Sources.Level
             ShowLoseScreen();
         }
 
+        private void ShowAd()
+        {
+            Agava.YandexGames.InterstitialAd.Show();
+        }
+
         private void ShowLoseScreen()
         {
             Lose?.Invoke();
             _loseScreen.Show(true);
 
 #if !UNITY_EDITOR
-            Agava.YandexGames.InterstitialAd.Show();
+            Invoke(nameof(ShowAd), 1f);
 #endif
         }
     }

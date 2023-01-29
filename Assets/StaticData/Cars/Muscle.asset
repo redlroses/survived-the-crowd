@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Muscle
   m_EditorClassIdentifier: 
   CarId: 2
-  MaxHealth: 50
-  MaxWheelAngle: 50
-  Consumption: 0.008
-  IdleConsumption: 0.006
-  Acceleration: 1
+  MaxHealth: 40
+  MaxWheelAngle: 45
+  Consumption: 0.01
+  IdleConsumption: 0.004
+  Acceleration: 0.6
   Deceleration: 0
   MaxSpeed: 19
   MaxFuel: 100

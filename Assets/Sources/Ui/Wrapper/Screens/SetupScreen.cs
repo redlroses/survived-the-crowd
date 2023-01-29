@@ -9,7 +9,7 @@ namespace Sources.Ui.Wrapper.Screens
     public class SetupScreen : Screen
     {
         [SerializeField] private Button _applyButton;
-        [SerializeField] private Image _lockedMark;
+        [SerializeField] private GameObject _lockedMark;
         [SerializeField] private UnlockProvider _unlockProvider;
         [SerializeField] private PlayerFactory _playerFactory;
 
@@ -37,12 +37,12 @@ namespace Sources.Ui.Wrapper.Screens
             if (id > LastUnlockedId)
             {
                 _applyButton.interactable = false;
-                _lockedMark.enabled = true;
+                _lockedMark.SetActive(true);
             }
             else
             {
                 _applyButton.interactable = true;
-                _lockedMark.enabled = false;
+                _lockedMark.SetActive(false);
             }
         }
     }

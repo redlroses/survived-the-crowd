@@ -13,8 +13,8 @@ namespace Sources.Collectables
     {
         private readonly List<ProgressBar> _carUnlocksProgress = new List<ProgressBar>
         {
-            new ProgressBar(1, 1),
-            new ProgressBar(2, 2)
+            new ProgressBar(5, 5),
+            new ProgressBar(10, 10)
         };
 
         private ProgressBar _progressBar;

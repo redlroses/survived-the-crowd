@@ -15,22 +15,33 @@ namespace Sources.Turret
         public event Action TargetLost;
         public event Action TargetFound;
 
-        private void Start()
+        protected override void Awake()
         {
+            base.Awake();
             _selfTransform = transform;
         }
 
         private void OnEnable()
         {
             Updated += OnTargetsUpdated;
-            _loseDetector.Lose += OnLose;
+
+            if (_loseDetector != null)
+            {
+                _loseDetector.Lose += OnLose;
+            }
+
             StartScan();
         }
 
         private void OnDisable()
         {
             Updated -= OnTargetsUpdated;
-            _loseDetector.Lose -= OnLose;
+
+            if (_loseDetector != null)
+            {
+                _loseDetector.Lose -= OnLose;
+            }
+
             StopScan();
         }
 
