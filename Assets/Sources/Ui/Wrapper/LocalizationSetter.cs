@@ -1,4 +1,3 @@
-using Agava.YandexGames;
 using Lean.Localization;
 using UnityEngine;
 
@@ -33,24 +32,28 @@ namespace Sources.Ui.Wrapper
 
         public void OnLanguageChanged(int index)
         {
-            var language = (Language) index;
+            Language language = (Language)index;
 
             switch (language)
             {
                 case Language.Russian:
                     _leanLocalization.SetCurrentLanguage(Language.Russian.ToString());
+
                     break;
 
                 case Language.English:
                     _leanLocalization.SetCurrentLanguage(Language.English.ToString());
+
                     break;
 
                 case Language.Turkish:
                     _leanLocalization.SetCurrentLanguage(Language.Turkish.ToString());
+
                     break;
 
                 default:
                     _leanLocalization.SetCurrentLanguage(Language.English.ToString());
+
                     break;
             }
         }

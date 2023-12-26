@@ -10,19 +10,19 @@ namespace Sources.Turret
     public class Radar : MonoBehaviour
     {
         [SerializeField] private int _cacheSize = 30;
-        [SerializeField] private bool _isScanning;
-        [SerializeField] private float _scanRadius;
-        [SerializeField] private float _scanFrequency;
         [SerializeField] private LayerMask _filter;
+        [SerializeField] private bool _isScanning;
+        [SerializeField] private float _scanFrequency;
+        [SerializeField] private float _scanRadius;
 
-        private int _targetsCount;
-        private Coroutine _scan;
-        private WaitForSeconds _waitForScan;
         private Collider[] _cachedTargets;
+        private Coroutine _scan;
+
+        private WaitForSeconds _waitForScan;
 
         public event Action Updated;
 
-        protected int TargetsCount => _targetsCount;
+        protected int TargetsCount { get; private set; }
 
         protected IEnumerable<Transform> Targets => _cachedTargets
             .Where(target => target != null)
@@ -94,8 +94,8 @@ namespace Sources.Turret
         {
             while (_isScanning)
             {
-                ClearCache(_targetsCount);
-                _targetsCount = FindTargets();
+                ClearCache(TargetsCount);
+                TargetsCount = FindTargets();
                 Updated?.Invoke();
 
                 yield return _waitForScan;
@@ -107,7 +107,7 @@ namespace Sources.Turret
 
         private void ClearCache(int size)
         {
-            for (var i = 0; i < size; i++)
+            for (int i = 0; i < size; i++)
             {
                 _cachedTargets[i] = null;
             }

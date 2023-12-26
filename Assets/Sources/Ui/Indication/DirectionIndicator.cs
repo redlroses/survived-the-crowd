@@ -7,20 +7,23 @@ namespace Sources.Ui.Indication
 {
     public class DirectionIndicator : MonoBehaviour
     {
+        [SerializeField] private float _arrowOffset;
         [Header("Transforms")]
         [SerializeField] private Transform _cameraTransform;
-        [SerializeField] private Transform _target;
         [SerializeField] private Transform _centerTransform;
-
-        [Space] [Header("Icon")]
-        [SerializeField] private Image _indicatorIcon;
         [SerializeField] private float _iconOffset;
 
         [Space] [Header("Arrow")]
         [SerializeField] private Image _indicatorArrow;
-        [SerializeField] private float _arrowOffset;
+
+        [Space] [Header("Icon")]
+        [SerializeField] private Image _indicatorIcon;
+        [SerializeField] private Transform _target;
 
         private Vector2 _indicationDirection;
+
+        public float DistanceToTarget
+            => Vector3.Distance(_target.position, _centerTransform.position);
 
         private void LateUpdate()
         {
@@ -29,9 +32,6 @@ namespace Sources.Ui.Indication
             SetIndicatorPosition(_indicatorArrow, _arrowOffset);
             RotateIndicator(_indicatorArrow);
         }
-
-        public float DistanceToTarget
-            => Vector3.Distance(_target.position, _centerTransform.position);
 
         public void Activate(Transform target)
         {
@@ -47,6 +47,7 @@ namespace Sources.Ui.Indication
         private Vector3 GetDirection()
         {
             Vector3 direction = (_target.position - _centerTransform.position).normalized;
+
             return direction.ToInputFormat().RotateVector2(_cameraTransform.rotation.eulerAngles.y);
         }
 
@@ -57,7 +58,9 @@ namespace Sources.Ui.Indication
 
         private void RotateIndicator(Graphic indicator)
         {
-            float angle = Mathf.Atan2(_indicationDirection.y, _indicationDirection.x) * Mathf.Rad2Deg - Constants.HalfPiDegrees;
+            float angle = Mathf.Atan2(_indicationDirection.y, _indicationDirection.x) * Mathf.Rad2Deg
+                          - Constants.HalfPiDegrees;
+
             indicator.rectTransform.rotation = Quaternion.Euler(0, 0, angle);
         }
     }

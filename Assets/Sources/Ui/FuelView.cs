@@ -7,11 +7,11 @@ namespace Sources.Ui
 {
     public sealed class FuelView : MonoBehaviour
     {
-        [SerializeField] private GasTank _gasTank;
-        [SerializeField] private SliderSetter _slider;
-        [SerializeField] private bool _isSmoothly;
         [SerializeField] private float _duration;
+        [SerializeField] private GasTank _gasTank;
+        [SerializeField] private bool _isSmoothly;
         [SerializeField] private LowFuelAnimation _lowFuelAnimation;
+        [SerializeField] private SliderSetter _slider;
 
         private float _fuelLevel;
 

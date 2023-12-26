@@ -9,7 +9,7 @@ namespace Sources.Hole
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out PlayerMover _))
+            if (other.TryGetComponent(out PlayerMover playerMover))
             {
                 _doorOpener.Open();
             }

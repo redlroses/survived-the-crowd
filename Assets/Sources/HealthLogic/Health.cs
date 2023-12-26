@@ -5,20 +5,25 @@ namespace Sources.HealthLogic
 {
     public class Health : MonoBehaviour, IHealth, IDamageable
     {
-        [SerializeField] [Min(0)] private int _maxPoints;
-        [SerializeField] [Min(0)] private int _currentPoints;
+        public event Action Ended;
 
-        public event Action Empty;
         public event Action Changed;
 
-        public int Max => _maxPoints;
-        public int Current => _currentPoints;
-        public bool IsAlive => _currentPoints > 0;
         public bool IsDead => !IsAlive;
+
+        [field: SerializeField]
+        [field: Min(0)]
+        public int Max { get; private set; }
+
+        [field: SerializeField]
+        [field: Min(0)]
+        public int Current { get; private set; }
+
+        public bool IsAlive => Current > 0;
 
         private void OnEnable()
         {
-            _currentPoints = _maxPoints;
+            Current = Max;
             Changed?.Invoke();
         }
 
@@ -31,7 +36,7 @@ namespace Sources.HealthLogic
                 return;
             }
 
-            _currentPoints -= value;
+            Current -= value;
             CheckIsLethalDamage();
             Changed?.Invoke();
         }
@@ -40,11 +45,11 @@ namespace Sources.HealthLogic
         {
             Validate(value);
 
-            _currentPoints += value;
+            Current += value;
 
-            if (_currentPoints >= _maxPoints)
+            if (Current >= Max)
             {
-                _currentPoints = _maxPoints;
+                Current = Max;
             }
 
             Changed?.Invoke();
@@ -57,18 +62,18 @@ namespace Sources.HealthLogic
                 throw new ArgumentOutOfRangeException();
             }
 
-            _maxPoints = value;
+            Max = value;
         }
 
         private void CheckIsLethalDamage()
         {
-            if (_currentPoints > 0)
+            if (Current > 0)
             {
                 return;
             }
 
-            Empty?.Invoke();
-            _currentPoints = 0;
+            Ended?.Invoke();
+            Current = 0;
         }
 
         private void Validate(int value)

@@ -9,12 +9,12 @@ namespace Sources.ShotEffects
     [RequireComponent(typeof(LineRenderer))]
     public sealed class ShotTrailView : MonoBehaviour, IPoolable<ShotTrailView>
     {
-        [SerializeField] private LineRenderer _line;
         [SerializeField] private float _lifeTime;
+        [SerializeField] private LineRenderer _line;
 
+        private Tweener _fadeTween;
         private float _startWidth;
         private WaitForSeconds _waitForDisable;
-        private Tweener _fadeTween;
 
         public event Action<ShotTrailView> Destroyed;
 
@@ -33,6 +33,11 @@ namespace Sources.ShotEffects
             StartFading();
         }
 
+        private void OnDestroy()
+        {
+            Destroyed?.Invoke(this);
+        }
+
         public void Create(Vector3 from, Vector3 to)
         {
             _line.SetPosition(0, from);
@@ -47,11 +52,6 @@ namespace Sources.ShotEffects
         private void StartFading()
         {
             _fadeTween.Restart();
-        }
-
-        private void OnDestroy()
-        {
-            Destroyed?.Invoke(this);
         }
 
         private IEnumerator LifeTime()

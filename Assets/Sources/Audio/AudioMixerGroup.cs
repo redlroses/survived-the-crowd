@@ -1,9 +1,9 @@
 ﻿namespace Sources.Audio
 {
-    enum AudioMixerGroup
+    internal enum AudioMixerGroup
     {
         Master,
         Music,
-        Sound
+        Sound,
     }
 }

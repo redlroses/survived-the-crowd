@@ -5,9 +5,9 @@ namespace Sources.Ui
 {
     public class ToggleButton : MonoBehaviour
     {
-        [SerializeField] private Toggle _toggle;
-        [SerializeField] private Graphic _enabledSprite;
         [SerializeField] private Graphic _disabledSprite;
+        [SerializeField] private Graphic _enabledSprite;
+        [SerializeField] private Toggle _toggle;
 
         private void OnEnable()
         {

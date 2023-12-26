@@ -6,22 +6,22 @@ namespace Sources.ShotEffects
     [RequireComponent(typeof(Shooter))]
     public sealed class ShootFireView : MonoBehaviour
     {
-        [SerializeField] [RequireInterface(typeof(IShotMaker))] private MonoBehaviour _shooter;
         [SerializeField] private ParticleSystem _shootEffects;
+        [SerializeField] [RequireInterface(typeof(IShotMaker))] private MonoBehaviour _shooter;
 
         private IShotMaker Shooter => _shooter as IShotMaker;
 
         private void OnEnable()
         {
-            Shooter.ShotOff += OnShotOff;
+            Shooter.Shooting += OnShooting;
         }
 
         private void OnDisable()
         {
-            Shooter.ShotOff += OnShotOff;
+            Shooter.Shooting += OnShooting;
         }
 
-        private void OnShotOff()
+        private void OnShooting()
         {
             _shootEffects.Play();
         }

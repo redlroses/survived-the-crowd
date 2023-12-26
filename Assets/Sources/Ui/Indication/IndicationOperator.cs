@@ -8,10 +8,10 @@ namespace Sources.Ui.Indication
 {
     public class IndicationOperator : MonoBehaviour
     {
-        [SerializeField] private FuelBarrelPool _fuelBarrelPool;
-        [SerializeField] private CarDetailsPool _carDetailsPool;
-        [SerializeField] private DirectionIndicator[] _fuelDirectionIndicators;
         [SerializeField] private DirectionIndicator[] _carDetailsDirectionIndicators;
+        [SerializeField] private CarDetailsPool _carDetailsPool;
+        [SerializeField] private FuelBarrelPool _fuelBarrelPool;
+        [SerializeField] private DirectionIndicator[] _fuelDirectionIndicators;
         [SerializeField] private Transform _playerTransform;
 
         private int _currentActiveIndicatorsCount;
@@ -51,10 +51,12 @@ namespace Sources.Ui.Indication
 
         private Transform[] GetSortedTargets<T>(IEnumerable<T> targets) where T : MonoBehaviour
         {
-            var sorted = targets.Select(target => target.transform)
-                .OrderBy(target =>
-                    Vector3.Distance(target.position, _playerTransform.position))
+            Transform[] sorted = targets.Select(target => target.transform)
+                .OrderBy(
+                    target =>
+                        Vector3.Distance(target.position, _playerTransform.position))
                 .ToArray();
+
             return sorted;
         }
     }

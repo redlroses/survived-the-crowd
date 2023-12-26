@@ -6,8 +6,8 @@ namespace Sources.Ui.Wrapper
 {
     public sealed class SliderSetter : MonoBehaviour
     {
-        [SerializeField] private Slider _slider;
         [SerializeField] private float _animationDuration;
+        [SerializeField] private Slider _slider;
 
         private Tweener _tweener;
 

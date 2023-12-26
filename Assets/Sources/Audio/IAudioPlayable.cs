@@ -4,6 +4,6 @@ namespace Sources.Audio
 {
     public interface IAudioPlayable
     {
-        public event Action AudioPlayed;
+        public event Action AudioPlaying;
     }
 }

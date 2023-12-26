@@ -1,4 +1,7 @@
 using System;
+using Agava.YandexGames;
+using Lean.Localization;
+using Sources.Audio;
 using Sources.HealthLogic;
 using Sources.Player;
 using Sources.Ui.Wrapper.Screens;
@@ -13,24 +16,28 @@ namespace Sources.Level
         private const string DefeatCauseFuel = "Defeat Cause Fuel";
         private const string PunishedByTheGods = "Punished by the gods";
 
-        [SerializeField] [RequireInterface(typeof(IHealth))] private MonoBehaviour _playerHealth;
+        [SerializeField] private AudioMixerOperator _audioMix;
+
         [SerializeField] private GasTank _gasTank;
         [SerializeField] private LoseScreen _loseScreen;
 
-        public event Action Lose;
+        [SerializeField] [RequireInterface(typeof(IHealth))]
+        private MonoBehaviour _playerHealth;
 
-        private IHealth PlayerHealth => (IHealth) _playerHealth;
+        public event Action Losed;
+
+        private IHealth PlayerHealth => (IHealth)_playerHealth;
 
         private void OnEnable()
         {
-            PlayerHealth.Empty += OnEmptyPlayerHealth;
-            _gasTank.Empty += OnEmptyGasTank;
+            PlayerHealth.Ended += OnEndedPlayerHealth;
+            _gasTank.Ended += OnEndedGasTank;
         }
 
         private void OnDisable()
         {
-            PlayerHealth.Empty -= OnEmptyPlayerHealth;
-            _gasTank.Empty -= OnEmptyGasTank;
+            PlayerHealth.Ended -= OnEndedPlayerHealth;
+            _gasTank.Ended -= OnEndedGasTank;
         }
 
         public void Init(GasTank gasTank, PlayerHealth playerHealth)
@@ -45,36 +52,38 @@ namespace Sources.Level
             ShowLoseScreen();
         }
 
-        private void OnEmptyGasTank()
+        private void OnEndedGasTank()
         {
             if (_loseScreen.IsActive)
             {
                 return;
             }
 
-            _loseScreen.SetLoseCause(Lean.Localization.LeanLocalization.GetTranslationText(DefeatCauseFuel));
+            _loseScreen.SetLoseCause(LeanLocalization.GetTranslationText(DefeatCauseFuel));
             ShowLoseScreen();
         }
 
-        private void OnEmptyPlayerHealth()
+        private void OnEndedPlayerHealth()
         {
             if (_loseScreen.IsActive)
             {
                 return;
             }
 
-            _loseScreen.SetLoseCause(Lean.Localization.LeanLocalization.GetTranslationText(DefeatCauseCar));
+            _loseScreen.SetLoseCause(LeanLocalization.GetTranslationText(DefeatCauseCar));
             ShowLoseScreen();
         }
 
         private void ShowAd()
         {
-            Agava.YandexGames.InterstitialAd.Show();
+            InterstitialAd.Show(
+                () => { _audioMix.SetMaster(false); },
+                b => { _audioMix.SetMaster(true); });
         }
 
         private void ShowLoseScreen()
         {
-            Lose?.Invoke();
+            Losed?.Invoke();
             _loseScreen.Show(true);
 
 #if !UNITY_EDITOR

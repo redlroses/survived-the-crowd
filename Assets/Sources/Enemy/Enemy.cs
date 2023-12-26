@@ -15,13 +15,14 @@ namespace Sources.Enemy
 
         public event Action<Enemy> Destroyed;
 
-        public IHealth Health => (IHealth) _health;
-        private IEnemyAnimator Animator => (IEnemyAnimator) _animator;
+        public IHealth Health => (IHealth)_health;
+
+        private IEnemyAnimator Animator => (IEnemyAnimator)_animator;
 
         private void OnEnable()
         {
             Animator.DeathAnimationEnded += Disable;
-            Health.Empty += OnEmptyHealth;
+            Health.Ended += OnEndedHealth;
             EnablePhysics();
             _switcher.EnableComponents();
         }
@@ -29,10 +30,15 @@ namespace Sources.Enemy
         private void OnDisable()
         {
             Animator.DeathAnimationEnded -= Disable;
-            Health.Empty -= OnEmptyHealth;
+            Health.Ended -= OnEndedHealth;
         }
 
-        private void OnEmptyHealth()
+        private void OnDestroy()
+        {
+            Destroyed?.Invoke(this);
+        }
+
+        private void OnEndedHealth()
         {
             DisablePhysics();
             _switcher.DisableComponents();
@@ -48,11 +54,6 @@ namespace Sources.Enemy
         {
             _rigidbody.isKinematic = true;
             _physicCollider.enabled = false;
-        }
-
-        private void OnDestroy()
-        {
-            Destroyed?.Invoke(this);
         }
 
         private void Disable()

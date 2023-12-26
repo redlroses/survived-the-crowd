@@ -5,8 +5,10 @@ namespace Sources.Turret
 {
     public interface IShotMaker
     {
-        public event Action ShotOff;
+        public event Action Shooting;
+
         void Construct(WeaponStaticData weaponData);
+
         public void MakeShot();
     }
 }

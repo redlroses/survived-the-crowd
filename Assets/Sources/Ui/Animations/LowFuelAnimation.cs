@@ -7,10 +7,10 @@ namespace Sources.Ui.Animations
 {
     public sealed class LowFuelAnimation : MonoBehaviour
     {
-        [SerializeField] private Image _icon;
-        [SerializeField] private GasTank _gasTank;
         [SerializeField] [Range(0, 100f)] private float _levelTrigger = 20f;
         [SerializeField] private float _duration;
+        [SerializeField] private GasTank _gasTank;
+        [SerializeField] private Image _icon;
 
         private Sequence _animationSequence;
         private bool _isPlaying;

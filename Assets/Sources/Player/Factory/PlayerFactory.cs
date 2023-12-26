@@ -16,15 +16,18 @@ namespace Sources.Player.Factory
 {
     public class PlayerFactory : MonoBehaviour, ISavedProgress
     {
-        [SerializeField] private EnemyPool _enemyPool;
-        [SerializeField] private CinemachineVirtualCamera _camera;
-        [SerializeField] private PlayerMover _base;
-        [SerializeField] private LoseDetector _loseDetector;
-        [SerializeField] private PlayerReviver _playerReviver;
-        [SerializeField] private FuelView _fuelView;
-        [SerializeField] private HealthView _healthView;
         [SerializeField] private List<Car> _cars = new List<Car>();
         [SerializeField] private List<Weapon> _weapons = new List<Weapon>();
+        [SerializeField] private PlayerMover _base;
+        [SerializeField] private CinemachineVirtualCamera _camera;
+        [SerializeField] private EnemyPool _enemyPool;
+        [SerializeField] private FuelView _fuelView;
+        [SerializeField] private HealthView _healthView;
+        [SerializeField] private LoseDetector _loseDetector;
+        [SerializeField] private PlayerReviver _playerReviver;
+
+        private Car _appliedCar;
+        private Weapon _appliedWeapon;
 
         private Iterable<Car> _availableCars;
         private Iterable<Weapon> _availableWeapons;
@@ -32,14 +35,24 @@ namespace Sources.Player.Factory
         private Car _currentCar;
         private Weapon _currentWeapon;
 
-        private Car _appliedCar;
-        private Weapon _appliedWeapon;
-
         public event Action<CarId> CarChanged;
+
         public event Action<WeaponId> WeaponChanged;
 
         public CarId CurrentCar => _availableCars.Current.Id;
+
         private Vector3 WeaponPivot => _availableCars.Current.WeaponPivot.localPosition;
+
+        public void LoadProgress(PlayerProgress progress)
+        {
+            Init(progress);
+        }
+
+        public void UpdateProgress(PlayerProgress progress)
+        {
+            progress.LastChosenCar = _availableCars.Current.Id;
+            progress.LastChosenWeapon = _availableWeapons.Current.Id;
+        }
 
         public void ShowNextCar()
         {
@@ -89,17 +102,6 @@ namespace Sources.Player.Factory
             _playerReviver.Init(_appliedWeapon);
         }
 
-        public void LoadProgress(PlayerProgress progress)
-        {
-            Init(progress);
-        }
-
-        public void UpdateProgress(PlayerProgress progress)
-        {
-            progress.LastChosenCar = _availableCars.Current.Id;
-            progress.LastChosenWeapon = _availableWeapons.Current.Id;
-        }
-
         private void Init(PlayerProgress progress)
         {
             InitCars(progress.LastChosenCar);
@@ -114,7 +116,7 @@ namespace Sources.Player.Factory
 
         private void InitCamera()
         {
-            var baseTransform = _base.transform;
+            Transform baseTransform = _base.transform;
             _camera.Follow = baseTransform;
             _camera.LookAt = baseTransform;
         }
@@ -122,13 +124,13 @@ namespace Sources.Player.Factory
         private void InitCars(CarId chosenCar)
         {
             List<Car> ordered = Sort(Spawn(_cars), car => car.Id);
-            _availableCars = new Iterable<Car>(ordered, (int) chosenCar);
+            _availableCars = new Iterable<Car>(ordered, (int)chosenCar);
         }
 
         private void InitWeapons(WeaponId chosenWeapon)
         {
             List<Weapon> ordered = Sort(Spawn(_weapons), weapon => weapon.Id);
-            _availableWeapons = new Iterable<Weapon>(ordered, (int) chosenWeapon);
+            _availableWeapons = new Iterable<Weapon>(ordered, (int)chosenWeapon);
 
             foreach (Weapon weapon in _availableWeapons)
             {
@@ -139,6 +141,7 @@ namespace Sources.Player.Factory
         private List<T> Sort<T, TKey>(IEnumerable<T> unsorted, Func<T, TKey> keySelector) where T : MonoBehaviour
         {
             List<T> ordered = unsorted.OrderBy(keySelector).ToList();
+
             return ordered;
         }
 
@@ -157,8 +160,10 @@ namespace Sources.Player.Factory
         private List<T> Spawn<T>(List<T> objects) where T : MonoBehaviour
         {
             List<T> spawned = new List<T>(objects.Count);
-            spawned.AddRange(objects
-                .Select(spawnedObject => Instantiate(spawnedObject, _base.transform)));
+
+            spawned.AddRange(
+                objects
+                    .Select(spawnedObject => Instantiate(spawnedObject, _base.transform)));
 
             return spawned;
         }
@@ -167,6 +172,7 @@ namespace Sources.Player.Factory
         {
             Hide(iterable.Current);
             T current = iterable.Next();
+
             return current;
         }
 
@@ -174,6 +180,7 @@ namespace Sources.Player.Factory
         {
             Hide(iterable.Current);
             T current = iterable.Previous();
+
             return current;
         }
 

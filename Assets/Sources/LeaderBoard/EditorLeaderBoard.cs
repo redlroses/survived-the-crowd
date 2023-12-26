@@ -7,15 +7,15 @@ namespace Sources.LeaderBoard
 {
     internal class EditorLeaderBoard : ILeaderBoard
     {
+        private bool _isLeaderboardDataReceived;
         private List<RanksData> _ranksData;
-        private bool _isLeaderboardDataReceived = false;
 
         public async Task<RanksData[]> GetLeaderboardEntries()
         {
             _isLeaderboardDataReceived = false;
             List<RanksData> ranks = new List<RanksData>();
-            string[] langs = {"ru", "en", "tr"};
-            string[] avatars = {"HotRod", "Buggy", "Muscle"};
+            string[] langs = { "ru", "en", "tr" };
+            string[] avatars = { "HotRod", "Buggy", "Muscle" };
 
             ApplyTestData(langs, avatars, ranks);
 
@@ -31,14 +31,27 @@ namespace Sources.LeaderBoard
         {
         }
 
+        public void TryAuthorize()
+        {
+        }
+
         private async void ApplyTestData(string[] langs, string[] avatars, List<RanksData> ranks)
         {
-            for (int i = 0; i < 10; i++)
+            int count = 10;
+            int millisecondsDelay = 300;
+
+            for (int i = 0; i < count; i++)
             {
-                var data = RanksDataConverter.FromYandex($"name {i}", i, i * 10, langs.GetRandom(),
+                RanksData data = RanksDataConverter.FromYandex(
+                    $"name {i}",
+                    i,
+                    i * count,
+                    langs.GetRandom(),
                     avatars.GetRandom());
+
                 ranks.Add(data);
-                await Task.Delay(300);
+
+                await Task.Delay(millisecondsDelay);
             }
 
             _isLeaderboardDataReceived = true;

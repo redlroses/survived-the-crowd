@@ -17,14 +17,14 @@ namespace Sources.Timer
 
         private void OnEnable()
         {
-            _loseDetector.Lose += StopCountTime;
+            _loseDetector.Losed += StopCountTime;
             _stopwatch.Reset();
             StartCountTime();
         }
 
         private void OnDisable()
         {
-            _loseDetector.Lose -= StopCountTime;
+            _loseDetector.Losed -= StopCountTime;
         }
 
         public void StartCountTime()
@@ -53,6 +53,7 @@ namespace Sources.Timer
             {
                 _stopwatch.Tick(Time.deltaTime);
                 _textSetter.Set(_stopwatch.GetTime());
+
                 yield return null;
             }
         }

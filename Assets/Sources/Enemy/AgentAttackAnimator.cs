@@ -6,14 +6,14 @@ namespace Sources.Enemy
     public class AgentAttackAnimator : MonoBehaviour
     {
         [SerializeField] [RequireInterface(typeof(IEnemyAnimator))] private MonoBehaviour _animator;
-        [SerializeField] private AgentAttackRangeTracker _rangeTracker;
         [SerializeField] private float _attackSpeed;
-
-        private IEnemyAnimator Animator => (IEnemyAnimator) _animator;
+        [SerializeField] private AgentAttackRangeTracker _rangeTracker;
 
         private Coroutine _attacking;
-        private WaitForSeconds _waitForAttack;
         private bool _isAttacking;
+        private WaitForSeconds _waitForAttack;
+
+        private IEnemyAnimator Animator => (IEnemyAnimator)_animator;
 
         private void Awake()
         {
@@ -22,15 +22,15 @@ namespace Sources.Enemy
 
         private void OnEnable()
         {
-            _rangeTracker.EnteredRange += OnStartAttack;
-            _rangeTracker.OutOfRange += OnStopAttack;
+            _rangeTracker.RangeEntered += OnStartAttack;
+            _rangeTracker.RangedExited += OnStopAttack;
         }
 
         private void OnDisable()
         {
             OnStopAttack();
-            _rangeTracker.EnteredRange -= OnStartAttack;
-            _rangeTracker.OutOfRange -= OnStopAttack;
+            _rangeTracker.RangeEntered -= OnStartAttack;
+            _rangeTracker.RangedExited -= OnStopAttack;
         }
 
         private IEnumerator Attacking()
@@ -38,6 +38,7 @@ namespace Sources.Enemy
             while (_isAttacking)
             {
                 Animator.PlayAttack();
+
                 yield return _waitForAttack;
             }
         }

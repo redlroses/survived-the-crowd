@@ -1,32 +1,30 @@
-using System;
 using Sources.Input;
 using Sources.Tools;
 using Sources.Tools.Extensions;
 using Sources.Vehicle;
-using TMPro;
 using UnityEngine;
 
 namespace Sources.Player
 {
     public sealed class PlayerMover : MonoBehaviour, ICarControllable
     {
+        [SerializeField] private float _angleEpsilon = 0.0001f;
+        [SerializeField] private float _rotationSpeed = 1;
+        [SerializeField] private float _moveSpeed;
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private Car _vehicle;
-        [SerializeField] private float _rotationSpeed = 1;
-        [SerializeField] private float _angleEpsilon = 0.0001f;
-        [SerializeField] private float _moveSpeed;
-
-        private Vector2 _prevDirection;
-        private Vector2 _inputDirection;
 
         private bool _isInitialized;
+        private Vector2 _prevDirection;
 
-        public Vector2 ForwardDirection => new Vector2(transform.forward.x, transform.forward.z).normalized;
-        public float CurrentSpeed => _rigidbody.velocity.magnitude;
+        private Vector2 ForwardDirection => new Vector2(transform.forward.x, transform.forward.z).normalized;
 
-        private void OnEnable()
+        private float CurrentSpeed => _rigidbody.velocity.magnitude;
+
+        private void Reset()
         {
-            Reset();
+            _rigidbody.velocity = Vector3.zero;
+            _prevDirection = Vector2.left;
         }
 
         private void FixedUpdate()
@@ -40,19 +38,9 @@ namespace Sources.Player
             SetVelocity();
         }
 
-        private void OnDrawGizmos()
+        private void OnEnable()
         {
-            Vector3 position = _rigidbody.position;
-            Gizmos.color = Color.green;
-            Gizmos.DrawRay(position, new Vector3(ForwardDirection.x, position.y, ForwardDirection.y) * 6f);
-            Gizmos.color = Color.red;
-            Gizmos.DrawRay(position, new Vector3(_inputDirection.x, position.y, _inputDirection.y) * 6f);
-        }
-
-        public void Init(Car car)
-        {
-            _vehicle = car;
-            _isInitialized = true;
+            Reset();
         }
 
         public void Move(Vector2 newDirection)
@@ -78,15 +66,14 @@ namespace Sources.Player
             _vehicle.Engine.StopAcceleration();
         }
 
-        private void Reset()
+        public void Init(Car car)
         {
-            _rigidbody.velocity = Vector3.zero;
-            _prevDirection = Vector2.left;
+            _vehicle = car;
+            _isInitialized = true;
         }
 
         private void RotateToDirection(Vector2 direction)
         {
-            _inputDirection = direction;
             float moveAngle = Mathf.Atan2(ForwardDirection.x, ForwardDirection.y) * Mathf.Rad2Deg;
             float inputAngle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
             float angleDeviation = moveAngle - inputAngle;
@@ -103,6 +90,7 @@ namespace Sources.Player
         private void Rotate()
         {
             Quaternion targetRotation = Quaternion.LookRotation(_vehicle.Rudder.MoveDirection);
+
             _rigidbody.rotation =
                 Quaternion.Lerp(_rigidbody.rotation, targetRotation, Time.fixedDeltaTime * _rotationSpeed);
         }

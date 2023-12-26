@@ -8,14 +8,14 @@ namespace Sources
     public class UnlockProvider : MonoBehaviour
     {
         [SerializeField] private DetailsCollector _detailsCollector;
+
         [SerializeField] private WeaponUpgradeCollector _weaponUpgradeCollector;
 
-        private CarId _unlockedCar = CarId.HotRod;
-        private WeaponId _unlockedWeapon = WeaponId.MachineGun;
-
-        public CarId UnlockedCar => _unlockedCar;
-        public WeaponId UnlockedWeapon => _unlockedWeapon;
         public event Action Updated;
+
+        public CarId UnlockedCar { get; private set; } = CarId.HotRod;
+
+        public WeaponId UnlockedWeapon { get; private set; } = WeaponId.MachineGun;
 
         private void OnEnable()
         {
@@ -31,13 +31,13 @@ namespace Sources
 
         private void OnNewWeaponUnlocked(WeaponId id)
         {
-            _unlockedWeapon = id;
+            UnlockedWeapon = id;
             Updated?.Invoke();
         }
 
         private void OnNewCarUnlocked(CarId id)
         {
-            _unlockedCar = id;
+            UnlockedCar = id;
             Updated?.Invoke();
         }
     }

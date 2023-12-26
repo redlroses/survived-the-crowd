@@ -11,18 +11,27 @@ namespace Sources.Level
 {
     public class PlayerReviver : MonoBehaviour
     {
-        [SerializeField] private PlayerInput _input;
-        [SerializeField] private TimerView _timerView;
+        private const float ResetHealthDelay = 0.25f;
+
         [SerializeField] private AudioMixerOperator _audioMixerOperator;
+        [SerializeField] private BlurOperator _blurOperator;
         [SerializeField] private float _enemyKillRadius;
         [SerializeField] private LayerMask _enemyMask;
-        [SerializeField] private Button _revivalButton;
-        [SerializeField] private LoseScreen _loseScreen;
         [SerializeField] private GameScreen _gameScreen;
+        [SerializeField] private InputProvider _input;
+        [SerializeField] private LoseScreen _loseScreen;
+        [SerializeField] private Button _revivalButton;
+        [SerializeField] private TimerView _timerView;
 
-        private Weapon _playerWeapon;
-        private Car _playerCar;
         private bool _isRevived;
+        private Car _playerCar;
+        private Weapon _playerWeapon;
+
+        public void Reset()
+        {
+            _isRevived = false;
+            _revivalButton.interactable = true;
+        }
 
         public void Init(Car playerCar)
         {
@@ -58,12 +67,15 @@ namespace Sources.Level
                     _audioMixerOperator.SetMaster(true);
                     _loseScreen.Hide(false);
                     _gameScreen.Show(false);
-                    _input.Activate();
+                    _input.Input.Activate();
                     Invoke(nameof(ResetHealth), 0.25f);
-                    Time.timeScale = 1;
                 },
                 () =>
-                    _audioMixerOperator.SetMaster(true));
+                {
+                    Time.timeScale = 1;
+                    _blurOperator.Disable();
+                    _audioMixerOperator.SetMaster(true);
+                });
 #endif
 #if UNITY_EDITOR
             KillAroundEnemies();
@@ -75,15 +87,12 @@ namespace Sources.Level
             _audioMixerOperator.SetMaster(true);
             _loseScreen.Hide(false);
             _gameScreen.Show(false);
-            _input.Activate();
-            Invoke(nameof(ResetHealth), 0.25f);
+            _input.Input.Activate();
+            Invoke(nameof(ResetHealth), ResetHealthDelay);
+            Time.timeScale = 1;
+            _blurOperator.Disable();
+            _audioMixerOperator.SetMaster(true);
 #endif
-        }
-
-        public void Reset()
-        {
-            _isRevived = false;
-            _revivalButton.interactable = true;
         }
 
         private void ResetHealth()
@@ -100,7 +109,7 @@ namespace Sources.Level
         {
             Collider[] enemies = Physics.OverlapSphere(_playerCar.transform.position, _enemyKillRadius, _enemyMask);
 
-            foreach (var enemy in enemies)
+            foreach (Collider enemy in enemies)
             {
                 enemy.GetComponent<Enemy.Enemy>().Health.Damage(int.MaxValue);
             }

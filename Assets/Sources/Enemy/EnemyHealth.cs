@@ -5,9 +5,9 @@ namespace Sources.Enemy
 {
     public class EnemyHealth : Health, IAttackable
     {
+        public bool IsAttackable => gameObject.activeInHierarchy;
+
         public Vector3 GetAttackPoint(Vector3 attackerPosition)
             => transform.position;
-
-        public bool IsAttackable => gameObject.activeInHierarchy;
     }
 }

@@ -23,18 +23,18 @@ namespace Sources.Ui.Wrapper.Screens
 
         public void LoadProgress(PlayerProgress progress)
         {
-            LastUnlockedId = (int) progress.LastUnlockedWeapon;
+            LastUnlockedId = (int)progress.LastUnlockedWeapon;
             OnWeaponChanged(progress.LastChosenWeapon);
         }
 
         protected override void UpdateUnlock()
         {
-            LastUnlockedId = (int) UnlockProvider.UnlockedWeapon;
+            LastUnlockedId = (int)UnlockProvider.UnlockedWeapon;
         }
 
         private void OnWeaponChanged(WeaponId id)
         {
-            OnChanged((int) id);
+            OnChanged((int)id);
             _statOperatorView.SetStats(id);
         }
     }

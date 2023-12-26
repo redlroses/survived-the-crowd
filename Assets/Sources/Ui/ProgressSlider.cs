@@ -1,23 +1,24 @@
 using System;
 using System.Linq;
+using Sources.Level;
 using Sources.Tools;
 using Sources.Ui.Wrapper;
 using UnityEngine;
-using ProgressBar = Sources.Level.ProgressBar;
 
 namespace Sources.Ui
 {
     public class ProgressSlider : MonoBehaviour
     {
-        private const string TheSliderIsAlreadyLinkedToTheProgressBarObject = "The slider is already linked to the progress bar object";
+        private const string TheSliderIsAlreadyLinkedToTheProgressBarObject =
+            "The slider is already linked to the progress bar object";
+        [SerializeField] private readonly bool _isSmoothly = true;
+        [SerializeField] private TextSetter _count;
+        [SerializeField] private RectTransform _grid;
 
         [SerializeField] private SliderSetter _slider;
-        [SerializeField] private RectTransform _grid;
-        [SerializeField] private TextSetter _count;
-        [SerializeField] private bool _isSmoothly = true;
+        private bool _isSelfUpdated;
 
         private ProgressBar _progressBar;
-        private bool _isSelfUpdated;
 
         protected virtual void OnEnable()
         {

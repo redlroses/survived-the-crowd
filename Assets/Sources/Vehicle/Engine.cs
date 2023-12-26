@@ -6,10 +6,10 @@ namespace Sources.Vehicle
 {
     public sealed class Engine : MonoBehaviour
     {
-        [SerializeField] private GasTank _gasTank;
-        [SerializeField] [Min(0)] private float _consumption = 0.005f;
-        [SerializeField] [Min(0)] private float _idleConsumption = 0.001f;
         [SerializeField] [Min(0)] private float _acceleration = 0.4f;
+        [SerializeField] [Min(0)] private float _consumption = 0.005f;
+        [SerializeField] private GasTank _gasTank;
+        [SerializeField] [Min(0)] private float _idleConsumption = 0.001f;
         [SerializeField] [Min(0)] private float _maxMoveSpeed = 15f;
 
         private Func<float, float> _speedCalculation;
@@ -21,12 +21,12 @@ namespace Sources.Vehicle
 
         private void OnEnable()
         {
-            _gasTank.Empty += OnEmptyGasTank;
+            _gasTank.Ended += OnEndedGasTank;
         }
 
         private void OnDisable()
         {
-            _gasTank.Empty -= OnEmptyGasTank;
+            _gasTank.Ended -= OnEndedGasTank;
         }
 
         public void Construct(CarStaticData carStaticData)
@@ -37,11 +37,6 @@ namespace Sources.Vehicle
             _maxMoveSpeed = carStaticData.MaxSpeed;
         }
 
-        private void OnEmptyGasTank()
-        {
-            StopAcceleration();
-        }
-
         public float CalculateNewSpeed(float currentSpeed)
             => _speedCalculation(currentSpeed);
 
@@ -50,6 +45,7 @@ namespace Sources.Vehicle
             if (_gasTank.IsEmpty)
             {
                 StopAcceleration();
+
                 return;
             }
 
@@ -61,6 +57,11 @@ namespace Sources.Vehicle
             _speedCalculation = UniformMotion;
         }
 
+        private void OnEndedGasTank()
+        {
+            StopAcceleration();
+        }
+
         private float Accelerate(float currentSpeed)
         {
             if (currentSpeed >= _maxMoveSpeed)
@@ -69,12 +70,14 @@ namespace Sources.Vehicle
             }
 
             BurnFuel(currentSpeed);
+
             return currentSpeed + _acceleration;
         }
 
         private float UniformMotion(float currentSpeed)
         {
             BurnFuel(currentSpeed);
+
             return currentSpeed;
         }
 

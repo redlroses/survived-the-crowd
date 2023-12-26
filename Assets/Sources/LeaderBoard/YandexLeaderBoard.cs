@@ -9,27 +9,36 @@ namespace Sources.LeaderBoard
     {
         private const string Anonymous = "Anonymous";
 
+        private readonly int _competingPlayersCount;
         private readonly string _name;
         private readonly int _topPlayersCount;
-        private readonly int _competingPlayersCount;
-        private readonly bool _isIncludeSelf;
+
+        private string _cashedAvatar;
+        private int _cashedScore;
+        private bool _isLeaderboardDataReceived;
 
         private List<RanksData> _ranksData;
-        private bool _isLeaderboardDataReceived;
 
         public YandexLeaderBoard(string name, int topPlayersCount, int competingPlayersCount, bool isIncludeSelf = true)
         {
             _name = name;
             _topPlayersCount = topPlayersCount;
             _competingPlayersCount = competingPlayersCount;
-            _isIncludeSelf = isIncludeSelf;
         }
+
+        public bool IsReady => PlayerAccount.IsAuthorized;
 
         public async Task<RanksData[]> GetLeaderboardEntries()
         {
             _isLeaderboardDataReceived = false;
-            TryAuthorize();
-            Leaderboard.GetEntries(_name, OnGetLeaderBoardEntries, null, _topPlayersCount, _competingPlayersCount, _isIncludeSelf);
+
+            Leaderboard.GetEntries(
+                _name,
+                OnGetLeaderBoardEntries,
+                null,
+                _topPlayersCount,
+                _competingPlayersCount,
+                PlayerAccount.IsAuthorized);
 
             while (_isLeaderboardDataReceived == false)
             {
@@ -41,41 +50,54 @@ namespace Sources.LeaderBoard
 
         public void SetScore(int score, string avatarName)
         {
-            TryAuthorize();
-            TryGetPersonalData();
-
             if (PlayerAccount.IsAuthorized == false)
-                return;
-
-            Leaderboard.GetPlayerEntry(_name, result =>
             {
-                if (result.score >= score)
-                {
-                    return;
-                }
+                _cashedScore = score;
+                _cashedAvatar = avatarName;
 
-                Leaderboard.SetScore(_name, score, null, null, avatarName);
-            });
-        }
-
-        private void TryAuthorize()
-        {
-            if (PlayerAccount.IsAuthorized)
-            {
                 return;
             }
 
-            PlayerAccount.Authorize();
+            TryGetPersonalData();
+
+            Leaderboard.GetPlayerEntry(
+                _name,
+                result =>
+                {
+                    if (result.score >= score)
+                    {
+                        return;
+                    }
+
+                    Leaderboard.SetScore(_name, score, null, null, avatarName);
+                });
+        }
+
+        public void TryAuthorize()
+        {
+            if (PlayerAccount.IsAuthorized)
+            {
+                TryGetPersonalData();
+
+                return;
+            }
+
+            PlayerAccount.Authorize(TryGetPersonalData);
+        }
+
+        private void TryGetPersonalData()
+        {
+            if (PlayerAccount.HasPersonalProfileDataPermission == false)
+            {
+                PlayerAccount.RequestPersonalProfileDataPermission();
+            }
         }
 
         private void OnGetLeaderBoardEntries(LeaderboardGetEntriesResponse board)
         {
-            TryAuthorize();
-            TryGetPersonalData();
-
             _ranksData = new List<RanksData>(board.entries.Length);
 
-            foreach (var entry in board.entries)
+            foreach (LeaderboardEntryResponse entry in board.entries)
             {
                 string name = entry.player.publicName;
 
@@ -93,14 +115,6 @@ namespace Sources.LeaderBoard
             }
 
             _isLeaderboardDataReceived = true;
-        }
-
-        private void TryGetPersonalData()
-        {
-            if (PlayerAccount.IsAuthorized && PlayerAccount.HasPersonalProfileDataPermission == false)
-            {
-                PlayerAccount.RequestPersonalProfileDataPermission();
-            }
         }
     }
 }

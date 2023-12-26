@@ -9,9 +9,9 @@ namespace Sources.Pool
 
         [Header("Projectile Settings")]
         [SerializeField] private Collider _ownerHurtBox;
+        private bool _isOwnerHurtBoxNull;
 
         private int _projectileDamage;
-        private bool _isOwnerHurtBoxNull;
 
         private void Start()
         {

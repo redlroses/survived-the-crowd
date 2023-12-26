@@ -5,23 +5,16 @@ namespace Sources.Enemy
 {
     public sealed class AgentPatternSwitcher : MonoBehaviour
     {
+        [Space] [Header("Settings")]
+        [SerializeField] private float _aggressionRadius;
+        [SerializeField] private AgentIdleMover _idleMover;
         [Header("Components")]
         [SerializeField] [RequireInterface(typeof(IAttackable))] private MonoBehaviour _player;
         [SerializeField] private AgentToTargetMover _toTargetMover;
-        [SerializeField] private AgentIdleMover _idleMover;
 
-        [Space] [Header("Settings")]
-        [SerializeField] private float _aggressionRadius;
+        private bool _isAggressive;
 
-        private bool _isAggressive = false;
-
-        private IAttackable Player => (IAttackable) _player;
-
-        private void OnEnable()
-        {
-            SwitchToIdlePattern();
-            _isAggressive = false;
-        }
+        private IAttackable Player => (IAttackable)_player;
 
         private void Update()
         {
@@ -37,9 +30,15 @@ namespace Sources.Enemy
             }
         }
 
+        private void OnEnable()
+        {
+            SwitchToIdlePattern();
+            _isAggressive = false;
+        }
+
         public void Init(IAttackable player)
         {
-            _player = (MonoBehaviour) player ?? throw new ArgumentNullException();
+            _player = (MonoBehaviour)player ?? throw new ArgumentNullException();
         }
 
         private void SwitchToAggressivePattern()
@@ -57,6 +56,7 @@ namespace Sources.Enemy
         private bool IsPlayerInAggressiveRadius()
         {
             Vector3 position = transform.position;
+
             return Vector3.Distance(position, Player.GetAttackPoint(position)) <= _aggressionRadius;
         }
     }

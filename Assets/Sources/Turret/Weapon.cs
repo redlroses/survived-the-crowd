@@ -6,16 +6,17 @@ namespace Sources.Turret
 {
     public sealed class Weapon : MonoBehaviour
     {
-        [SerializeField] private WeaponId _id;
-        [SerializeField] private WeaponStaticData _weaponData;
-        [SerializeField] private TargetSeeker _targetSeeker;
         [SerializeField] private Shooter _shooter;
         [SerializeField] [RequireInterface(typeof(IShotMaker))] private MonoBehaviour _shotMaker;
+        [SerializeField] private WeaponStaticData _weaponData;
 
-        private IShotMaker ShotMaker => (IShotMaker) _shotMaker;
+        [field: SerializeField]
+        public TargetSeeker TargetSeeker { get; }
 
-        public TargetSeeker TargetSeeker => _targetSeeker;
-        public WeaponId Id => _id;
+        [field: SerializeField]
+        public WeaponId Id { get; }
+
+        private IShotMaker ShotMaker => (IShotMaker)_shotMaker;
 
         private void Awake()
         {
@@ -24,7 +25,7 @@ namespace Sources.Turret
 
         private void ConstructData()
         {
-            _targetSeeker.Construct(_weaponData);
+            TargetSeeker.Construct(_weaponData);
             _shooter.Construct(_weaponData);
             ShotMaker.Construct(_weaponData);
         }

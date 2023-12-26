@@ -5,9 +5,9 @@ namespace Sources.Ui.Wrapper.Screens
 {
     public sealed class GameScreen : Screen
     {
-        [SerializeField] private HealthView _healthView;
-        [SerializeField] private FuelView _fuelView;
         [SerializeField] private CarUnlockView _carUnlockView;
+        [SerializeField] private FuelView _fuelView;
+        [SerializeField] private HealthView _healthView;
         [SerializeField] private TimerView _timerView;
 
         protected override void OnShow()

@@ -7,7 +7,7 @@ namespace Sources
 {
     public sealed class RenderQueueSetter : MonoBehaviour
     {
-        [SerializeField] private List<Renderer> _renderers = new List<Renderer>();
+        [SerializeField] private readonly List<Renderer> _renderers = new List<Renderer>();
         [SerializeField] private int _renderQueue;
 
         private void Start()
@@ -22,7 +22,7 @@ namespace Sources
                 throw new ArgumentOutOfRangeException(nameof(renderQueue));
             }
 
-            foreach (var material in _renderers.SelectMany(render => render.materials))
+            foreach (Material material in _renderers.SelectMany(render => render.materials))
             {
                 material.renderQueue = _renderQueue;
             }

@@ -5,11 +5,11 @@ namespace Sources.Ui.Wrapper
 {
     public class RankView : MonoBehaviour
     {
-        [SerializeField] private TextSetter _rank;
-        [SerializeField] private TextSetter _name;
-        [SerializeField] private TextSetter _score;
         [SerializeField] private Image _avatar;
         [SerializeField] private Image _flag;
+        [SerializeField] private TextSetter _name;
+        [SerializeField] private TextSetter _rank;
+        [SerializeField] private TextSetter _score;
 
         public void Set(RanksData ranksData)
         {

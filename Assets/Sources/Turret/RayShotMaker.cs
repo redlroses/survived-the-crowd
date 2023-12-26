@@ -8,16 +8,15 @@ namespace Sources.Turret
 {
     public sealed class RayShotMaker : MonoBehaviour, IShotMaker, IAudioPlayable
     {
+        [SerializeField] private LayerMask _layer;
         [SerializeField] private int _shotDamage;
         [SerializeField] private Transform _shotPoint;
-        [SerializeField] private LayerMask _layer;
 
-        private RayDamageDealer _rayDamageDealer = new RayDamageDealer();
+        public event Action AudioPlaying;
 
-        public event Action AudioPlayed;
-        public event Action ShotOff;
+        public event Action Shooting;
 
-        public RayDamageDealer RayDamageDealer => _rayDamageDealer;
+        public RayDamageDealer RayDamageDealer { get; } = new RayDamageDealer();
 
         public void Construct(WeaponStaticData weaponData)
         {
@@ -28,9 +27,9 @@ namespace Sources.Turret
         {
             Ray ray = new Ray(_shotPoint.position, _shotPoint.forward);
             RayCastData data = new RayCastData(ray, _layer);
-            ShotOff?.Invoke();
-            AudioPlayed?.Invoke();
-            _rayDamageDealer.DealDamage(_shotDamage, data);
+            Shooting?.Invoke();
+            AudioPlaying?.Invoke();
+            RayDamageDealer.DealDamage(_shotDamage, data);
         }
     }
 }

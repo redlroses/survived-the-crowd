@@ -4,6 +4,6 @@
     {
         HotRod,
         Buggy,
-        Muscle
+        Muscle,
     }
 }

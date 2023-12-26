@@ -28,7 +28,7 @@ namespace Sources.Level
             Stages = stages;
             HighValue = highValue;
             LowValue = lowValue;
-            StepSize = highValue / (float) stages;
+            StepSize = highValue / (float)stages;
             Stage = stage;
         }
 
@@ -51,18 +51,19 @@ namespace Sources.Level
             Stage = stage;
         }
 
-        public event Action Updated;
-
         public int Stages { get; }
+
         public float StepSize { get; }
+
         public float HighValue { get; }
+
         public int LowValue { get; }
 
         public bool IsComplete => Stage == Stages;
 
-        public float Amount => (float) Stage / Stages * HighValue;
+        public float Amount => (float)Stage / Stages * HighValue;
 
-        public float ClampedAmount => (float) Stage / Stages;
+        public float ClampedAmount => (float)Stage / Stages;
 
         public float Progress => Stage * StepSize;
 
@@ -76,28 +77,7 @@ namespace Sources.Level
             }
         }
 
-        public override string ToString()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append('|');
-
-            for (int i = 0; i < Stage; i++)
-            {
-                stringBuilder.Append('█');
-            }
-
-            for (int i = Stage; i < Stages; i++)
-            {
-                stringBuilder.Append('_');
-            }
-
-            stringBuilder.Append('|');
-            stringBuilder.Append(Stage);
-            stringBuilder.Append('/');
-            stringBuilder.Append(Stages);
-
-            return stringBuilder.ToString();
-        }
+        public event Action Updated;
 
         public void Reset()
         {

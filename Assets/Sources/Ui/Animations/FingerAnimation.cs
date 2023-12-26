@@ -7,9 +7,9 @@ namespace Sources.Ui.Animations
 {
     public sealed class FingerAnimation : MonoBehaviour
     {
-        [SerializeField] private RectTransform _finger;
-        [SerializeField] private float _moveOffset = 50f;
         [SerializeField] private float _duration = 1f;
+        [SerializeField] private float _moveOffset = 50f;
+        [SerializeField] private RectTransform _finger;
 
         private TweenerCore<Vector2, Vector2, VectorOptions> _animation;
 

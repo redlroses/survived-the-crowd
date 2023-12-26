@@ -7,12 +7,16 @@ namespace Sources.Fuel
 {
     public sealed class FuelBarrel : MonoBehaviour, IPoolable<FuelBarrel>
     {
-        [SerializeField] private float _fuelAmount = 30f;
-
         public event Action<FuelBarrel> Destroyed;
-        public event Action PickedUp;
 
-        public float FuelAmount => _fuelAmount;
+        public event Action Picked;
+
+        [field: SerializeField] private float FuelAmount { get; } = 30f;
+
+        private void OnDestroy()
+        {
+            Destroyed?.Invoke(this);
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -21,14 +25,9 @@ namespace Sources.Fuel
                 return;
             }
 
-            gasTank.Refuel(_fuelAmount);
-            PickedUp?.Invoke();
+            gasTank.Refuel(FuelAmount);
+            Picked?.Invoke();
             gameObject.SetActive(false);
-        }
-
-        private void OnDestroy()
-        {
-            Destroyed?.Invoke(this);
         }
 
         public void Disable()

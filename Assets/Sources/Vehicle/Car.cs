@@ -11,19 +11,24 @@ namespace Sources.Vehicle
     [RequireComponent(typeof(Engine))]
     public sealed class Car : MonoBehaviour
     {
-        [SerializeField] private CarId _id;
         [SerializeField] private CarStaticData _carStaticData;
-        [SerializeField] private Engine _engine;
-        [SerializeField] private GasTank _gasTank;
-        [SerializeField] private Rudder _rudder;
         [SerializeField] private PlayerHealth _playerHealth;
-        [SerializeField] private Transform _weaponPivot;
 
-        public Engine Engine => _engine;
-        public GasTank GasTank => _gasTank;
-        public Rudder Rudder => _rudder;
-        public CarId Id => _id;
-        public Transform WeaponPivot => _weaponPivot;
+        [field: SerializeField]
+        public Engine Engine { get; private set; }
+
+        [field: SerializeField]
+        public GasTank GasTank { get; private set; }
+
+        [field: SerializeField]
+        public Rudder Rudder { get; private set; }
+
+        [field: SerializeField]
+        public CarId Id { get; }
+
+        [field: SerializeField]
+        public Transform WeaponPivot { get; }
+
         public IHealth Health => _playerHealth;
 
         private void Awake()
@@ -34,17 +39,17 @@ namespace Sources.Vehicle
 
         private void ConstructData()
         {
-            _engine.Construct(_carStaticData);
-            _gasTank.Construct(_carStaticData);
-            _rudder.Construct(_carStaticData);
+            Engine.Construct(_carStaticData);
+            GasTank.Construct(_carStaticData);
+            Rudder.Construct(_carStaticData);
             _playerHealth.Construct(_carStaticData);
         }
 
         private void SetComponents()
         {
-            _engine ??= GetComponent<Engine>();
-            _gasTank ??= GetComponent<GasTank>();
-            _rudder ??= GetComponent<Rudder>();
+            Engine ??= GetComponent<Engine>();
+            GasTank ??= GetComponent<GasTank>();
+            Rudder ??= GetComponent<Rudder>();
         }
     }
 }

@@ -7,22 +7,23 @@ namespace Sources.Score
 {
     public class LeaderboardProvider : MonoBehaviour
     {
-        [SerializeField] private ScoreCounter _scoreCounter;
         [SerializeField] private LeaderboardView _leaderboardView;
         [SerializeField] private LoseDetector _loseDetector;
         [SerializeField] private PlayerFactory _playerFactory;
+        [SerializeField] private ScoreCounter _scoreCounter;
 
         private void OnEnable()
         {
-            _loseDetector.Lose += OnLose;
+            _loseDetector.Losed += OnLosed;
         }
 
         private void OnDisable()
         {
-            _loseDetector.Lose -= OnLose;
+            _loseDetector.Losed -= OnLosed;
+            OnLosed();
         }
 
-        private void OnLose()
+        private void OnLosed()
         {
             _leaderboardView.SetScore(_scoreCounter.CalculateScore(), _playerFactory.CurrentCar);
         }

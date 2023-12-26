@@ -14,20 +14,21 @@ namespace Sources.Pool
 
         private readonly List<T> _objectsPool;
 
+        [SerializeField] private int _expansionAmount = 4;
+        [SerializeField] private List<T> _copies;
+        [SerializeField] private Transform _customContainer;
+        [SerializeField] private bool _isManualFill;
+        [SerializeField] private bool _isStaticContainer;
+
         [Header("Core Settings")]
         [SerializeField] private int _size = 8;
-        [SerializeField] private int _expansionAmount = 4;
-        [SerializeField] private Transform _customContainer;
-        [SerializeField] private bool _isStaticContainer;
-        [SerializeField] private bool _isManualFill;
-        [SerializeField] private List<T> _copies;
-
-        public Transform Container => _customContainer;
 
         protected ObjectPool()
         {
             _objectsPool = new List<T>(_size);
         }
+
+        public Transform Container => _customContainer;
 
         protected virtual void Awake()
         {
@@ -46,72 +47,75 @@ namespace Sources.Pool
             Fill(_size);
         }
 
-        protected virtual void InitCopy(T copy)
-        {
-        }
-
         public T Enable()
         {
-            var objectCopy = GetInactive();
+            T objectCopy = GetInactive();
             objectCopy.gameObject.SetActive(true);
+
             return objectCopy;
         }
 
         public T Enable<TFilter>()
         {
-            var objectCopy = GetInactive<TFilter>();
+            T objectCopy = GetInactive<TFilter>();
             objectCopy.gameObject.SetActive(true);
+
             return objectCopy;
         }
 
         public T Enable(Vector3 position)
         {
-            var objectCopy = GetInactive();
-            var gameObjectCopy = objectCopy.gameObject;
+            T objectCopy = GetInactive();
+            GameObject gameObjectCopy = objectCopy.gameObject;
             gameObjectCopy.transform.position = position;
             gameObjectCopy.SetActive(true);
+
             return objectCopy;
         }
 
         public T Enable(Vector3 position, Quaternion rotation)
         {
-            var objectCopy = GetInactive();
-            var gameObjectCopy = objectCopy.gameObject;
+            T objectCopy = GetInactive();
+            GameObject gameObjectCopy = objectCopy.gameObject;
             gameObjectCopy.transform.position = position;
             gameObjectCopy.transform.rotation = rotation;
             gameObjectCopy.SetActive(true);
+
             return objectCopy;
         }
 
         public T Enable(Vector3 position, Quaternion rotation, Transform parent)
         {
-            var objectCopy = GetInactive();
-            var gameObjectCopy = objectCopy.gameObject;
+            T objectCopy = GetInactive();
+            GameObject gameObjectCopy = objectCopy.gameObject;
             gameObjectCopy.transform.position = position;
             gameObjectCopy.transform.rotation = rotation;
             gameObjectCopy.transform.parent = parent;
             gameObjectCopy.SetActive(true);
+
             return objectCopy;
         }
 
         public T Enable(Vector3 position, Quaternion rotation, Func<T, bool> filter)
         {
-            var objectCopy = GetInactive(filter);
-            var gameObjectCopy = objectCopy.gameObject;
+            T objectCopy = GetInactive(filter);
+            GameObject gameObjectCopy = objectCopy.gameObject;
             gameObjectCopy.transform.position = position;
             gameObjectCopy.transform.rotation = rotation;
             gameObjectCopy.SetActive(true);
+
             return objectCopy;
         }
 
         public T Enable(Vector3 position, Quaternion rotation, Transform parent, Func<T, bool> filter)
         {
-            var objectCopy = GetInactive(filter);
-            var gameObjectCopy = objectCopy.gameObject;
+            T objectCopy = GetInactive(filter);
+            GameObject gameObjectCopy = objectCopy.gameObject;
             gameObjectCopy.transform.position = position;
             gameObjectCopy.transform.rotation = rotation;
             gameObjectCopy.transform.parent = parent;
             gameObjectCopy.SetActive(true);
+
             return objectCopy;
         }
 
@@ -131,6 +135,10 @@ namespace Sources.Pool
             Fill(_size);
         }
 
+        protected virtual void InitCopy(T copy)
+        {
+        }
+
         private void CreateContainer()
         {
             _customContainer = new GameObject($"{typeof(T).Name} container").transform;
@@ -145,10 +153,11 @@ namespace Sources.Pool
 
         private T GetNew(T copy)
         {
-            var objectCopy = Instantiate(copy.gameObject.gameObject, _customContainer);
+            GameObject objectCopy = Instantiate(copy.gameObject.gameObject, _customContainer);
             objectCopy.SetActive(false);
-            var component = objectCopy.GetComponent<T>();
+            T component = objectCopy.GetComponent<T>();
             InitCopy(component);
+
             return component;
         }
 
@@ -192,18 +201,18 @@ namespace Sources.Pool
 
             for (int i = 0; i < amount; i++)
             {
-                var filteredCopies = _copies.Where(filter ?? (copy => true));
+                IEnumerable<T> filteredCopies = _copies.Where(filter ?? (copy => true));
 
-                foreach (var filteredCopy in (IEnumerable) filteredCopies)
+                foreach (object filteredCopy in (IEnumerable)filteredCopies)
                 {
-                    Add(GetNew((T) filteredCopy));
+                    Add(GetNew((T)filteredCopy));
                 }
             }
         }
 
         private void Fill(int size)
         {
-            foreach (var copy in _copies)
+            foreach (T copy in _copies)
             {
                 for (int i = _objectsPool.Count / _copies.Count; i < size; i++)
                 {
@@ -234,11 +243,10 @@ namespace Sources.Pool
 
         private void Clear()
         {
-            foreach (var copy in _objectsPool)
+            foreach (T copy in _objectsPool)
             {
                 Remove(copy);
             }
         }
     }
 }
-

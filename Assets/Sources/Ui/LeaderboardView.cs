@@ -10,16 +10,15 @@ namespace Sources.Ui
 {
     public class LeaderboardView : MonoBehaviour
     {
-        [SerializeField] private LoadingAnimation _loadingAnimation;
-        [SerializeField] private Transform _ranksViewContainer;
+        [SerializeField] private int _leaderboardCompetingPlayersCount;
         [SerializeField] private string _leaderboardName;
         [SerializeField] private int _leaderboardTopPlayersCount;
-        [SerializeField] private int _leaderboardCompetingPlayersCount;
-
-        private List<RankView> _ranksView;
+        [SerializeField] private LoadingAnimation _loadingAnimation;
+        [SerializeField] private Transform _ranksViewContainer;
+        private bool _isLeaderboardDataReceived;
         private ILeaderBoard _leaderBoard;
 
-        private bool _isLeaderboardDataReceived;
+        private List<RankView> _ranksView;
 
         private void Awake()
         {
@@ -40,7 +39,7 @@ namespace Sources.Ui
         public async void ShowLeaderBoard()
         {
             _loadingAnimation.Play();
-            var ranksData = await _leaderBoard.GetLeaderboardEntries();
+            RanksData[] ranksData = await _leaderBoard.GetLeaderboardEntries();
             _loadingAnimation.Stop();
             int ranksCount = Math.Min(_ranksViewContainer.childCount, ranksData.Length);
 
@@ -53,7 +52,7 @@ namespace Sources.Ui
 
         public void HideLeaderBoard()
         {
-            foreach (var rankView in _ranksView)
+            foreach (RankView rankView in _ranksView)
             {
                 rankView.gameObject.SetActive(false);
             }
@@ -64,12 +63,17 @@ namespace Sources.Ui
             _leaderBoard.SetScore(score, avatarName.ToString());
         }
 
+        public void OnLogIn()
+        {
+            _leaderBoard.TryAuthorize();
+        }
+
         private void FindRanksView()
         {
             _ranksView = new List<RankView>(_ranksViewContainer.childCount);
             _ranksView.AddRange(_ranksViewContainer.GetComponentsInChildren<RankView>());
 
-            foreach (var rank in _ranksView)
+            foreach (RankView rank in _ranksView)
             {
                 rank.gameObject.SetActive(false);
             }

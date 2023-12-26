@@ -12,10 +12,15 @@ namespace Sources.DamageDeal
         protected override bool TryHit(DamageData data, out IDamageable damageable)
         {
             damageable = null;
-            var overlapSphereData = data as OverlapSphereData;
+            OverlapSphereData overlapSphereData = data as OverlapSphereData;
+
             int hitsCount =
-                Physics.OverlapSphereNonAlloc(overlapSphereData.SphereCenter, overlapSphereData.SphereRadius, _hitColliders,
+                Physics.OverlapSphereNonAlloc(
+                    overlapSphereData.SphereCenter,
+                    overlapSphereData.SphereRadius,
+                    _hitColliders,
                     overlapSphereData.Mask);
+
             return hitsCount > 0 && _hitColliders.FirstOrDefault().TryGetComponent(out damageable);
         }
     }

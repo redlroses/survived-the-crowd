@@ -3,6 +3,6 @@
     public enum WeaponId
     {
         MachineGun,
-        RocketLauncher
+        RocketLauncher,
     }
 }

@@ -8,17 +8,17 @@ namespace Sources.Player
     {
         [SerializeField] private Collider _hurtBox;
 
-        public Vector3 GetAttackPoint(Vector3 attackerPosition)
-            => _hurtBox.ClosestPoint(attackerPosition);
-
-        public Vector3 GetAttackCenter(Vector3 attackerPosition)
-            => _hurtBox.transform.position;
-
         public bool IsAttackable => gameObject.activeInHierarchy;
 
         public void Construct(CarStaticData carStaticData)
         {
             SetMaxPoints(carStaticData.MaxHealth);
         }
+
+        public Vector3 GetAttackPoint(Vector3 attackerPosition)
+            => _hurtBox.ClosestPoint(attackerPosition);
+
+        public Vector3 GetAttackCenter(Vector3 attackerPosition)
+            => _hurtBox.transform.position;
     }
 }

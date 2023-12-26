@@ -11,7 +11,7 @@ namespace Sources.Turret
         [SerializeField] private ProjectilePool _pool;
         [SerializeField] private Transform _shotPoint;
 
-        public event Action ShotOff;
+        public event Action Shooting;
 
         private void Awake()
         {
@@ -26,7 +26,7 @@ namespace Sources.Turret
         public void MakeShot()
         {
             _pool.Enable(_shotPoint.position, _shotPoint.rotation);
-            ShotOff?.Invoke();
+            Shooting?.Invoke();
         }
     }
 }

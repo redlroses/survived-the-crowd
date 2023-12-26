@@ -7,30 +7,32 @@ namespace Sources.Collectables
     {
         private readonly List<T> _iterableObjects;
 
-        protected int Index;
+        private int _index;
 
         public Iterable(List<T> iterableObjects, int index)
         {
             _iterableObjects = iterableObjects;
-            Index = index;
+            _index = index;
         }
 
-        public T Current => _iterableObjects[Index];
-        public int CurrentIndex => Index;
+        public T Current => _iterableObjects[_index];
+
         public IEnumerator GetEnumerator() => _iterableObjects.GetEnumerator();
 
         public T Next()
         {
-            Index++;
+            _index++;
             ClampNext();
-            return _iterableObjects[Index];
+
+            return _iterableObjects[_index];
         }
 
         public T Previous()
         {
-            Index--;
+            _index--;
             ClampPrevious();
-            return _iterableObjects[Index];
+
+            return _iterableObjects[_index];
         }
 
         public bool Reset(T iterable)
@@ -40,23 +42,24 @@ namespace Sources.Collectables
                 return false;
             }
 
-            Index = _iterableObjects.IndexOf(iterable);
+            _index = _iterableObjects.IndexOf(iterable);
+
             return true;
         }
 
         protected virtual void ClampNext()
         {
-            if (Index > _iterableObjects.Count - 1)
+            if (_index > _iterableObjects.Count - 1)
             {
-                Index = _iterableObjects.Count - 1;
+                _index = _iterableObjects.Count - 1;
             }
         }
 
         protected virtual void ClampPrevious()
         {
-            if (Index < 0)
+            if (_index < 0)
             {
-                Index = 0;
+                _index = 0;
             }
         }
     }

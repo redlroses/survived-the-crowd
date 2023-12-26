@@ -5,8 +5,8 @@ namespace Sources.Score
 {
     public class ScoreView : MonoBehaviour
     {
-        [SerializeField] private TextSetter _textSetter;
         [SerializeField] private ScoreCounter _scoreCounter;
+        [SerializeField] private TextSetter _textSetter;
 
         private void OnEnable()
         {

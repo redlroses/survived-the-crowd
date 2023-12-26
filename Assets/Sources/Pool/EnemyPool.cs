@@ -6,25 +6,15 @@ namespace Sources.Pool
     public sealed class EnemyPool : ObjectPool<Enemy.Enemy>
     {
         private IAttackable _attackable;
-        private int _deadEnemiesAmount;
 
-        public int DeadEnemiesAmount => _deadEnemiesAmount;
+        public int DeadEnemiesAmount { get; private set; }
 
         private void OnDisable()
         {
-            foreach (var copy in GetActiveObjects())
+            foreach (Enemy.Enemy copy in GetActiveObjects())
             {
                 copy.GetComponentInChildren<IEnemyAnimator>().DeathAnimationEnded -= OnEnemyDead;
             }
-        }
-
-        protected override void InitCopy(Enemy.Enemy copy)
-        {
-            copy.GetComponent<AgentToTargetMover>().ApplyTarget(_attackable);
-            copy.GetComponent<AgentPatternSwitcher>().Init(_attackable);
-            copy.GetComponent<AgentAttackRangeTracker>().Init(_attackable);
-
-            copy.GetComponentInChildren<IHealth>().Empty += OnEnemyDead;
         }
 
         public void Init(IAttackable attackable)
@@ -43,12 +33,21 @@ namespace Sources.Pool
 
         public void ResetDeadEnemyCounter()
         {
-            _deadEnemiesAmount = 0;
+            DeadEnemiesAmount = 0;
+        }
+
+        protected override void InitCopy(Enemy.Enemy copy)
+        {
+            copy.GetComponent<AgentToTargetMover>().ApplyTarget(_attackable);
+            copy.GetComponent<AgentPatternSwitcher>().Init(_attackable);
+            copy.GetComponent<AgentAttackRangeTracker>().Init(_attackable);
+
+            copy.GetComponentInChildren<IHealth>().Ended += OnEnemyDead;
         }
 
         private void OnEnemyDead()
         {
-            _deadEnemiesAmount++;
+            DeadEnemiesAmount++;
         }
     }
 }

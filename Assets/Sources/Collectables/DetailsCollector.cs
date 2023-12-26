@@ -14,42 +14,27 @@ namespace Sources.Collectables
         private readonly List<ProgressBar> _carUnlocksProgress = new List<ProgressBar>
         {
             new ProgressBar(5, 5),
-            new ProgressBar(10, 10)
+            new ProgressBar(10, 10),
         };
 
-        private ProgressBar _progressBar;
         private CarUnlockBars _carUnlockBars;
         private CarId _lastUnlockedCarId;
 
         public event Action<CarId> NewCarUnlocked;
 
-        public ProgressBar CurrentProgressBar => _progressBar;
-
-        public void Increase()
-        {
-            _progressBar.NextStage();
-
-            if (_progressBar.IsComplete == false)
-            {
-                return;
-            }
-
-            _progressBar = _carUnlockBars.Next();
-            _lastUnlockedCarId++;
-            NewCarUnlocked?.Invoke(_lastUnlockedCarId);
-        }
+        public ProgressBar CurrentProgressBar { get; private set; }
 
         public void LoadProgress(PlayerProgress progress)
         {
             if (progress.CarUnlocksProgressBar == null)
             {
                 _carUnlockBars = new CarUnlockBars(_carUnlocksProgress, 0);
-                _progressBar = _carUnlockBars.Current;
+                CurrentProgressBar = _carUnlockBars.Current;
             }
             else
             {
                 _carUnlockBars = new CarUnlockBars(_carUnlocksProgress, progress.CurrentCarUnlockBarIndex);
-                _progressBar = progress.CarUnlocksProgressBar.ToProgressBar();
+                CurrentProgressBar = progress.CarUnlocksProgressBar.ToProgressBar();
             }
 
             _lastUnlockedCarId = progress.LastChosenCar;
@@ -57,8 +42,22 @@ namespace Sources.Collectables
 
         public void UpdateProgress(PlayerProgress progress)
         {
-            progress.CarUnlocksProgressBar = _progressBar.ToProgressBarData();
+            progress.CarUnlocksProgressBar = CurrentProgressBar.ToProgressBarData();
             progress.LastUnlockedCar = _lastUnlockedCarId;
+        }
+
+        public void Increase()
+        {
+            CurrentProgressBar.NextStage();
+
+            if (CurrentProgressBar.IsComplete == false)
+            {
+                return;
+            }
+
+            CurrentProgressBar = _carUnlockBars.Next();
+            _lastUnlockedCarId++;
+            NewCarUnlocked?.Invoke(_lastUnlockedCarId);
         }
     }
 }

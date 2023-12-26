@@ -9,21 +9,21 @@ namespace Sources.Ui
 {
     public class CarStatsOperatorView : MonoBehaviour
     {
+        [SerializeField] private StatBarView _acceleration;
         [SerializeField] private CarStaticData[] _carsStaticData;
+        [SerializeField] private StatBarView _consumption;
         [SerializeField] private TextSetter _label;
 
         [Space] [Header("Stats")]
         [SerializeField] private StatBarView _maxHealth;
         [SerializeField] private StatBarView _maxSpeed;
-        [SerializeField] private StatBarView _acceleration;
         [SerializeField] private StatBarView _maxWheelAngle;
-        [SerializeField] private StatBarView _consumption;
+        private float _accelerationRange;
+        private float _consumptionRange;
 
         private int _maxHealthRange;
         private float _maxSpeedRange;
-        private float _accelerationRange;
         private float _maxWheelAngleRange;
-        private float _consumptionRange;
 
         private bool IsInitializedStatRange => _maxHealthRange > 0;
 

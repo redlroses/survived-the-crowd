@@ -12,13 +12,19 @@ namespace Sources
         [SerializeField] private ParticleSystem _particle;
 
         public event Action<FxPoolable> Destroyed;
-        public event Action AudioPlayed;
+
+        public event Action AudioPlaying;
 
         private void OnEnable()
         {
             _particle.Play();
-            AudioPlayed?.Invoke();
+            AudioPlaying?.Invoke();
             StartCoroutine(YieldDisable());
+        }
+
+        private void OnDestroy()
+        {
+            Destroyed?.Invoke(this);
         }
 
         private IEnumerator YieldDisable()
@@ -26,11 +32,6 @@ namespace Sources
             yield return new WaitForSeconds(2.5f);
 
             gameObject.SetActive(false);
-        }
-
-        private void OnDestroy()
-        {
-            Destroyed?.Invoke(this);
         }
     }
 }

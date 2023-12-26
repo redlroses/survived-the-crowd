@@ -1,5 +1,3 @@
-using System;
-using Sources.Audio;
 using Sources.Turret;
 using UnityEngine;
 
@@ -31,11 +29,6 @@ namespace Sources.Projectiles
             _target = null;
         }
 
-        private void OnTargetUpdated(Transform target)
-        {
-            _target = target;
-        }
-
         protected override void Move(float moveSpeed)
         {
             if (_target && _target.gameObject.activeSelf)
@@ -46,9 +39,14 @@ namespace Sources.Projectiles
             transform.Translate(Vector3.forward * (moveSpeed * Time.deltaTime));
         }
 
+        private void OnTargetUpdated(Transform target)
+        {
+            _target = target;
+        }
+
         private void RotateToTarget()
         {
-            var rotationToTarget = Quaternion.LookRotation(_target.position - transform.position);
+            Quaternion rotationToTarget = Quaternion.LookRotation(_target.position - transform.position);
             _rotator.Rotate(rotationToTarget);
         }
     }

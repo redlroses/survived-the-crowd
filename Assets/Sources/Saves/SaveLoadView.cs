@@ -10,17 +10,17 @@ namespace Sources.Saves
     {
         private readonly ISaveLoader _saveLoader = new PlayerPrefsSaveLoader();
 
-        [SerializeField] private LoseDetector _loseDetector;
-
         [SerializeField] [RequireInterface(typeof(ISavedProgressReader))]
         private List<MonoBehaviour> _progressReaders = new List<MonoBehaviour>();
+
+        [SerializeField] private LoseDetector _loseDetector;
 
         private List<ISavedProgressReader> ProgressReaders => _progressReaders
             .ConvertAll(input => input as ISavedProgressReader);
 
         private IEnumerable<ISavedProgress> ProgressWriters => _progressReaders.Where(obj => obj is ISavedProgress)
             .ToList()
-            .ConvertAll(input => (ISavedProgress) input);
+            .ConvertAll(input => (ISavedProgress)input);
 
         private void Awake()
         {
@@ -29,18 +29,18 @@ namespace Sources.Saves
 
         private void OnEnable()
         {
-            _loseDetector.Lose += Save;
+            _loseDetector.Losed += Save;
         }
 
         private void OnDisable()
         {
-            _loseDetector.Lose -= Save;
+            _loseDetector.Losed -= Save;
             Save();
         }
 
         public void Load()
         {
-            foreach (var progressReader in ProgressReaders)
+            foreach (ISavedProgressReader progressReader in ProgressReaders)
             {
                 progressReader.LoadProgress(_saveLoader.Load());
             }
@@ -50,7 +50,7 @@ namespace Sources.Saves
         {
             PlayerProgress progress = _saveLoader.Load();
 
-            foreach (var progressWriter in ProgressWriters)
+            foreach (ISavedProgress progressWriter in ProgressWriters)
             {
                 progressWriter.UpdateProgress(progress);
             }

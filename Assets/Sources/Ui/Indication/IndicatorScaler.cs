@@ -4,13 +4,13 @@ namespace Sources.Ui.Indication
 {
     public class IndicatorScaler : MonoBehaviour
     {
-        [SerializeField] private DirectionIndicator _directionIndicator;
-        [SerializeField] private Transform _icon;
         [SerializeField] private Transform _arrow;
-        [SerializeField] private float _minSize;
-        [SerializeField] private float _maxSize;
+        [SerializeField] private DirectionIndicator _directionIndicator;
         [SerializeField] private float _distanceMaxSize;
         [SerializeField] private float _distanceMinSize;
+        [SerializeField] private Transform _icon;
+        [SerializeField] private float _maxSize;
+        [SerializeField] private float _minSize;
 
         private void Update()
         {

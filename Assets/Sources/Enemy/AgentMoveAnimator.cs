@@ -7,12 +7,12 @@ namespace Sources.Enemy
     {
         private const float MinimalVelocity = 0.001f;
 
-        [SerializeField] [RequireInterface(typeof(IEnemyAnimator))] private MonoBehaviour _animator;
         [SerializeField] private NavMeshAgent _agent;
+        [SerializeField] [RequireInterface(typeof(IEnemyAnimator))] private MonoBehaviour _animator;
 
         private bool _isMoving;
 
-        private IEnemyAnimator Animator => (IEnemyAnimator) _animator;
+        private IEnemyAnimator Animator => (IEnemyAnimator)_animator;
 
         private void Update()
         {

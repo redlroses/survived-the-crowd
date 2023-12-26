@@ -23,18 +23,18 @@ namespace Sources.Ui.Wrapper.Screens
 
         public void LoadProgress(PlayerProgress progress)
         {
-            LastUnlockedId = (int) progress.LastUnlockedCar;
+            LastUnlockedId = (int)progress.LastUnlockedCar;
             OnCarChanged(progress.LastChosenCar);
         }
 
         protected override void UpdateUnlock()
         {
-            LastUnlockedId = (int) UnlockProvider.UnlockedCar;
+            LastUnlockedId = (int)UnlockProvider.UnlockedCar;
         }
 
         private void OnCarChanged(CarId id)
         {
-            OnChanged((int) id);
+            OnChanged((int)id);
             _statOperatorView.SetStats(id);
         }
     }

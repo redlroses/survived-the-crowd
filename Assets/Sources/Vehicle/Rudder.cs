@@ -1,39 +1,31 @@
 using System;
 using Sources.StaticData;
 using Sources.Tools.Extensions;
-using Sources.Types;
 using Sources.Vehicle.View;
 using UnityEngine;
 using static Sources.Tools.Constants;
-using static UnityEngine.Gizmos;
-using static UnityEngine.Mathf;
 
 namespace Sources.Vehicle
 {
     public sealed class Rudder : MonoBehaviour
     {
-        private readonly float _debugSphereRadius = 0.2f;
-        private readonly float _moveDirectionGizmosLength = 6f;
-
-        [SerializeField] [Range(0, 90f)] private float _maxAngle = 30f;
-        [SerializeField] private Transform _leftWheel;
-        [SerializeField] private Transform _rightWheel;
         [SerializeField] private Transform _backAxle;
+        [SerializeField] private Transform _leftWheel;
+        [SerializeField] [Range(0, 90f)] private float _maxAngle = 30f;
+        [SerializeField] private Transform _rightWheel;
         [SerializeField] private WheelRotator _wheelRotator;
 
-        private float _wheelBase;
-        private float _wheelAngle;
-        private float _frontAxleLength;
         private float _backAxleTurningRadius;
+        private float _frontAxleLength;
+        private RotationDirection _rotationDirection;
         private Vector3 _turningPoint;
         private Vector3 _vehicleCenter;
-        private Vector3 _wheelDirection;
-        private Vector3 _moveDirection;
-        private RotationDirection _rotationDirection;
+        private float _wheelAngle;
+        private float _wheelBase;
 
-        public Vector3 MoveDirection => _moveDirection;
+        public Vector3 MoveDirection { get; private set; }
 
-        public Vector3 WheelDirection => _wheelDirection;
+        public Vector3 WheelDirection { get; private set; }
 
         private void Start()
         {
@@ -43,26 +35,8 @@ namespace Sources.Vehicle
 
         private void OnEnable()
         {
-            _moveDirection = Vector3.left;
-            _wheelDirection = Vector3.left;
-        }
-
-        private void OnDrawGizmos()
-        {
-            color = Color.red;
-            DrawRay(_rightWheel.transform.position, -_rightWheel.transform.right * int.MaxValue);
-            DrawRay(_rightWheel.transform.position, _rightWheel.transform.right * int.MaxValue);
-            DrawRay(_leftWheel.transform.position, _leftWheel.transform.right * int.MaxValue);
-            DrawRay(_leftWheel.transform.position, -_leftWheel.transform.right * int.MaxValue);
-            color = Color.magenta;
-            DrawRay(_backAxle.transform.position, _backAxle.transform.right * int.MaxValue);
-            DrawRay(_backAxle.transform.position, -_backAxle.transform.right * int.MaxValue);
-            color = Color.green;
-            DrawSphere(_turningPoint, _debugSphereRadius);
-            color = Color.blue;
-            DrawSphere(_vehicleCenter, _debugSphereRadius);
-            color = Color.yellow;
-            DrawRay(transform.position, _moveDirection * _moveDirectionGizmosLength);
+            MoveDirection = Vector3.left;
+            WheelDirection = Vector3.left;
         }
 
         public void Construct(CarStaticData carStaticData)
@@ -73,7 +47,7 @@ namespace Sources.Vehicle
         public void DeflectSteeringWheel(float angle)
         {
             _wheelAngle = angle.Clamp(_maxAngle);
-            _rotationDirection = (RotationDirection) Sign(angle);
+            _rotationDirection = (RotationDirection)Mathf.Sign(angle);
             _vehicleCenter = GetVehicleCenter();
 
             CalculateMoveDirection();
@@ -81,10 +55,10 @@ namespace Sources.Vehicle
         }
 
         private float GetWheelBase()
-            => Abs(_leftWheel.localPosition.z - _backAxle.localPosition.z);
+            => Mathf.Abs(_leftWheel.localPosition.z - _backAxle.localPosition.z);
 
         private float GetFrontAxleLength()
-            => Abs(_leftWheel.localPosition.x) + Abs(_rightWheel.localPosition.x);
+            => Mathf.Abs(_leftWheel.localPosition.x) + Mathf.Abs(_rightWheel.localPosition.x);
 
         private Vector3 GetVehicleCenter()
         {
@@ -94,6 +68,7 @@ namespace Sources.Vehicle
                 _leftWheel.localPosition.z - _wheelBase * ToHalf);
 
             center = transform.TransformPoint(center);
+
             return center;
         }
 
@@ -101,13 +76,14 @@ namespace Sources.Vehicle
         {
             _backAxleTurningRadius = GetTurningRadius();
             _turningPoint = GetTurningPoint();
-            _wheelDirection = GetDirectionInPosition(GetNearWheelToTurnPoint().position);
-            _moveDirection = GetDirectionInPosition(_vehicleCenter);
+            WheelDirection = GetDirectionInPosition(GetNearWheelToTurnPoint().position);
+            MoveDirection = GetDirectionInPosition(_vehicleCenter);
         }
 
         private float GetTurningRadius()
         {
-            float wheelAngleTan = Tan((HalfPiDegrees - _wheelAngle) * Deg2Rad);
+            float wheelAngleTan = Mathf.Tan((HalfPiDegrees - _wheelAngle) * Mathf.Deg2Rad);
+
             return _wheelBase * wheelAngleTan;
         }
 
@@ -126,8 +102,11 @@ namespace Sources.Vehicle
 
         private Vector3 GetDirectionInPosition(Vector3 position)
         {
-            Vector3 radiusVector = GetCentralRadiusVector(toPoint: position);
-            Vector3 normalizedMoveDirection = Vector3.Cross(radiusVector, Vector3.up * (int) _rotationDirection).normalized;
+            Vector3 radiusVector = GetCentralRadiusVector(position);
+
+            Vector3 normalizedMoveDirection =
+                Vector3.Cross(radiusVector, Vector3.up * (int)_rotationDirection).normalized;
+
             return normalizedMoveDirection;
         }
 
@@ -140,7 +119,7 @@ namespace Sources.Vehicle
             {
                 RotationDirection.Left => _leftWheel,
                 RotationDirection.Right => _rightWheel,
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(),
             };
         }
 
@@ -150,9 +129,11 @@ namespace Sources.Vehicle
             {
                 case RotationDirection.Left:
                     _wheelRotator.RotateWheels(_wheelAngle, GetFarWheelAngle());
+
                     break;
                 case RotationDirection.Right:
                     _wheelRotator.RotateWheels(GetFarWheelAngle(), _wheelAngle);
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -161,8 +142,9 @@ namespace Sources.Vehicle
 
         private float GetFarWheelAngle()
         {
-            float farWheelTurningRadius = _backAxleTurningRadius + _frontAxleLength * (int) _rotationDirection;
-            float farWheelAngle = HalfPiDegrees - Atan2(farWheelTurningRadius, _wheelBase) * Rad2Deg;
+            float farWheelTurningRadius = _backAxleTurningRadius + _frontAxleLength * (int)_rotationDirection;
+            float farWheelAngle = HalfPiDegrees - Mathf.Atan2(farWheelTurningRadius, _wheelBase) * Mathf.Rad2Deg;
+
             return farWheelAngle;
         }
     }

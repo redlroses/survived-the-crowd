@@ -20,7 +20,7 @@ namespace Sources.Hole
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!other.TryGetComponent(out IDamageable _))
+            if (!other.TryGetComponent(out IDamageable damageable))
             {
                 return;
             }
@@ -30,7 +30,7 @@ namespace Sources.Hole
 
         private void OnTriggerExit(Collider other)
         {
-            if (!other.TryGetComponent(out IDamageable _))
+            if (!other.TryGetComponent(out IDamageable damageable))
             {
                 return;
             }

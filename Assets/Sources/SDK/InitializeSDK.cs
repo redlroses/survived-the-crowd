@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,7 +11,6 @@ namespace Sources.SDK
             StartCoroutine(Init());
         }
 
-#if !CRAZY_GAMES
         private IEnumerator Init()
         {
 #if !UNITY_WEBGL || UNITY_EDITOR
@@ -23,10 +21,9 @@ namespace Sources.SDK
             yield return Agava.YandexGames.YandexGamesSdk.Initialize();
         }
 #endif
-            // GameAnalyticsSDK.GameAnalytics.Initialize();
             SceneManager.LoadScene(1);
+
             yield return null;
         }
-#endif
     }
 }

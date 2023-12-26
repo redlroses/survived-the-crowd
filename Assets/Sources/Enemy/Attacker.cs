@@ -8,17 +8,17 @@ namespace Sources.Enemy
     {
         [SerializeField] [RequireInterface(typeof(IEnemyAnimator))] private MonoBehaviour _animator;
 
-        [Space][Header("Hit")]
+        [Space] [Header("Hit")]
         [SerializeField] private Transform _hitCenter;
+
+        [Space] [Header("Attack")]
+        [SerializeField] private int _hitDamage;
         [SerializeField] private float _hitRadius;
         [SerializeField] private LayerMask _layer;
 
-        [Space][Header("Attack")]
-        [SerializeField] private int _hitDamage;
-
         private OverlapSphereDamageDealer _damageDealer;
 
-        private IEnemyAnimator Animator => (IEnemyAnimator) _animator;
+        private IEnemyAnimator Animator => (IEnemyAnimator)_animator;
 
         private void Awake()
         {

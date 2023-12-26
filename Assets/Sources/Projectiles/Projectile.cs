@@ -7,13 +7,14 @@ namespace Sources.Projectiles
 {
     public abstract class Projectile : MonoBehaviour, IPoolable<Projectile>
     {
-        [SerializeField] private float _moveSpeed;
         [SerializeField] private int _damageValue;
-        [SerializeField] private float _lifeTime;
         [SerializeField] private float _explosionRadius;
+        [SerializeField] private float _lifeTime;
         [SerializeField] private LayerMask _mask;
+        [SerializeField] private float _moveSpeed;
 
         public event Action<Projectile> Destroyed;
+
         public event Action<Projectile> Disabled;
 
         private void Start()

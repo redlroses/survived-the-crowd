@@ -6,14 +6,16 @@ namespace Sources.Turret
 {
     public sealed class TargetSeeker : Radar
     {
-        private Transform _selfTransform;
         private Transform _closestTarget;
-        private LoseDetector _loseDetector;
         private bool _isHasTarget;
+        private LoseDetector _loseDetector;
+        private Transform _selfTransform;
 
         public event Action<Transform> TargetUpdated;
-        public event Action TargetLost;
-        public event Action TargetFound;
+
+        public event Action TargetLosted;
+
+        public event Action TargetFounded;
 
         protected override void Awake()
         {
@@ -27,7 +29,7 @@ namespace Sources.Turret
 
             if (_loseDetector != null)
             {
-                _loseDetector.Lose += OnLose;
+                _loseDetector.Losed += OnLosed;
             }
 
             StartScan();
@@ -39,7 +41,7 @@ namespace Sources.Turret
 
             if (_loseDetector != null)
             {
-                _loseDetector.Lose -= OnLose;
+                _loseDetector.Losed -= OnLosed;
             }
 
             StopScan();
@@ -65,18 +67,18 @@ namespace Sources.Turret
             InvokeStateEvents(TargetsCount);
         }
 
-        private void OnLose()
+        private void OnLosed()
         {
             StopScan();
-            TargetLost?.Invoke();
+            TargetLosted?.Invoke();
         }
 
         private Transform GetClosest()
         {
-            var minDistance = float.MaxValue;
+            float minDistance = float.MaxValue;
             Transform closest = null;
 
-            foreach (var target in Targets)
+            foreach (Transform target in Targets)
             {
                 if (target is null)
                 {
@@ -119,7 +121,7 @@ namespace Sources.Turret
             {
                 if (_isHasTarget)
                 {
-                    TargetLost?.Invoke();
+                    TargetLosted?.Invoke();
                     _isHasTarget = false;
                 }
             }
@@ -127,7 +129,7 @@ namespace Sources.Turret
             {
                 if (_isHasTarget == false)
                 {
-                    TargetFound?.Invoke();
+                    TargetFounded?.Invoke();
                     _isHasTarget = true;
                 }
             }

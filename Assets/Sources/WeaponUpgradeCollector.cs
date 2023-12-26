@@ -11,42 +11,21 @@ namespace Sources
 {
     public class WeaponUpgradeCollector : MonoBehaviour, ISavedProgress
     {
-        [SerializeField] private ScoreCounter _scoreCounter;
         [SerializeField] private LoseDetector _loseDetector;
+        [SerializeField] private ScoreCounter _scoreCounter;
         [SerializeField] private WeaponUnlockStaticData _unlockData;
-
         private WeaponId _currentUnlockedWeapon;
 
         public event Action<WeaponId> NewWeaponUnlocked;
 
         private void OnEnable()
         {
-            _loseDetector.Lose += OnLose;
+            _loseDetector.Losed += OnLosed;
         }
 
         private void OnDisable()
         {
-            _loseDetector.Lose += OnLose;
-        }
-
-        private void OnLose()
-        {
-            int score = _scoreCounter.CalculateScore();
-            int weaponId = (int) _currentUnlockedWeapon;
-
-            for (int i = 0; i < _unlockData.ScorePerUpdrades.Length; i++)
-            {
-                if (score >= _unlockData.ScorePerUpdrades[i])
-                {
-                    weaponId = i;
-                }
-            }
-
-            if (weaponId > (int) _currentUnlockedWeapon)
-            {
-                _currentUnlockedWeapon = (WeaponId) weaponId;
-                NewWeaponUnlocked?.Invoke(_currentUnlockedWeapon);
-            }
+            _loseDetector.Losed += OnLosed;
         }
 
         public void UpdateProgress(PlayerProgress progress)
@@ -57,6 +36,26 @@ namespace Sources
         public void LoadProgress(PlayerProgress progress)
         {
             progress.LastChosenWeapon = _currentUnlockedWeapon;
+        }
+
+        private void OnLosed()
+        {
+            int score = _scoreCounter.CalculateScore();
+            int weaponId = (int)_currentUnlockedWeapon;
+
+            for (int i = 0; i < _unlockData.ScorePerUpdrades.Length; i++)
+            {
+                if (score >= _unlockData.ScorePerUpdrades[i])
+                {
+                    weaponId = i;
+                }
+            }
+
+            if (weaponId > (int)_currentUnlockedWeapon)
+            {
+                _currentUnlockedWeapon = (WeaponId)weaponId;
+                NewWeaponUnlocked?.Invoke(_currentUnlockedWeapon);
+            }
         }
     }
 }

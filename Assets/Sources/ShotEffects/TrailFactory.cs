@@ -6,9 +6,9 @@ namespace Sources.ShotEffects
     [RequireComponent(typeof(TrailPool))]
     public sealed class TrailFactory : MonoBehaviour
     {
+        [SerializeField] private TrailPool _pool;
         [SerializeField] private RayShotMaker _rayShotMaker;
         [SerializeField] private Transform _shotTransform;
-        [SerializeField] private TrailPool _pool;
 
         private void Awake()
         {
@@ -17,12 +17,12 @@ namespace Sources.ShotEffects
 
         private void OnEnable()
         {
-            _rayShotMaker.RayDamageDealer.RayHit += Draw;
+            _rayShotMaker.RayDamageDealer.RayHited += Draw;
         }
 
         private void OnDisable()
         {
-            _rayShotMaker.RayDamageDealer.RayHit -= Draw;
+            _rayShotMaker.RayDamageDealer.RayHited -= Draw;
         }
 
         private void Draw(RaycastHit hit)

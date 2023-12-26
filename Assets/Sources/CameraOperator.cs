@@ -8,11 +8,11 @@ namespace Sources
         private const int ActiveCameraPriority = 1;
         private const int InactiveCameraPriority = 0;
 
-        [SerializeField] private CinemachineVirtualCamera _gameCamera;
-        [SerializeField] private CinemachineVirtualCamera _garageCamera;
-
         [SerializeField] private float _landscapeFov = 22.8f;
         [SerializeField] private float _portraitFov = 34.4f;
+
+        [SerializeField] private CinemachineVirtualCamera _gameCamera;
+        [SerializeField] private CinemachineVirtualCamera _garageCamera;
 
         private CinemachineVirtualCamera _currentCamera;
 

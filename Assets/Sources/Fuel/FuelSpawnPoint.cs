@@ -4,17 +4,15 @@ namespace Sources.Fuel
 {
     public sealed class FuelSpawnPoint : MonoBehaviour
     {
-        [SerializeField] private SpawnPointState _state;
-
         private FuelBarrel _fuelBarrel;
 
-        public SpawnPointState State => _state;
+        [field: SerializeField] public SpawnPointState State { get; private set; }
 
         public void SetFuelBarrel(FuelBarrel fuelBarrel)
         {
             _fuelBarrel = fuelBarrel;
-            _fuelBarrel.PickedUp += OnFuelBarrelPickedUp;
-            _state = SpawnPointState.Busy;
+            _fuelBarrel.Picked += OnFuelBarrelPicked;
+            State = SpawnPointState.Busy;
         }
 
         public void Clear()
@@ -24,15 +22,15 @@ namespace Sources.Fuel
                 return;
             }
 
-            OnFuelBarrelPickedUp();
+            OnFuelBarrelPicked();
         }
 
-        private void OnFuelBarrelPickedUp()
+        private void OnFuelBarrelPicked()
         {
-            _fuelBarrel.PickedUp -= OnFuelBarrelPickedUp;
+            _fuelBarrel.Picked -= OnFuelBarrelPicked;
             _fuelBarrel.Disable();
             _fuelBarrel = null;
-            _state = SpawnPointState.Empty;
+            State = SpawnPointState.Empty;
         }
     }
 }

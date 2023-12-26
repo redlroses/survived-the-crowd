@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Sources.Pool;
 using Sources.Tools.Extensions;
@@ -9,13 +10,14 @@ namespace Sources.Fuel
     [RequireComponent(typeof(FuelBarrelPool))]
     public sealed class FuelBarrelFactory : MonoBehaviour
     {
+        private readonly float _spawnDelay = 30f;
+
         [SerializeField] private bool _isSpawning;
-        [SerializeField] private float _spawnDelay = 30f;
         [SerializeField] private FuelBarrelPool _pool;
         [SerializeField] private FuelSpawnPoint[] _spawnPoints;
 
-        private WaitForSeconds _waitForSpawnDelay;
         private Coroutine _spawning;
+        private WaitForSeconds _waitForSpawnDelay;
 
         private void Awake()
         {
@@ -35,7 +37,7 @@ namespace Sources.Fuel
 
         public void DisableAll()
         {
-            foreach (var spawnPoint in _spawnPoints)
+            foreach (FuelSpawnPoint spawnPoint in _spawnPoints)
             {
                 spawnPoint.Clear();
             }
@@ -43,14 +45,16 @@ namespace Sources.Fuel
 
         private FuelSpawnPoint GetSpawnPoint()
         {
-            var emptyPoints = _spawnPoints.Where(point => point.State == SpawnPointState.Empty);
-            var randomEmptyPoint = emptyPoints.GetRandom();
+            IEnumerable<FuelSpawnPoint> emptyPoints = _spawnPoints.Where(point => point.State == SpawnPointState.Empty);
+            FuelSpawnPoint randomEmptyPoint = emptyPoints.GetRandom();
+
             return randomEmptyPoint;
         }
 
         private bool HasEmptyPoint()
         {
             int emptyPointsCount = _spawnPoints.Count(point => point.State == SpawnPointState.Empty);
+
             return emptyPointsCount > 0;
         }
 
@@ -88,6 +92,7 @@ namespace Sources.Fuel
                 Vector3 spawnPosition = spawnPoint.transform.position;
                 FuelBarrel fuelBarrel = _pool.Enable(spawnPosition, Quaternion.identity);
                 spawnPoint.SetFuelBarrel(fuelBarrel);
+
                 yield return _waitForSpawnDelay;
             }
         }

@@ -8,20 +8,21 @@ using static Sources.Tools.ComponentTool;
 namespace Sources.Input
 {
     [RequireComponent(typeof(IControllable))]
-    public sealed class PlayerInput : MonoBehaviour, IAudioStoppable
+    public sealed class PlayerInput : MonoBehaviour, IAudioStoppable, IInput
     {
-        [RequireInterface(typeof(ICarControllable))]
-        [SerializeField] private MonoBehaviour _mover;
         [SerializeField] private Joystick _joystick;
+        [RequireInterface(typeof(ICarControllable))] [SerializeField] private MonoBehaviour _mover;
 
-        private float _cameraRotationCompensation;
         private Camera _camera;
+        private float _cameraRotationCompensation;
+        private bool _isInput;
         private bool _isInputActive;
 
-        private ICarControllable Mover => (ICarControllable) _mover;
+        public event Action AudioPlaying;
 
-        public event Action AudioPlayed;
         public event Action AudioStopped;
+
+        private ICarControllable Mover => (ICarControllable)_mover;
 
         private void Awake()
         {
@@ -34,8 +35,15 @@ namespace Sources.Input
 
         private void Update()
         {
-            var direction = _isInputActive && _joystick.Direction != Vector2.zero
-                ? _joystick.Direction.RotateVector2(byAngle: _cameraRotationCompensation).ToWorld()
+            if (_isInputActive == false)
+            {
+                Mover.Move(Vector2.zero);
+
+                return;
+            }
+
+            Vector2 direction = _isInput && _joystick.Direction != Vector2.zero
+                ? _joystick.Direction.RotateVector2(_cameraRotationCompensation).ToWorld()
                 : Vector2.zero;
 
             Mover.Move(direction);
@@ -57,7 +65,7 @@ namespace Sources.Input
 
         public void Activate()
         {
-            AudioPlayed?.Invoke();
+            AudioPlaying?.Invoke();
             _isInputActive = true;
         }
 
@@ -69,13 +77,13 @@ namespace Sources.Input
 
         private void StartMove()
         {
-            _isInputActive = true;
+            _isInput = true;
             Mover.Accelerate();
         }
 
         private void StopMove()
         {
-            _isInputActive = false;
+            _isInput = false;
             Mover.Decelerate();
         }
     }

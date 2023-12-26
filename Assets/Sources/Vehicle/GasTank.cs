@@ -8,32 +8,35 @@ namespace Sources.Vehicle
     public sealed class GasTank : MonoBehaviour
     {
         [SerializeField] private float _fuelLevel;
-        [SerializeField] private float _maxFuel;
+
+        public event Action Ended;
 
         public bool IsEmpty => _fuelLevel <= 0;
-        public float FuelLevelPercent => _fuelLevel / _maxFuel * Constants.ToPercent;
-        public float MaxFuelLevelPercent => 100f;
-        public float MaxFuelLevel => _maxFuel;
 
-        public event Action Empty;
+        public float FuelLevelPercent => _fuelLevel / MaxFuelLevel * Constants.ToPercent;
+
+        public float MaxFuelLevelPercent => 100f;
+
+        [field: SerializeField]
+        public float MaxFuelLevel { get; private set; }
 
         private void OnEnable()
         {
-            _fuelLevel = _maxFuel;
+            _fuelLevel = MaxFuelLevel;
         }
 
         public void Construct(CarStaticData carStaticData)
         {
-            _maxFuel = carStaticData.MaxFuel;
+            MaxFuelLevel = carStaticData.MaxFuel;
         }
 
         public void Refuel(float amount)
         {
             _fuelLevel += amount;
 
-            if (_fuelLevel > _maxFuel)
+            if (_fuelLevel > MaxFuelLevel)
             {
-                _fuelLevel = _maxFuel;
+                _fuelLevel = MaxFuelLevel;
             }
         }
 
@@ -41,7 +44,8 @@ namespace Sources.Vehicle
         {
             if (IsEmpty)
             {
-                Empty?.Invoke();
+                Ended?.Invoke();
+
                 return;
             }
 

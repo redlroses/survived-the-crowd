@@ -12,7 +12,9 @@ namespace Sources.DamageDeal.Data
         }
 
         public Vector3 SphereCenter { get; }
+
         public float SphereRadius { get; }
+
         public LayerMask Mask { get; }
     }
 }

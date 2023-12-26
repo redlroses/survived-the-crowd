@@ -11,6 +11,7 @@ namespace Sources.DamageDeal.Data
         }
 
         public Ray Ray { get; }
+
         public LayerMask Mask { get; }
     }
 }

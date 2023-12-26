@@ -6,13 +6,13 @@ namespace Sources
     public sealed class MaterialChanger : MonoBehaviour
     {
         [SerializeField] private Material _baseMaterial;
-        [SerializeField] private Material _damagedMaterial;
 
         [RequireInterface(typeof(IDamageable))]
         [SerializeField] private MonoBehaviour _damagable;
+        [SerializeField] private Material _damagedMaterial;
         [SerializeField] private Renderer _renderer;
 
-        private IDamageable BaseEnemy => (IDamageable) _damagable;
+        private IDamageable BaseEnemy => (IDamageable)_damagable;
 
         private void OnEnable()
         {

@@ -6,8 +6,8 @@ namespace Sources.Audio
     [RequireComponent(typeof(AudioSource))]
     public class AudioPlayer : MonoBehaviour
     {
-        [FormerlySerializedAs("_IsOverlay")] [SerializeField] private bool _isOverlay;
         [SerializeField] [RequireInterface(typeof(IAudioPlayable))] private MonoBehaviour _audioPlayable;
+        [FormerlySerializedAs("_IsOverlay")] [SerializeField] private bool _isOverlay;
 
         private AudioSource _audioSource;
 
@@ -20,7 +20,12 @@ namespace Sources.Audio
 
         private void OnEnable()
         {
-            AudioPlayable.AudioPlayed += OnAudioPlayed;
+            if (_audioPlayable == null)
+            {
+                return;
+            }
+
+            AudioPlayable.AudioPlaying += OnAudioPlayed;
 
             if (TryGetAudioStoppable(out IAudioStoppable audioStoppable) == false)
             {
@@ -32,7 +37,7 @@ namespace Sources.Audio
 
         private void OnDisable()
         {
-            AudioPlayable.AudioPlayed -= OnAudioPlayed;
+            AudioPlayable.AudioPlaying -= OnAudioPlayed;
 
             if (TryGetAudioStoppable(out IAudioStoppable audioStoppable) == false)
             {
@@ -40,6 +45,12 @@ namespace Sources.Audio
             }
 
             audioStoppable.AudioStopped -= OnAudioStopped;
+        }
+
+        public void Construct(IAudioPlayable audioPlayable)
+        {
+            _audioPlayable = (MonoBehaviour)audioPlayable;
+            OnEnable();
         }
 
         private bool TryGetAudioStoppable(out IAudioStoppable audioStoppable)
@@ -52,6 +63,7 @@ namespace Sources.Audio
             }
 
             audioStoppable = AudioPlayable as IAudioStoppable;
+
             return true;
         }
 

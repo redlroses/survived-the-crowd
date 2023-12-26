@@ -10,26 +10,27 @@ namespace Sources.Level
 {
     public sealed class LevelLauncher : MonoBehaviour
     {
-        [SerializeField] private LoseDetector _loseDetector;
+        [SerializeField] private BlurOperator _blurOperator;
+        [SerializeField] private CarDetailsFactory _carDetailsFactory;
         [SerializeField] private EnemyFactory _enemyFactory;
         [SerializeField] private EnemyPool _enemyPool;
         [SerializeField] private FuelBarrelFactory _fuelFactory;
-        [SerializeField] private CarDetailsFactory _carDetailsFactory;
-        [SerializeField] private PlayerInput _input;
         [SerializeField] private GateAnimation _gateAnimation;
+        [SerializeField] private InputProvider _input;
         [SerializeField] private Joystick _joystick;
+        [SerializeField] private LoseDetector _loseDetector;
         [SerializeField] private PlayerReviver _playerReviver;
         [SerializeField] private Vector3 _starPlayerPosition;
         [SerializeField] private Vector3 _starPlayerRotation;
 
         private void OnEnable()
         {
-            _loseDetector.Lose += OnLose;
+            _loseDetector.Losed += OnLosed;
         }
 
         private void OnDisable()
         {
-            _loseDetector.Lose -= OnLose;
+            _loseDetector.Losed -= OnLosed;
         }
 
         public void Run()
@@ -37,7 +38,7 @@ namespace Sources.Level
             _enemyFactory.Run();
             _fuelFactory.Run();
             _carDetailsFactory.Run();
-            _input.Activate();
+            _input.Input.Activate();
             _gateAnimation.Open();
             _loseDetector.enabled = true;
             _playerReviver.Reset();
@@ -60,10 +61,11 @@ namespace Sources.Level
             _enemyPool.ResetDeadEnemyCounter();
         }
 
-        private void OnLose()
+        private void OnLosed()
         {
-            _input.Deactivate();
+            _input.Input.Deactivate();
             _joystick.Disable();
+            _blurOperator.Enable();
         }
     }
 }

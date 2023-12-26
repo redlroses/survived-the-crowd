@@ -54,6 +54,11 @@ namespace Import.Joystick.Scripts
             OnPointerUp(null);
         }
 
+        public void OnStartPointerDown(PointerEventData eventData)
+        {
+            OnPointerDown(eventData);
+        }
+
         public void OnPointerDown(PointerEventData eventData)
         {
             _background.anchoredPosition = ScreenPointToAnchoredPosition(eventData.position);

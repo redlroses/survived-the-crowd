@@ -1,5 +1,4 @@
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Sources.Enemy
 {
@@ -8,12 +7,12 @@ namespace Sources.Enemy
     {
         private readonly Vector3 _rotatingDirection = new Vector3(0.5f, 0.5f, 0.5f);
 
-        [SerializeField] private Transform _target;
-        [SerializeField] private float _moveForce = 50f;
+        [SerializeField] private float _jumpDirectionScatter = 1f;
         [SerializeField] private float _jumpForce = 30f;
+        [SerializeField] private float _moveForce = 50f;
         [SerializeField] private float _rotationForce = 10f;
         [SerializeField] private Vector2 _moveForceMagnitudeRange = new Vector2(10f, 20f);
-        [SerializeField] private float _jumpDirectionScatter = 1f;
+        [SerializeField] private Transform _target;
 
         private Rigidbody _rigidBody;
 
@@ -30,7 +29,7 @@ namespace Sources.Enemy
 
         private void OnCollisionEnter(Collision other)
         {
-            if (other.collider.TryGetComponent(out Ground _))
+            if (other.collider.TryGetComponent(out Ground ground))
             {
                 Jump();
             }

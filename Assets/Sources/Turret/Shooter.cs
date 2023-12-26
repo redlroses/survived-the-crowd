@@ -9,18 +9,16 @@ namespace Sources.Turret
     [RequireComponent(typeof(TargetSeeker))]
     public sealed class Shooter : MonoBehaviour, IAudioPlayable
     {
-        [SerializeField] [RequireInterface(typeof(IShotMaker))] private MonoBehaviour _shotMaker;
-        [SerializeField] private bool _isShooting;
         [SerializeField] [Min(0.001f)] private float _fireRate;
+        [SerializeField] private bool _isShooting;
+        [SerializeField] [RequireInterface(typeof(IShotMaker))] private MonoBehaviour _shotMaker;
+
+        private Coroutine _shootingCoroutine;
 
         private TargetSeeker _targetSeeker;
         private WaitForSeconds _waitForShot;
 
-        private Coroutine _shootingCoroutine;
-
-        private IShotMaker ShotMaker => (IShotMaker) _shotMaker;
-
-        public event Action AudioPlayed;
+        public event Action AudioPlaying;
 
         public float FireRate
         {
@@ -37,6 +35,8 @@ namespace Sources.Turret
             }
         }
 
+        private IShotMaker ShotMaker => (IShotMaker)_shotMaker;
+
         private void Awake()
         {
             _targetSeeker = GetComponent<TargetSeeker>();
@@ -45,8 +45,8 @@ namespace Sources.Turret
 
         private void OnEnable()
         {
-            _targetSeeker.TargetFound += StartShoot;
-            _targetSeeker.TargetLost += StopShoot;
+            _targetSeeker.TargetFounded += StartShoot;
+            _targetSeeker.TargetLosted += StopShoot;
 
             if (_isShooting)
             {
@@ -56,8 +56,8 @@ namespace Sources.Turret
 
         private void OnDisable()
         {
-            _targetSeeker.TargetFound -= StartShoot;
-            _targetSeeker.TargetLost -= StopShoot;
+            _targetSeeker.TargetFounded -= StartShoot;
+            _targetSeeker.TargetLosted -= StopShoot;
 
             StopShoot();
         }
@@ -72,7 +72,8 @@ namespace Sources.Turret
             while (_isShooting)
             {
                 ShotMaker.MakeShot();
-                AudioPlayed?.Invoke();
+                AudioPlaying?.Invoke();
+
                 yield return _waitForShot;
             }
         }

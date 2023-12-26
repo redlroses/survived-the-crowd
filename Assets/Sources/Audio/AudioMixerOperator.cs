@@ -1,4 +1,3 @@
-using System;
 using Agava.WebUtility;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -9,11 +8,11 @@ namespace Sources.Audio
     {
         private const float MutedVolumeLevel = -80f;
 
-        private float _soundLevel;
-        private float _musicLevel;
-        private float _masterLevel;
-
         [SerializeField] private AudioMixer _mixer;
+
+        private float _masterLevel;
+        private float _musicLevel;
+        private float _soundLevel;
 
         private void Awake()
         {
@@ -37,10 +36,14 @@ namespace Sources.Audio
             WebApplication.InBackgroundChangeEvent -= OnInBackgroundChangeEvent;
         }
 
-        private void OnInBackgroundChangeEvent(bool inBackground)
+        private void OnApplicationFocus(bool pauseStatus)
         {
-            AudioListener.pause = inBackground;
-            AudioListener.volume = inBackground ? 0f : 1f;
+            Mute(!pauseStatus);
+        }
+
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            Mute(pauseStatus);
         }
 
         public void SetSound(bool isEnable)
@@ -56,6 +59,17 @@ namespace Sources.Audio
         public void SetMaster(bool isEnable)
         {
             SetVolume(AudioMixerGroup.Master, isEnable ? _masterLevel : MutedVolumeLevel);
+        }
+
+        private void OnInBackgroundChangeEvent(bool inBackground)
+        {
+            Mute(inBackground);
+        }
+
+        private void Mute(bool inBackground)
+        {
+            AudioListener.pause = inBackground;
+            AudioListener.volume = inBackground ? 0f : 1f;
         }
 
         private void SetVolume(AudioMixerGroup group, float volume)

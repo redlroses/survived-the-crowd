@@ -7,10 +7,10 @@ namespace Sources.Ui
 {
     public sealed class HealthView : MonoBehaviour
     {
+        [SerializeField] private readonly bool _isSmoothly = true;
         [SerializeField] private Health _health;
         [SerializeField] private SliderSetter _slider;
         [SerializeField] private TextSetter _text;
-        [SerializeField] private bool _isSmoothly = true;
 
         private void OnEnable()
         {

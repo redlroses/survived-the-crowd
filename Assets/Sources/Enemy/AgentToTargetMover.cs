@@ -10,32 +10,20 @@ namespace Sources.Enemy
         private readonly float _rotatingSpeed = 10f;
 
         [SerializeField] private NavMeshAgent _agent;
-        [SerializeField] private AgentAttackRangeTracker _rangeTracker;
         [SerializeField] [RequireInterface(typeof(IAttackable))] private MonoBehaviour _attackable;
-        [SerializeField] [RequireInterface(typeof(IAnimationStateReader))] private MonoBehaviour _stateReader;
+        [SerializeField] private AgentAttackRangeTracker _rangeTracker;
         [SerializeField] private float _speed;
+        [SerializeField] [RequireInterface(typeof(IAnimationStateReader))] private MonoBehaviour _stateReader;
 
         private Vector3 _attackPoint;
         private bool _isInAttackRange;
+        private Transform _selfTransform;
 
-        private IAttackable Attackable => (IAttackable) _attackable;
-        private IAnimationStateReader StateReader => (IAnimationStateReader) _stateReader;
+        private IAttackable Attackable => (IAttackable)_attackable;
 
-        private void OnEnable()
-        {
-            _agent.speed = _speed;
-            _isInAttackRange = false;
-            _rangeTracker.EnteredRange += OnEnteredRange;
-            _rangeTracker.OutOfRange += OnOutOfRange;
-        }
+        private IAnimationStateReader StateReader => (IAnimationStateReader)_stateReader;
 
-        private void OnDisable()
-        {
-            _rangeTracker.EnteredRange -= OnEnteredRange;
-            _rangeTracker.OutOfRange -= OnOutOfRange;
-        }
-
-        private void Update()
+        private void FixedUpdate()
         {
             Vector3 attackPoint = FindAttackPoint();
 
@@ -50,33 +38,57 @@ namespace Sources.Enemy
                     return;
                 }
 
-                MoveToPoint(destination: attackPoint);
+                MoveToPoint(attackPoint);
             }
         }
 
-        private void OnOutOfRange()
+        private void OnEnable()
         {
+            _selfTransform = transform;
+            _agent.speed = _speed;
             _isInAttackRange = false;
+            _rangeTracker.RangeEntered += OnRangeEntered;
+            _rangeTracker.RangedExited += OnRangedExited;
         }
 
-        private void OnEnteredRange()
+        private void OnDisable()
         {
-            _isInAttackRange = true;
+            _rangeTracker.RangeEntered -= OnRangeEntered;
+            _rangeTracker.RangedExited -= OnRangedExited;
         }
 
         public void ApplyTarget(IAttackable target)
         {
-            _attackable = (MonoBehaviour) target;
+            _attackable = (MonoBehaviour)target;
+        }
+
+        private void OnRangedExited()
+        {
+            _isInAttackRange = false;
+        }
+
+        private void OnRangeEntered()
+        {
+            _isInAttackRange = true;
         }
 
         private void MoveToPoint(Vector3 destination)
         {
+            if (StateReader.State == AnimatorState.Hit)
+            {
+                _agent.speed = 1f / _speed;
+            }
+            else
+            {
+                _agent.speed = _speed;
+            }
+
             _agent.SetDestination(destination);
         }
 
         private void RotateTo(Vector3 attackPoint)
         {
-            Vector3 lookDirection = attackPoint - transform.position;
+            Vector3 lookDirection = attackPoint - _selfTransform.position;
 
             if (lookDirection == Vector3.zero)
             {
@@ -84,14 +96,20 @@ namespace Sources.Enemy
             }
 
             Quaternion toTargetRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-            transform.rotation = Quaternion.Lerp(transform.rotation, toTargetRotation, Time.deltaTime * _rotatingSpeed);
+
+            _selfTransform.rotation = Quaternion.Lerp(
+                _selfTransform.rotation,
+                toTargetRotation,
+                Time.deltaTime * _rotatingSpeed);
         }
 
         private Vector3 FindAttackPoint()
         {
-            var selfPosition = transform.position;
-            Vector3 attackPoint = Attackable.GetAttackPoint(attackerPosition: selfPosition)
+            Vector3 selfPosition = _selfTransform.position;
+
+            Vector3 attackPoint = Attackable.GetAttackPoint(selfPosition)
                 .SetY(selfPosition.y);
+
             return attackPoint;
         }
     }

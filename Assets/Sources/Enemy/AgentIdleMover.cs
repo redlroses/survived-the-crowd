@@ -11,11 +11,11 @@ namespace Sources.Enemy
         [SerializeField] private float _moveDelay;
         [SerializeField] private float _speed;
 
+        private bool _isIdleMove;
         private NavMeshPath _path;
+        private Coroutine _setNewPath;
         private WaitForSeconds _waitForNewPath;
         private WaitUntil _waitUntilHasPath;
-        private Coroutine _setNewPath;
-        private bool _isIdleMove;
 
         private void Awake()
         {
@@ -65,7 +65,7 @@ namespace Sources.Enemy
             }
         }
 
-        private bool IsStopped()
-            => _agent.remainingDistance <= _agent.stoppingDistance;
+        private bool IsStopped() =>
+            _agent.remainingDistance <= _agent.stoppingDistance;
     }
 }

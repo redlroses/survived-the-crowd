@@ -7,13 +7,14 @@ namespace Sources.Collectables
     [RequireComponent(typeof(CarDetailsPool))]
     public class CarDetailsFactory : MonoBehaviour
     {
+        private readonly float _spawnRate = 30f;
+
         [SerializeField] private bool _isSpawning;
         [SerializeField] private CarDetailsPool _pool;
-        [SerializeField] private float _spawnRate = 30f;
         [SerializeField] private CarDetailsSpawnZone[] _spawnZones;
 
-        private WaitForSeconds _waitForSpawnDelay;
         private Coroutine _spawning;
+        private WaitForSeconds _waitForSpawnDelay;
 
         private void Awake()
         {
@@ -41,7 +42,7 @@ namespace Sources.Collectables
 
         public void DisableAll()
         {
-            foreach (var carDetails in _pool.GetActiveObjects())
+            foreach (CarDetails carDetails in _pool.GetActiveObjects())
             {
                 carDetails.Disable();
             }
@@ -54,8 +55,7 @@ namespace Sources.Collectables
             while (_isSpawning)
             {
                 Vector3 spawnPoint = _spawnZones.GetRandom().GetRandomPosition();
-
-                CarDetails carDetails = _pool.Enable(spawnPoint);
+                _pool.Enable(spawnPoint);
 
                 yield return _waitForSpawnDelay;
             }

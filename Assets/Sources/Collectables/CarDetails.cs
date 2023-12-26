@@ -8,6 +8,11 @@ namespace Sources.Collectables
     {
         public event Action<CarDetails> Destroyed;
 
+        private void OnDestroy()
+        {
+            Destroyed?.Invoke(this);
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out DetailsCollector detailsCollector) == false)
@@ -17,11 +22,6 @@ namespace Sources.Collectables
 
             detailsCollector.Increase();
             gameObject.SetActive(false);
-        }
-
-        private void OnDestroy()
-        {
-            Destroyed?.Invoke(this);
         }
 
         public void Disable()

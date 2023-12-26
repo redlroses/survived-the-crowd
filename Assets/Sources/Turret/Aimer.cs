@@ -6,9 +6,9 @@ namespace Sources.Turret
     [RequireComponent(typeof(TargetSeeker))]
     public sealed class Aimer : MonoBehaviour
     {
-        [SerializeField] private TargetSeeker _targetSeeker;
-        [SerializeField] private Rotator _rotator;
         [SerializeField] private bool _isAiming;
+        [SerializeField] private Rotator _rotator;
+        [SerializeField] private TargetSeeker _targetSeeker;
 
         private Transform _target;
 
@@ -25,11 +25,19 @@ namespace Sources.Turret
             }
         }
 
+        private void Update()
+        {
+            if (_isAiming)
+            {
+                _rotator.RotateTo(_target);
+            }
+        }
+
         private void OnEnable()
         {
             _targetSeeker.TargetUpdated += SetTarget;
-            _targetSeeker.TargetLost += StopAim;
-            _targetSeeker.TargetFound += StartAim;
+            _targetSeeker.TargetLosted += StopAim;
+            _targetSeeker.TargetFounded += StartAim;
 
             _rotator.ResetRotation();
         }
@@ -37,18 +45,10 @@ namespace Sources.Turret
         private void OnDisable()
         {
             _targetSeeker.TargetUpdated -= SetTarget;
-            _targetSeeker.TargetLost -= StopAim;
-            _targetSeeker.TargetFound -= StartAim;
+            _targetSeeker.TargetLosted -= StopAim;
+            _targetSeeker.TargetFounded -= StartAim;
 
             StopAim();
-        }
-
-        private void Update()
-        {
-            if (_isAiming)
-            {
-                _rotator.RotateTo(_target);
-            }
         }
 
         private void SetTarget(Transform target)

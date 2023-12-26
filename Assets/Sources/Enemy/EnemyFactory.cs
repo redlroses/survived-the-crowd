@@ -10,16 +10,17 @@ namespace Sources.Enemy
     [RequireComponent(typeof(EnemyPool))]
     public sealed class EnemyFactory : MonoBehaviour
     {
-        [SerializeField] private EnemyPool _pool;
-        [SerializeField] private int _enemiesPerSpawnTick;
-        [SerializeField] private float _spawnRate;
-        [SerializeField] private int _enemiesPerLevelStarted;
-        [SerializeField] private int _maxEnemies = 30;
-        [SerializeField] private List<Transform> _spawnPoints = new List<Transform>();
-        [SerializeField] private bool _isSpawning;
+        private readonly int _maxEnemies = 30;
 
-        private WaitForSeconds _waitForSpawnDelay;
+        [SerializeField] private List<Transform> _spawnPoints = new List<Transform>();
+        [SerializeField] private int _enemiesPerLevelStarted;
+        [SerializeField] private int _enemiesPerSpawnTick;
+        [SerializeField] private bool _isSpawning;
+        [SerializeField] private EnemyPool _pool;
+        [SerializeField] private float _spawnRate;
+
         private Coroutine _spawning;
+        private WaitForSeconds _waitForSpawnDelay;
 
         private void Awake()
         {
@@ -48,7 +49,7 @@ namespace Sources.Enemy
 
         public void KillAll()
         {
-            foreach (var enemy in _pool.GetActiveObjects())
+            foreach (Enemy enemy in _pool.GetActiveObjects())
             {
                 enemy.Health.Damage(enemy.Health.Max);
             }
@@ -76,7 +77,7 @@ namespace Sources.Enemy
         {
             while (_isSpawning)
             {
-                var spawnPoint = GetSpawnPoint();
+                Vector3 spawnPoint = GetSpawnPoint();
 
                 for (int i = 0; i < _enemiesPerSpawnTick; i++)
                 {

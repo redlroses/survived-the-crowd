@@ -9,13 +9,12 @@ namespace Sources.Ui
 {
     public class WeaponStatsOperatorView : MonoBehaviour
     {
-        [SerializeField] private WeaponStaticData[] _weaponsStaticData;
-        [SerializeField] private TextSetter _label;
-
         [Space] [Header("Stats")]
         [SerializeField] private StatBarView _damage;
         [SerializeField] private StatBarView _fireRate;
+        [SerializeField] private TextSetter _label;
         [SerializeField] private StatBarView _radius;
+        [SerializeField] private WeaponStaticData[] _weaponsStaticData;
 
         private int _damageRange;
         private float _fireRateRange;

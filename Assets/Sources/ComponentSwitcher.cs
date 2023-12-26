@@ -5,9 +5,8 @@ namespace Sources
 {
     public sealed class ComponentSwitcher : MonoBehaviour
     {
-        [SerializeField] private List<Behaviour> _toEnable;
         [SerializeField] private List<Behaviour> _toDisable;
-
+        [SerializeField] private List<Behaviour> _toEnable;
         private Collider _collider;
 
         public void EnableComponents()
@@ -22,7 +21,7 @@ namespace Sources
 
         private void SwitchComponents(IEnumerable<Behaviour> components, bool isEnabled)
         {
-            foreach (var component in components)
+            foreach (Behaviour component in components)
             {
                 component.enabled = isEnabled;
             }
