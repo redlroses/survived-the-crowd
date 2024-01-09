@@ -138,7 +138,8 @@ namespace Sources.Player.Factory
             }
         }
 
-        private List<T> Sort<T, TKey>(IEnumerable<T> unsorted, Func<T, TKey> keySelector) where T : MonoBehaviour
+        private List<T> Sort<T, TKey>(IEnumerable<T> unsorted, Func<T, TKey> keySelector)
+            where T : MonoBehaviour
         {
             List<T> ordered = unsorted.OrderBy(keySelector).ToList();
 
@@ -157,7 +158,8 @@ namespace Sources.Player.Factory
             WeaponChanged?.Invoke(weapon.Id);
         }
 
-        private List<T> Spawn<T>(List<T> objects) where T : MonoBehaviour
+        private List<T> Spawn<T>(List<T> objects)
+            where T : MonoBehaviour
         {
             List<T> spawned = new List<T>(objects.Count);
 
@@ -168,7 +170,8 @@ namespace Sources.Player.Factory
             return spawned;
         }
 
-        private T GetNext<T>(Iterable<T> iterable) where T : MonoBehaviour
+        private T GetNext<T>(Iterable<T> iterable)
+            where T : MonoBehaviour
         {
             Hide(iterable.Current);
             T current = iterable.Next();
@@ -176,7 +179,8 @@ namespace Sources.Player.Factory
             return current;
         }
 
-        private T GetPrevious<T>(Iterable<T> iterable) where T : MonoBehaviour
+        private T GetPrevious<T>(Iterable<T> iterable)
+            where T : MonoBehaviour
         {
             Hide(iterable.Current);
             T current = iterable.Previous();
@@ -184,12 +188,14 @@ namespace Sources.Player.Factory
             return current;
         }
 
-        private void Hide<T>(T iterable) where T : MonoBehaviour
+        private void Hide<T>(T iterable)
+            where T : MonoBehaviour
         {
             iterable.gameObject.SetActive(false);
         }
 
-        private void Show<T>(T iterable) where T : MonoBehaviour
+        private void Show<T>(T iterable)
+            where T : MonoBehaviour
         {
             iterable.gameObject.SetActive(true);
             PlaceWeapon();

@@ -8,7 +8,8 @@ using UnityEngine;
 namespace Sources.Pool
 {
     [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
-    public abstract class ObjectPool<T> : MonoBehaviour where T : Component, IPoolable<T>
+    public abstract class ObjectPool<T> : MonoBehaviour
+        where T : Component, IPoolable<T>
     {
         private const string NoCopies = "No copies or some copies is null";
 

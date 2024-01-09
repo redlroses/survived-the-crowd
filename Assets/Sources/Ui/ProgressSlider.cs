@@ -11,7 +11,8 @@ namespace Sources.Ui
     {
         private const string TheSliderIsAlreadyLinkedToTheProgressBarObject =
             "The slider is already linked to the progress bar object";
-        [SerializeField] private readonly bool _isSmoothly = true;
+
+        [SerializeField] private bool _isSmoothly = true;
         [SerializeField] private TextSetter _count;
         [SerializeField] private RectTransform _grid;
 

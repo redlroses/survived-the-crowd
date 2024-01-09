@@ -50,6 +50,8 @@ namespace Sources.Level
             Stage = stage;
         }
 
+        public event Action Updated;
+
         public int Stages { get; }
 
         public float StepSize { get; }
@@ -75,8 +77,6 @@ namespace Sources.Level
                 Updated?.Invoke();
             }
         }
-
-        public event Action Updated;
 
         public void Reset()
         {

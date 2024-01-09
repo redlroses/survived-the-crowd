@@ -49,7 +49,8 @@ namespace Sources.Ui.Indication
             }
         }
 
-        private Transform[] GetSortedTargets<T>(IEnumerable<T> targets) where T : MonoBehaviour
+        private Transform[] GetSortedTargets<T>(IEnumerable<T> targets)
+            where T : MonoBehaviour
         {
             Transform[] sorted = targets.Select(target => target.transform)
                 .OrderBy(
